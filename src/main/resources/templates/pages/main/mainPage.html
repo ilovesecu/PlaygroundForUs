@@ -6,28 +6,114 @@
       layout:decorate="~{common/layouts/defaultLayout}"
       layout:fragment="Content"
 >
-<head>
-    <title>테스트 페이지 </title>
+    <head>
+        <title>메인페이지 타이틀</title>
 
-    <!-- inline CSS 영역-->
-    <style th:inline="css" type="text/css">
-        body {
-            margin: 30px;
-            border: 1px solid red;
-        }
-    </style>
+        <!-- inline CSS 영역-->
+        <style th:inline="css" type="text/css">
+            .badge-success{
+                background-color: #d6f0e0;
+                color: #0d6832;
+            }
+            .badge-primary{
+                background-color: #dfe7f6;
+                color: #2c58a0;
+            }
+            .badge-warning{
+                background-color: #fbf0da;
+                color: #73510d;
+            }
+        </style>
 
-    <!-- inline JS 영역-->
-    <script th:inline="javascript" type="text/javascript">
-        $(document).ready(() => {
-            alert("페이지가 시작됩니다.")
-        });
-    </script>
-</head>
+        <!-- inline JS 영역-->
+        <!--<script th:inline="javascript" type="text/javascript">
+        </script>-->
+    </head>
 
-<body>
-<div>
-    <h1>Content 영역입니다.</h1>
-</div>
-</body>
+    <body>
+        <div class="container">
+            <table class="table align-middle mb-0 bg-white">
+                <thead class="bg-light">
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Writer</th>
+                        <th>Position</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p class="fw-normal mb-1">Software engineer</p>
+                            <p class="text-muted mb-0">IT department</p>
+                        </td>
+                        <td>
+                            <span class="badge badge-success rounded-pill d-inline">Active</span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                                     alt="" style="width: 45px; height: 45px" class="rounded-circle"/>
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">John Doe</p>
+                                    <p class="text-muted mb-0">john.doe@gmail.com</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>Senior</td>
+                        <td>
+                            <button type="button" class="btn btn-link btn-sm btn-rounded">Edit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="fw-normal mb-1">Consultant</p>
+                            <p class="text-muted mb-0">Finance</p>
+                        </td>
+                        <td>
+                            <span class="badge badge-primary rounded-pill d-inline">Onboarding</span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="https://mdbootstrap.com/img/new/avatars/6.jpg"
+                                     class="rounded-circle" alt="" style="width: 45px; height: 45px"/>
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">Alex Ray</p>
+                                    <p class="text-muted mb-0">alex.ray@gmail.com</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>Junior</td>
+                        <td>
+                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-ripple-color="dark">Edit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="fw-normal mb-1">Designer</p>
+                            <p class="text-muted mb-0">UI/UX</p>
+                        </td>
+                        <td>
+                            <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="https://mdbootstrap.com/img/new/avatars/7.jpg"
+                                     class="rounded-circle" alt="" style="width: 45px; height: 45px"/>
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">Kate Hunington</p>
+                                    <p class="text-muted mb-0">kate.hunington@gmail.com</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>Senior</td>
+                        <td>
+                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-ripple-color="dark">Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
 </html>
