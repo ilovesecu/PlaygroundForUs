@@ -23,6 +23,9 @@
                 background-color: #fbf0da;
                 color: #73510d;
             }
+            td{
+                vertical-align: middle;
+            }
         </style>
 
         <!-- inline JS 영역-->
@@ -32,24 +35,27 @@
 
     <body>
         <div class="container">
-            <table class="table align-middle mb-0 bg-white">
+            <table class="table align-middle mb-0 bg-white table-responsive text-nowrap">
                 <thead class="bg-light">
                     <tr>
                         <th>Title</th>
                         <th>Category</th>
+                        <th>Summary</th>
                         <th>Writer</th>
-                        <th>Position</th>
+                        <th>Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>
-                            <p class="fw-normal mb-1">Software engineer</p>
-                            <p class="text-muted mb-0">IT department</p>
+                            <span>Title1</span>
                         </td>
                         <td>
                             <span class="badge badge-success rounded-pill d-inline">Active</span>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">Summary....</p>
                         </td>
                         <td>
                             <div class="d-flex align-items-center">
@@ -61,55 +67,60 @@
                                 </div>
                             </div>
                         </td>
-                        <td>Senior</td>
+                        <td>2023-03-29 17:13:23</td>
                         <td>
                             <button type="button" class="btn btn-link btn-sm btn-rounded">Edit</button>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p class="fw-normal mb-1">Consultant</p>
-                            <p class="text-muted mb-0">Finance</p>
+                            <span>Title1</span>
                         </td>
                         <td>
-                            <span class="badge badge-primary rounded-pill d-inline">Onboarding</span>
+                            <span class="badge badge-success rounded-pill d-inline">Active</span>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">Summary....</p>
                         </td>
                         <td>
                             <div class="d-flex align-items-center">
                                 <img src="https://mdbootstrap.com/img/new/avatars/6.jpg"
-                                     class="rounded-circle" alt="" style="width: 45px; height: 45px"/>
+                                     alt="" style="width: 45px; height: 45px" class="rounded-circle"/>
                                 <div class="ms-3">
-                                    <p class="fw-bold mb-1">Alex Ray</p>
-                                    <p class="text-muted mb-0">alex.ray@gmail.com</p>
+                                    <p class="fw-bold mb-1">John Doe</p>
+                                    <p class="text-muted mb-0">john.doe@gmail.com</p>
                                 </div>
                             </div>
                         </td>
-                        <td>Junior</td>
+                        <td>2023-03-29 17:13:23</td>
                         <td>
-                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-ripple-color="dark">Edit</button>
+                            <button type="button" class="btn btn-link btn-sm btn-rounded">Edit</button>
                         </td>
                     </tr>
+
                     <tr>
                         <td>
-                            <p class="fw-normal mb-1">Designer</p>
-                            <p class="text-muted mb-0">UI/UX</p>
+                            <span>Title1</span>
                         </td>
                         <td>
-                            <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
+                            <span class="badge badge-success rounded-pill d-inline">Active</span>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">Summary....</p>
                         </td>
                         <td>
                             <div class="d-flex align-items-center">
                                 <img src="https://mdbootstrap.com/img/new/avatars/7.jpg"
-                                     class="rounded-circle" alt="" style="width: 45px; height: 45px"/>
+                                     alt="" style="width: 45px; height: 45px" class="rounded-circle"/>
                                 <div class="ms-3">
-                                    <p class="fw-bold mb-1">Kate Hunington</p>
-                                    <p class="text-muted mb-0">kate.hunington@gmail.com</p>
+                                    <p class="fw-bold mb-1">John Doe</p>
+                                    <p class="text-muted mb-0">john.doe@gmail.com</p>
                                 </div>
                             </div>
                         </td>
-                        <td>Senior</td>
+                        <td>2023-03-29 17:13:23</td>
                         <td>
-                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-ripple-color="dark">Edit</button>
+                            <button type="button" class="btn btn-link btn-sm btn-rounded">Edit</button>
                         </td>
                     </tr>
                 </tbody>
