@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
     @GetMapping(value = "/index")
     public String index(){
-        return "main/index";
+        return "pages/main/mainPage";
     }
 }
