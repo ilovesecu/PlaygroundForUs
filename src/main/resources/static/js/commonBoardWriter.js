@@ -24,9 +24,7 @@ class CommonBoardWriter{
             const value = $input.value;
             if(value === undefined || value === null || value ==="")return ;
 
-            this.data.tag.push(value);
             this.appendTag(value);
-
             $input.value = '';
         });
     }
@@ -41,7 +39,8 @@ class CommonBoardWriter{
         const randIndex = Math.floor(Math.random() * this.CONSTANT.BADGE_COLOR_CLASS.length);
         const color = this.CONSTANT.BADGE_COLOR_CLASS[randIndex];
         const $span = `<span class="badge rounded-pill ${color} admin_pop_scroll">${value}</span>`;
-        this.doms.$tagStore.innerHTML+= $span;
+        this.doms.$tagStore.innerHTML+= $span; //VIEW ADD
+        this.data.tag.push(value); //DATA ADD
     }
     
     
