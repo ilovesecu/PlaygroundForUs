@@ -26,10 +26,10 @@ public class SecurityConfig {
                 (authz) -> {
                     try {
                         authz
-                            .requestMatchers("/user/**").authenticated()
-                            .requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN")
+                            .requestMatchers("/user/**").authenticated()  //인증이 필요해
+                            .requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN") //인증 뿐 아니라 역할도 맞아야해.
                             .requestMatchers("/admin/**").hasRole("ADMIN")
-                            .anyRequest().permitAll()
+                            .anyRequest().permitAll() //user, manager, admin이 아닌 주소는 모두 허용
                             .and().formLogin().loginPage("/login")
                                 .usernameParameter("userId") //유저아이디 파라미터 이름 설정
                                 .passwordParameter("userPassword") //비밀번호 파라미터 이름 설정
