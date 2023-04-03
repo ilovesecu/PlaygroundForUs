@@ -29,6 +29,7 @@ public class DatabaseInfoMasterConfig {
         return properties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
     }
 
+    /* MyBatis JAVA CONFIG!! */
     @Bean(name = "pgfuSessionFactory")
     public SqlSessionFactory pgfuSessionFactory(@Qualifier("pgfuDatasource") DataSource dataSource)throws Exception{
         return new DatabaseSqlSessionFactory().getSqlFactory(dataSource);
