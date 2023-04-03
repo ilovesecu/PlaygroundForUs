@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/member")
 public class MemberController {
 
-    private final MemberMapper mapper;
-
     @GetMapping(value = "/registerForm")
     public String registerForm(){
-        mapper.testSel();
         return "pages/member/register";
     }
 

@@ -17,8 +17,8 @@ public class MemberRestController {
      * @변경이력 : 
      **********************************************************************************************/
     @GetMapping(value = "/{userId}")
-    public int getId(@PathVariable(value = "id")String userId){
-        return 0;
+    public int getId(@PathVariable(value = "userId")String userId){
+        return memberService.dupleChkUserId(userId);
     }
 
 }

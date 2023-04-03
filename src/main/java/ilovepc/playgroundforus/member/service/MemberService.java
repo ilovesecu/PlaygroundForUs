@@ -1,6 +1,7 @@
 package ilovepc.playgroundforus.member.service;
 
 import ilovepc.playgroundforus.member.repository.MemberMapper;
+import ilovepc.playgroundforus.member.vo.PgfuMemberUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,8 +35,9 @@ public class MemberService {
      * @작성자 : 정승주
      * @변경이력 :
      **********************************************************************************************/
-    public int getMemId(){
-        memberMapper.testSel();
+    public int dupleChkUserId(String userId){
+        PgfuMemberUser pgfuMemberUser = memberMapper.getUserId(userId);
+        log.error("pgfu ==> {}", pgfuMemberUser);
         return 1;
     }
 

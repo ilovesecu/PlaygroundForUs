@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ResultMap">
+
+	<!-- 공통 리절트맵 설정용 xml -->
+    <resultMap type="Integer" id="integer"/>
+    <resultMap type="java.util.Map" id="map"/>
+    <resultMap type="java.util.HashMap" id="hashMap"/>
+    <resultMap type="java.util.HashMap" id="hashMap2"/>
+    <resultMap type="java.util.HashMap" id="hashMap3"/>
+	<resultMap type="java.util.ArrayList" id="list"/>
+    <resultMap id="string" type="java.lang.String" />
+
+    <!--통합어드민 가입현황-->
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.join.vo.MemberStatsVO" id="MemberStatsVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.join.vo.JoinTimeAndHourResultVO" id="JoinTimeAndHourResultVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.join.vo.MemberResultVO" id="MemberResultVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.join.vo.LongTermNoUseDateResultVO" id="LongTermNoUseDateResultVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.payment.vo.PayItemVO" id="PayItemVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.payment.vo.PayDayTotalVO" id="PayDayTotalVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.payment.vo.PayListVO" id="PayListVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.payment.vo.PayAgeLocVO" id="PayAgeLocVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.payment.vo.PayMethodVO" id="PayMethodVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.payment.vo.PayMethodVO" id="PayMethodVO2"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.payment.vo.PayMediaVO" id="PayMediaVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.payment.vo.PayMemberVO" id="PayMemberVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.payment.vo.PayYearListVO" id="PayYearListVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.payment.vo.PayMonthListVO" id="PayMonthListVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.payment.vo.PayDayTendayVO" id="PayDayTendayVO"/>
+    <!--사진관리-->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.photo.vo.WaitListVO" id="WaitList"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.photo.vo.WaitListVO" id="InfoWaitList"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.photo.vo.WaitListVO" id="AutoPhotoList"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.photo.vo.ListCntVO" id="AutoPhotoListCnt"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.photo.vo.ItemPaymentVO" id="ItemPaymentVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.photo.vo.ItemPaymentMemberVO" id="ItemPaymentMemberVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.photo.vo.ItemPaymentCntVO" id="ItemPaymentCntVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.photo.vo.ItemPaymentListCntVO" id="ItemPaymentListCntVO"/>
+    <!--AI 대표사진 인증 집계-->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.photo.vo.AiCntSumVO" id="AiCntSumVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.photo.vo.AiCntInfoVO" id="AiCntInfoVO"/>
+    <!-- Inquiry -->
+    <resultMap type="com.inforex.yeoboya_admin.web.totalInquiry.vo.InquirySlctVO" id="InquirySlctVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.totalInquiry.vo.InquirySlctCountVO" id="InquirySlctCountVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.totalInquiry.vo.InquiryVO" id="InquiryVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.totalInquiry.vo.InquiryMemoVO" id="InquiryMemoVO"/>
+    <!--정부지원관리-->
+    <resultMap type="com.inforex.yeoboya_admin.portal.gnrlplcy.vo.GovSupportListVO" id="govList"/>
+    <!--포탈/리뷰-->
+    <resultMap type="com.inforex.yeoboya_admin.portal.postMng.vo.PostMngResultVO" id="PostMngResultVO"/>
+
+    <!--업체관리-->
+    <resultMap type="com.inforex.yeoboya_admin.portal.companyMng.vo.ApplyResultVO" id="ApplyResultVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.portal.companyMng.vo.PrdctResultVO" id="PrdctResultVO"/>
+    <!--동영상 관리-->
+    <resultMap type="com.inforex.yeoboya_admin.web.movieMent.vo.MovieCertVO" id="MovieCertVO"/>
+
+    <!--회원관리-->
+    <resultMap type="com.inforex.yeoboya_admin.web.memManage.search.vo.SearchVO" id="SearchVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.memManage.search.vo.PageResultVO" id="PageResultVO"/>
+
+    <resultMap type="com.inforex.yeoboya_admin.web.memManage.faq.vo.FaqVO" id="FaqVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.memManage.faq.vo.FaqCntVO" id="FaqCntVO"/>
+
+    <resultMap type="com.inforex.yeoboya_admin.web.memManage.search.vo.PfDelListVO" id="PfDelListVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.slfIntro.vo.PfDelCntVO" id="PfDelCntVO"/>
+
+    <!--신고 관리-->
+    <resultMap type="com.inforex.yeoboya_admin.web.report.vo.ReportVO" id="ReportVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.report.vo.ReportCntVO" id="ReportCntVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.report.vo.IllegalFilmedVO" id="IllegalFilmedVO"/>
+
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.secret.vo.SecretResultVO" id="SecretResultVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.secret.vo.ReqResultListVo" id="ReqResultListVo"/>
+
+    <!--YMTI-->
+    <resultMap type="com.inforex.yeoboya_admin.web.event.ymti.vo.YmtiResultVo" id="YmtiResultVo"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.event.ymti.vo.YmtiResultTotCntVo" id="YmtiResultTotCntVo"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.event.ymti.vo.YmtiResultDailyCntVo" id="YmtiResultDailyCntVo"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.event.ymti.vo.YmtiResultTodayCntVo" id="YmtiResultTodayCntVo"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.event.ymti.vo.YmtiOutShareListVo" id="YmtiOutShareListVo"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.event.ymti.vo.YmtiPfCntVo" id="YmtiPfCntVo"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.event.ymti.vo.YmtiPfCntTodayVo" id="YmtiPfCntTodayVo"/>
+    <resultMap id="mapType1" type="Map"></resultMap>
+    <resultMap id="mapType2" type="Map"></resultMap>
+    <resultMap id="mapType3" type="Map"></resultMap>
+    <resultMap id="mapType4" type="Map"></resultMap>
+    <resultMap id="mapType5" type="Map"></resultMap>
+    <resultMap id="mapType6" type="Map"></resultMap>
+    <resultMap id="mapType7" type="Map"></resultMap>
+    <resultMap id="mapType8" type="Map"></resultMap>
+    <resultMap id="mapType9" type="Map"></resultMap>
+    <resultMap id="mapType10" type="Map"></resultMap>
+
+    <!--노블레스 사전예약 관리-->
+    <resultMap type="com.inforex.yeoboya_admin.web.event.nbAdvanceReservation.vo.NbAdvanceReservationUsrVO" id="NbAdvanceReservationUsrVO"/>
+    <!--해외회원관리-->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.fngMemMng.vo.FngMemListVO" id="FngMemListVO"/>
+    <!--해외회원관리(일자별현황)-->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.fngMemMng.vo.FngDailyListVO" id="FngDailyListVO"/>
+    <!--20대회원관리-->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.twentyMng.vo.TwentyMemListVO" id="TwentyMemListVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.twentyMng.vo.TwentyMemCntVO" id="TwentyMemCntVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.twentyMng.vo.TwentyDailyListVO" id="TwentyDailyListVO"/>
+
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.fngMemMng.vo.FngMemCntVO" id="FngMemCntVO"/>
+    <!--소멸캐시현황-->
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.extinctionCash.vo.ExtinctCashMonthStatCalcVO" id="ExtinctCashMonthStatCalcVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.extinctionCash.vo.ExtinctCashMonthStatSumVO" id="ExtinctCashMonthStatSumVO"/>
+    <!--여보야플렛폼-->
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.StateVO" id="StateVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.StateVO" id="StateVO1"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.StateVO" id="StateVO2"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.StateVO" id="StateVO3"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.declare.vo.DeclareVO" id="DeclareVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.MemberVO" id="MemberVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.MemCntVO" id="MemCntVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.AllowItemVO" id="AllowItemVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.MemTalkVO" id="MemTalkVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.ItemVO" id="ItemVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.LogVO" id="LogVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.DetailVO" id="DetailVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.DetailMemPhotoVO" id="DetailMemPhotoVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.TypeStateVO" id="TypeStateVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.TypeStateVO" id="TypeStateVO1"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.TypeStateVO" id="TypeStateVO2"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.TypeStateVO" id="TypeStateVO3"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.TypeStateVO" id="TypeStateVO4"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.CtrctVO" id="CtrctVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.storeNews.vo.NewsVO" id="NewsVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.storeNews.vo.NewsImgVO" id="NewsImgVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.notice.vo.StoreNotiVO" id="StoreNotiVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.serviceCenter.vo.InquiryVO" id="BizInquiryVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.LoginLogVO" id="LoginLogVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.declare.vo.ItemVO" id="BizItemVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.declare.vo.ItemPhotoVO" id="BizItemPhotoVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.store.vo.SchdlVO" id="SchdlVO"/>
+
+
+<!--    푸시관리 푸시현황 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.push.vo.ReserveResultVO" id="ReserveResultVO"/>
+<!--    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.contest.vo.ContestListVO" id="ContestListVO"/>-->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.contest.vo.ContestListVO" id="ContestSchVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.contest.vo.ContestCntVO" id="ContestCntVO"/>
+    <!--  스토어 푸시관리 예약발송 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.platform.push.vo.StoreReserveVO" id="StoreReserveVO"/>
+<!--    시간대별종합현황 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO1"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO2"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO3"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO4"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO5"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO6"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO7"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO8"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO9"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO10"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO11"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO12"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO13"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.time.vo.TimeCntResultVO" id="TimeCntResultVO14"/>
+<!--    아이템별종합현황 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.itemStatus.vo.PlusItemVO" id="PlusItemVO"/>
+    <!-- MD 선정 상품 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.expsr.vo.MdExpsrVO" id="MdExpsrVO"/>
+    <!-- 코인현황 > 통장내역-->
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.coin.vo.CoinHistoryVO" id="CoinHistoryVO"/>
+
+    <!-- 코인현황 > 아이템별 현황 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.coin.vo.CoinItemStatusVO" id="CoinItemStatusVO1"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.coin.vo.CoinItemStatusVO" id="CoinItemStatusVO2"/>
+    <!--탈퇴 코인 현황-->
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.coin.vo.ExitCoinPeVO" id="ExitCoinPeVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.coin.vo.ExitCoinPeVO" id="ExitCoinPeVOType2"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.joinPayStatus.coin.vo.ExitCoinTotalVO" id="ExitCoinTotalVO"/>
+
+    <!--마일리지-->
+    <resultMap type="com.inforex.yeoboya_admin.web.mileage.vo.MileageMemListVO" id="MileageMemListVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.mileage.vo.MileageStatDayVO" id="MileageStatDayVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.mileage.vo.MileageStatTopVO" id="MileageStatTopVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.mileage.vo.MileageStatBotVO" id="MileageStatBotVO"/>
+
+
+    <!--    AI현황관리-->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.ai.vo.AiDayStatusVo" id="AiDayStatusVo"/>
+    <!-- 자기소개글 > 탈퇴회원 프로필 : 탈퇴 횟수 카운트 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.slfIntro.vo.ExitSlctCntVO" id="ExitSlctCntVO"/>
+
+    <resultMap type="com.inforex.yeoboya_admin.web.event.vo.EventApplyListVO" id="EventApplyListVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.event.vo.EventApplyCntVO" id="EventApplyCntVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.event.vo.EventApplyStateVO" id="EventApplyStateVO"/>
+    <!-- 좋아요 이벤트-->
+    <resultMap type="com.inforex.yeoboya_admin.web.event.likeStatus.vo.LikeEvtGenderDataVO" id="LikeEvtGenderDataVO"/>
+    <!-- 만나고싶어요 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.meetWant.vo.ItemUserCntVO" id="ItemUserCntVO"/>
+    <!-- 이벤트관리 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.evtAdm.vo.evtAdmResultVo" id="evtAdmResultVo"/>
+    <!-- 프로필꾸미기 현황 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.pfAdorn.vo.PfAdornResultVO" id="PfAdornResultVO"/>
+    <!-- Thanks 여보야 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.thanks.vo.ThanksPushResultVO" id="ThanksPushResultVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.thanks.vo.ThanksListResultVO" id="ThanksListResultVO"/>
+
+    <!-- 스토리 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.story.vo.StoryMngDateResultVO" id="StoryMngDateResultVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.story.vo.StoryMngPostResultVO" id="StoryMngPostResultVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.story.vo.StoryMngFileResultVO" id="StoryMngFileResultVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.story.vo.StoryVideoResultVO" id="StoryVideoResultVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.story.vo.StoryRptResultVO" id="StoryRptResultVO"/>
+
+    <!-- 마케팅 프로모션 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.marketingPromo.coupon.vo.IssuanceHistoryVO" id="IssuanceHistoryVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.marketingPromo.coupon.vo.CouponTotStatVO" id="CouponTotStatVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.marketingPromo.coupon.vo.CouponUsageStatVO" id="CouponUsageStatVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.marketingPromo.coupon.vo.CouponImgVO" id="CouponImgVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.marketingPromo.coupon.vo.CouponDayStatVO" id="CouponDayStatVO"/>
+    <!-- 알림톡 집계 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.almTalk.vo.ConcnAlmTalkLogVO" id="ConcnAlmTalkLogVO"/>
+    <!-- 필터현황 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.contentsManage.filterSetState.vo.FilterSetStateVO" id="FilterSetStateVO"/>
+    <!-- 노블레스 -->
+    <resultMap type="com.inforex.yeoboya_admin.web.totalInquiry.vo.NbInquiryResVO" id="NbInquiryResVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.noblesse.contTotalStat.vo.NbContTotalStatVO" id="NbContTotalStatVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.noblesse.contTotalStat.vo.NbContTotalAgeStatVO" id="NbContTotalAgeStatVO"/>
+    <resultMap type="com.inforex.yeoboya_admin.web.noblesse.contTotalStat.vo.NbContTotalMsgStatVO" id="NbContTotalMsgStatVO"/>
+<!--    노블레스 관련 vo -->
+    <resultMap id="NbMemberVo" type="com.inforex.yeoboya_admin.web.noblesse.profile.vo.NbMember"/>
+    <resultMap id="NoblesseRepresentPhotoVo" type="com.inforex.yeoboya_admin.web.noblesse.utils.vo.NoblesseRepresentPhotosVo"/>
+    <resultMap id="NoblesseAuthIdCertPhotoVo" type="com.inforex.yeoboya_admin.web.noblesse.utils.vo.NoblesseAuthIdCertPhotosVo"/>
+    <resultMap id="NoblesseCertifiPhotoVo" type="com.inforex.yeoboya_admin.web.noblesse.utils.vo.NoblesseCertifiPhotosVo"/>
+    <resultMap id="NoblesseDetailPhotoVo" type="com.inforex.yeoboya_admin.web.noblesse.utils.vo.NoblesseDetailPhotosVo"/>
+    <resultMap id="PhotoAmendVO" type="com.inforex.yeoboya_admin.web.noblesse.photoManager.vo.PhotoAmendVO"/>
+    <resultMap id="NbMsgSendCnt" type="com.inforex.yeoboya_admin.web.noblesse.memSearch.vo.NbMsgSendCnt" />
+    <resultMap id="NbMsgTotCntVO" type="com.inforex.yeoboya_admin.web.noblesse.memSearch.vo.NbMsgTotCntVO" />
+    <resultMap id="NbPageResultVO" type="com.inforex.yeoboya_admin.web.noblesse.memSearch.vo.NbPageResultVO" />
+    <resultMap id="CountAgeRegisterVo" type="com.inforex.yeoboya_admin.web.noblesse.profileStat.vo.CountAgeRegisterVo" />
+    <resultMap id="NoblesseTotalListCntVo" type="com.inforex.yeoboya_admin.web.noblesse.profileStat.vo.NoblesseTotalListCntVo"/>
+    <resultMap id="NbMsgListVO" type="com.inforex.yeoboya_admin.web.noblesse.msgInfo.vo.NbMsgListVO" />
+    <resultMap id="NbConcernVO" type="com.inforex.yeoboya_admin.web.noblesse.concern.vo.NbConcernVO"/>
+    <resultMap id="NbConcernStatItemVO" type="com.inforex.yeoboya_admin.web.noblesse.concern.vo.NbConcernStatItemVO"/>
+    <resultMap id="NbConcernStatSlctVO" type="com.inforex.yeoboya_admin.web.noblesse.concern.vo.NbConcernStatSlctVO"/>
+    <resultMap id="NbPfOpenCntVO" type="com.inforex.yeoboya_admin.web.noblesse.memSearch.vo.NbPfOpenCntVO"/>
+    <resultMap id="NbPfOpenListVO" type="com.inforex.yeoboya_admin.web.noblesse.memSearch.vo.NbPfOpenListVO"/>
+    <resultMap id="NbConcernCntVO" type="com.inforex.yeoboya_admin.web.noblesse.memSearch.vo.NbConcernCntVO"/>
+    <resultMap id="NbConcernListVO" type="com.inforex.yeoboya_admin.web.noblesse.memSearch.vo.NbConcernListVO"/>
+    <resultMap id="NbProfileOpenVO" type="com.inforex.yeoboya_admin.web.noblesse.profileOpen.vo.NbProfileOpenVO"/>
+    <resultMap id="NbProfileItemCntVO" type="com.inforex.yeoboya_admin.web.noblesse.profileOpen.vo.NbProfileItemCntVO"/>
+    <resultMap id="NoblesseRejectListVo" type="com.inforex.yeoboya_admin.web.noblesse.profileStat.vo.NoblesseRejectListVo"/>
+    <resultMap id="NoblesseRejectStatVo" type="com.inforex.yeoboya_admin.web.noblesse.profileStat.vo.NoblesseRejectStatVo"/>
+    <resultMap id="NoblesseRejectPhotoListVo" type="com.inforex.yeoboya_admin.web.noblesse.profileStat.vo.NoblesseRejectPhotoListVo"/>
+    <resultMap id="NbCoinItemStatusVO1" type="com.inforex.yeoboya_admin.web.noblesse.item.vo.NbCoinItemStatusVO"/>
+    <resultMap id="NbCoinItemStatusVO2" type="com.inforex.yeoboya_admin.web.noblesse.item.vo.NbCoinItemStatusVO"/>
+    <resultMap id="NbAgeDistCntVO" type="com.inforex.yeoboya_admin.web.noblesse.ageDist.vo.AgeDistCntVO"/>
+    <resultMap id="NbAgeDistCntVO1" type="com.inforex.yeoboya_admin.web.noblesse.ageDist.vo.AgeDistCntVO"/>
+    <resultMap id="NbNoticeListVO" type="com.inforex.yeoboya_admin.web.noblesse.notice.vo.NbNoticeListVO"/>
+    <resultMap id="NbVideoSexStatVO" type="com.inforex.yeoboya_admin.web.noblesse.video.vo.NbVideoSexStatVO"/>
+    <resultMap id="NbVideoStatVO" type="com.inforex.yeoboya_admin.web.noblesse.video.vo.NbVideoStatVO"/>
+    <resultMap id="NbVideoListVO" type="com.inforex.yeoboya_admin.web.noblesse.video.vo.NbVideoListVO"/>
+    <resultMap id="NbVideoCntVO" type="com.inforex.yeoboya_admin.web.noblesse.video.vo.NbVideoCntVO"/>
+    <resultMap id="NbReportManageVO" type="com.inforex.yeoboya_admin.web.noblesse.reportManage.vo.ReportManageVO"/>
+    <resultMap id="NbReportNbMsgVO" type="com.inforex.yeoboya_admin.web.noblesse.reportManage.vo.ReportNbMsgVO"/>
+
+    <!-- 선물하기 관련 -->
+    <resultMap id="GiftItemResultVO" type="com.inforex.yeoboya_admin.web.gift.vo.GiftItemResultVO"/>
+    <resultMap id="GiftBuyLogResultVO" type="com.inforex.yeoboya_admin.web.gift.vo.GiftBuyLogResultVO"/>
+    <resultMap id="GiftCouponResultVO" type="com.inforex.yeoboya_admin.web.gift.vo.GiftCouponResultVO"/>
+    <resultMap id="GiftPayYearLogVO" type="com.inforex.yeoboya_admin.web.gift.vo.GiftPayYearLogVO"/>
+    <!-- 커뮤니티 -->
+    <resultMap id="CommunityReportVO" type="com.inforex.yeoboya_admin.web.community.report.vo.CommunityReportVO"/>
+    <resultMap id="CommunityPhotoVO" type="com.inforex.yeoboya_admin.web.community.common.vo.CommunityPhotoVO"/>
+    <resultMap id="CommunityTailVO" type="com.inforex.yeoboya_admin.web.community.common.vo.CommunityTailVO"/>
+    <resultMap id="CommunityPostVO" type="com.inforex.yeoboya_admin.web.community.common.vo.CommunityPostVO" />
+    <resultMap id="CommunityStatResultVO" type="com.inforex.yeoboya_admin.web.community.common.vo.CommunityStatResultVO" />
+    <resultMap id="CommunityPhotoResultVO" type="com.inforex.yeoboya_admin.web.community.common.vo.CommunityPhotoResultVO" />
+    <resultMap id="CommunityBlindVO" type="com.inforex.yeoboya_admin.web.community.report.vo.CommunityBlindVO"/>
+
+    <!-- 속닥속닥 -->
+    <resultMap id="AnonymousReportResultVO" type="com.inforex.yeoboya_admin.web.anonymous.report.vo.AnonymousReportResultVO"/>
+    <resultMap id="AnonymousPhotoParamVO" type="com.inforex.yeoboya_admin.web.anonymous.common.vo.AnonymousPhotoParamVO"/>
+    <resultMap id="AnonymousTailResultVO" type="com.inforex.yeoboya_admin.web.anonymous.common.vo.AnonymousTailResultVO"/>
+    <resultMap id="AnonymousBbsResultVO" type="com.inforex.yeoboya_admin.web.anonymous.common.vo.AnonymousBbsResultVO" />
+    <resultMap id="AnonymousStateResultVO" type="com.inforex.yeoboya_admin.web.anonymous.status.vo.AnonymousStateResultVO" />
+    <resultMap id="AnonymousPhotoResultVO" type="com.inforex.yeoboya_admin.web.anonymous.common.vo.AnonymousPhotoResultVO" />
+    <resultMap id="AnonymousBlindResultVO" type="com.inforex.yeoboya_admin.web.anonymous.report.vo.AnonymousBlindResultVO"/>
+
+    <!-- 사고팔고 -->
+    <resultMap id="MarketReportVO" type="com.inforex.yeoboya_admin.market.report.vo.MarketReportVO"/>
+    <resultMap id="TradeItemListVO" type="com.inforex.yeoboya_admin.market.trade.vo.TradeItemListVO"/>
+    <resultMap id="TradeItemPhotoVO" type="com.inforex.yeoboya_admin.market.trade.vo.TradeItemPhotoVO"/>
+    <resultMap id="TradeChatVO" type="com.inforex.yeoboya_admin.market.trade.vo.TradeChatVO" />
+    <resultMap id="TradeChattingRoomVO" type="com.inforex.yeoboya_admin.market.trade.vo.TradeChattingRoomVO" />
+    <resultMap id="MarketBlindVO" type="com.inforex.yeoboya_admin.market.report.vo.MarketBlindVO"/>
+
+    <resultMap id="BannerSelectVo" type="com.inforex.yeoboya_admin.web.advManage.bannerAdmin.vo.BannerSelectVo"/>
+    <resultMap id="NbCoinRepaymentVo" type="com.inforex.yeoboya_admin.web.noblesse.item.vo.NbCoinRepaymentVo"/>
+    <resultMap id="SlfIntroCntParamVO" type="com.inforex.yeoboya_admin.web.contentsManage.slfIntro.vo.SlfIntroCntParamVO" />
+
+    <!-- 운세서비스 -->
+    <resultMap id="FortuneListVO" type="com.inforex.yeoboya_admin.web.fortune.vo.FortuneListVO" />
+    <resultMap id="FortuneResultVO" type="com.inforex.yeoboya_admin.web.fortune.vo.FortuneResultVO" />
+
+    <!--    통합검색 -->
+    <resultMap id="TotalSearchResultVO" type="com.inforex.yeoboya_admin.web.search.vo.TotalSearchResultVO" />
+    <resultMap id="TotalSearchPayListResultVO" type="com.inforex.yeoboya_admin.web.search.vo.TotalSearchPayListResultVO" />
+
+    <!--    구인구직-->
+    <resultMap id="WorkContTotalStatResultVO" type="com.inforex.yeoboya_admin.web.recruit.contTotalStat.vo.WorkContTotalStatResultVO" />
+    <resultMap id="CategoryListVO" type="com.inforex.yeoboya_admin.web.recruit.category.vo.CategoryListVO" />
+    <resultMap id="CategoryStatListVO" type="com.inforex.yeoboya_admin.web.recruit.category.vo.CategoryStatListVO" />
+    <resultMap id="noViewListVO" type="com.inforex.yeoboya_admin.web.recruit.reportCenter.vo.noViewListVO" />
+    <resultMap id="noViewPhotoVO" type="com.inforex.yeoboya_admin.web.recruit.reportCenter.vo.noViewPhotoVO" />
+    <resultMap id="OfficeDetailVO" type="com.inforex.yeoboya_admin.web.recruit.officeManage.vo.OfficeDetailVO" />
+    <resultMap id="OfficeCntVO" type="com.inforex.yeoboya_admin.web.recruit.officeManage.vo.OfficeCntVO" />
+    <resultMap id="OfficeCntVO1" type="com.inforex.yeoboya_admin.web.recruit.officeManage.vo.OfficeCntVO" />
+    <resultMap id="OfficeVO" type="com.inforex.yeoboya_admin.web.recruit.officeManage.vo.OfficeVO" />
+
+    <resultMap id="OfferListStatVO" type="com.inforex.yeoboya_admin.web.recruit.offerList.vo.OfferListStatVO" />
+    <resultMap id="OfferDetailVO" type="com.inforex.yeoboya_admin.web.recruit.offerList.vo.OfferDetailVO" />
+    <resultMap id="OfferAttachedPhotoVO" type="com.inforex.yeoboya_admin.web.recruit.offerList.vo.OfferAttachedPhotoVO" />
+    <resultMap id="OfferCntVO" type="com.inforex.yeoboya_admin.web.recruit.offerList.vo.OfferCntVO" />
+    <resultMap id="RecruitInquiryResVO" type="com.inforex.yeoboya_admin.web.totalInquiry.vo.RecruitInquiryResVO" />
+    <resultMap id="RecruitBlockDataVO" type="com.inforex.yeoboya_admin.web.recruit.block.vo.RecruitBlockDataVO" />
+    <resultMap id="HuntingCallListVO" type="com.inforex.yeoboya_admin.web.recruit.phoneInquiry.vo.HuntingCallListVO" />
+    <resultMap id="JobOfferCallListVO" type="com.inforex.yeoboya_admin.web.recruit.phoneInquiry.vo.JobOfferCallListVO" />
+    <resultMap id="RecruitOfferScoutVO" type="com.inforex.yeoboya_admin.web.recruit.scoutApply.vo.RecruitOfferScoutVO" />
+    <resultMap id="RecruitOfferApplyVO" type="com.inforex.yeoboya_admin.web.recruit.scoutApply.vo.RecruitOfferApplyVO" />
+    <resultMap id="HuntingViewDataVO" type="com.inforex.yeoboya_admin.web.recruit.views.vo.HuntingViewDataVO" />
+    <resultMap id="JobOfferViewDataVO" type="com.inforex.yeoboya_admin.web.recruit.views.vo.JobOfferViewDataVO" />
+    <resultMap id="HuntingLikeVO" type="com.inforex.yeoboya_admin.web.recruit.concern.vo.HuntingLikeVO" />
+    <resultMap id="JobOfferLikeVO" type="com.inforex.yeoboya_admin.web.recruit.concern.vo.JobOfferLikeVO" />
+
+
+    <resultMap id="CurResumeCntVO" type="com.inforex.yeoboya_admin.web.recruit.resumeManage.vo.CurResumeCntVO" />
+    <resultMap id="CurResumeParamVO" type="com.inforex.yeoboya_admin.web.recruit.resumeManage.vo.CurResumeParamVO" />
+    <resultMap id="CurResumeVO" type="com.inforex.yeoboya_admin.web.recruit.resumeManage.vo.CurResumeVO" />
+    <resultMap id="DelResumeVO" type="com.inforex.yeoboya_admin.web.recruit.resumeManage.vo.DelResumeVO"/>
+
+    <resultMap id="HuntingDetailVO" type="com.inforex.yeoboya_admin.web.recruit.hunting.vo.HuntingDetailVO" />
+    <resultMap id="HuntingCareerVO" type="com.inforex.yeoboya_admin.web.recruit.hunting.vo.HuntingCareerVO" />
+    <resultMap id="HuntingLicenseVO" type="com.inforex.yeoboya_admin.web.recruit.hunting.vo.HuntingLicenseVO" />
+    <resultMap id="HuntingPhotoVO" type="com.inforex.yeoboya_admin.web.recruit.hunting.vo.HuntingPhotoVO" />
+    <resultMap id="HuntingInquireVO" type="com.inforex.yeoboya_admin.web.recruit.hunting.vo.HuntingInquireVO" />
+
+    <resultMap id="RecruitChatVO" type="com.inforex.yeoboya_admin.web.recruit.chat.vo.RecruitChatVO" />
+    <resultMap id="RecruitNoticeVO" type="com.inforex.yeoboya_admin.web.recruit.notice.vo.NoticeVO"/>
+
+    <resultMap id="ChattingManageVO" type="com.inforex.yeoboya_admin.web.recruit.chat.vo.ChattingManageVO" />
+    <resultMap id="ReportListVO" type="com.inforex.yeoboya_admin.web.recruit.reportCenter.vo.ReportListVO" />
+    <resultMap id="ReportChatListVO" type="com.inforex.yeoboya_admin.web.recruit.reportCenter.vo.ReportChatListVO" />
+    <resultMap id="ReportListCntVO" type="com.inforex.yeoboya_admin.web.recruit.reportCenter.vo.ReportListCntVO" />
+
+    <resultMap id="ContentsHuntingPendingVO" type="com.inforex.yeoboya_admin.web.recruit.contents.vo.ContentsHuntingPendingVO" />
+    <resultMap id="ContentsOfferPendingVO" type="com.inforex.yeoboya_admin.web.recruit.contents.vo.ContentsOfferPendingVO" />
+    <resultMap id="ContentsHuntingConfirmedVO" type="com.inforex.yeoboya_admin.web.recruit.contents.vo.ContentsHuntingConfirmedVO" />
+    <resultMap id="ContentsOfferConfirmedVO" type="com.inforex.yeoboya_admin.web.recruit.contents.vo.ContentsOfferConfirmedVO" />
+    <resultMap id="ContentsHuntingDeletedVO" type="com.inforex.yeoboya_admin.web.recruit.contents.vo.ContentsHuntingDeletedVO" />
+    <resultMap id="ContentsOfferDeletedVO" type="com.inforex.yeoboya_admin.web.recruit.contents.vo.ContentsOfferDeletedVO" />
+    <resultMap id="FileLogVO" type="com.inforex.yeoboya_admin.web.recruit.contents.vo.FileLogVO" />
+
+    <!-- 매니저 -->
+    <resultMap id="ManagerInquiryVO" type="com.inforex.yeoboya_admin.web.manager.inquiry.vo.ManagerInquiryVO" />
+    <resultMap id="ManagerInquirySlctVO" type="com.inforex.yeoboya_admin.web.manager.inquiry.vo.ManagerInquirySlctVO" />
+    <resultMap id="ManagerFaqVO" type="com.inforex.yeoboya_admin.web.manager.faq.vo.ManagerFaqVO" />
+    <resultMap id="ManagerFaqCntVO" type="com.inforex.yeoboya_admin.web.manager.faq.vo.ManagerFaqCntVO" />
+    <resultMap id="ManagerNoticeVO" type="com.inforex.yeoboya_admin.web.manager.notice.vo.NoticeVO" />
+    <resultMap id="MoreInfoCheckVO" type="com.inforex.yeoboya_admin.web.manager.management.vo.MoreInfoCheckVO" />
+    <resultMap id="InviteMemStatus" type="com.inforex.yeoboya_admin.web.manager.management.vo.InviteMemStatus" />
+    <resultMap id="ManagerWarnVO" type="com.inforex.yeoboya_admin.web.manager.stopWarn.vo.ManagerWarnVO" />
+    <resultMap id="ReservePushVO" type="com.inforex.yeoboya_admin.web.manager.push.vo.ReservePushVO" />
+
+
+    <resultMap id="ChrgrCashVO" type="com.inforex.yeoboya_admin.web.joinPayStatus.testId.vo.ChrgrCashVO" />
+
+    <resultMap id="ManagerReserveStatusVO" type="com.inforex.yeoboya_admin.web.manager.reserveStatus.vo.ManagerReserveStatusVO" />
+    <resultMap id="ManagerRewardStatusVO" type="com.inforex.yeoboya_admin.web.manager.reserveStatus.vo.ManagerRewardStatusVO" />
+
+    <!-- 매니저 정산현황-->
+    <resultMap id="AdjustmentListVO" type="com.inforex.yeoboya_admin.web.manager.adjustment.vo.AdjustmentListVO" />
+    <resultMap id="AdjustmentSuccGenderGroupVO" type="com.inforex.yeoboya_admin.web.manager.adjustment.vo.AdjustmentSuccGenderGroupVO" />
+    <resultMap id="AdjustmentSuccExcelVO" type="com.inforex.yeoboya_admin.web.manager.adjustment.vo.AdjustmentSuccExcelVO"/>
+    <resultMap id="AdjustmentExcelDetailVO" type="com.inforex.yeoboya_admin.web.manager.adjustment.vo.AdjustmentExcelDetailVO"/>
+
+
+    <!--    공지사항 -->
+    <resultMap id="CommNotiVO" type="com.inforex.yeoboya_admin.web.totalNotice.vo.CommNotiVO"/>
+    <resultMap id="MarketNotiVO" type="com.inforex.yeoboya_admin.web.totalNotice.vo.MarketNotiVO"/>
+</mapper>
