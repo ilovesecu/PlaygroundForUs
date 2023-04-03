@@ -9,6 +9,8 @@ import javax.sql.DataSource;
 
 public class DatabaseSqlSessionFactory {
 
+    //https://minkwon4.tistory.com/166
+    //yeo admin
     public SqlSessionFactory getSqlFactory(DataSource dataSource) throws Exception{
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);

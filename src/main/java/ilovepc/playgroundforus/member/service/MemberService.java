@@ -37,8 +37,8 @@ public class MemberService {
      **********************************************************************************************/
     public int dupleChkUserId(String userId){
         PgfuMemberUser pgfuMemberUser = memberMapper.getUserId(userId);
-        log.error("pgfu ==> {}", pgfuMemberUser);
-        return 1;
+        if(pgfuMemberUser==null) return 0;
+        else return 1;
     }
 
 }
