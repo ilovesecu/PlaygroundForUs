@@ -4,6 +4,22 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head th:replace="common/fragments/config :: ConfigFragment">
     <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">공통 타이틀</title>
+    <style th:inline="css">
+        .valid-text{
+            display: none;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: .875em;
+            color: #198754;
+        }
+        .invalid-text{
+            display: none;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: .875em;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
     <section class="vh-100" style="background-color: #eee;">
@@ -23,6 +39,7 @@
                                             <div class="form-floating form-outline flex-fill mb-0">
                                                 <input type="text" id="idInput" class="form-control" placeholder="Your ID"/>
                                                 <label class="form-label" for="idInput">Your ID</label>
+                                                <div class="valid valid-text"></div>
                                             </div>
                                         </div>
 
@@ -85,5 +102,6 @@
             </div>
         </div>
     </section>
+    <script src="/js/member/registerMember.js"></script>
 </body>
 </html>

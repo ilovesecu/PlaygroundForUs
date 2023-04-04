@@ -33,7 +33,7 @@ public class MemberService {
 
 
     /**********************************************************************************************
-     * @Method 설명 : 회원 아이디 중복체크
+     * @Method 설명 : 회원 정보 반환 - 아이디 검색
      * @작성일 : 2023-04-03
      * @작성자 : 정승주
      * @변경이력 :
@@ -44,6 +44,20 @@ public class MemberService {
             throw new GeneralException(Code.NOT_FOUND, "pgfuMember Not Found");
         }
         return DataResponseDto.of(pgfuMemberUser);
+    }
+
+    /**********************************************************************************************
+     * @Method 설명 : 회원 아이디 중복 체크
+     * @작성일 : 2023-04-04
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    public DataResponseDto<Integer> dupleChkUserWithUserId(String userId){
+        PgfuMemberUser pgfuMemberUser = memberMapper.getUserId(userId);
+        if(pgfuMemberUser == null){
+            return DataResponseDto.of(1);
+        }
+        return DataResponseDto.of(0);
     }
 
 }
