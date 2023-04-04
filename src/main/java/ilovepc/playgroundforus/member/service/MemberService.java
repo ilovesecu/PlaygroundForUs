@@ -1,5 +1,8 @@
 package ilovepc.playgroundforus.member.service;
 
+import ilovepc.playgroundforus.GeneralException;
+import ilovepc.playgroundforus.base.constant.Code;
+import ilovepc.playgroundforus.base.response.DataResponseDto;
 import ilovepc.playgroundforus.member.repository.MemberMapper;
 import ilovepc.playgroundforus.member.vo.PgfuMemberUser;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +38,12 @@ public class MemberService {
      * @작성자 : 정승주
      * @변경이력 :
      **********************************************************************************************/
-    public int dupleChkUserId(String userId){
+    public DataResponseDto<PgfuMemberUser> getUserWithId(String userId) throws GeneralException {
         PgfuMemberUser pgfuMemberUser = memberMapper.getUserId(userId);
-        if(pgfuMemberUser==null) return 0;
-        else return 1;
+        if(pgfuMemberUser==null){
+            throw new GeneralException(Code.NOT_FOUND, "pgfuMember Not Found");
+        }
+        return DataResponseDto.of(pgfuMemberUser);
     }
 
 }
