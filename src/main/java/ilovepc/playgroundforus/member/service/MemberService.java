@@ -52,12 +52,23 @@ public class MemberService {
      * @작성자 : 정승주
      * @변경이력 :
      **********************************************************************************************/
-    public DataResponseDto<Integer> dupleChkUserWithUserId(String userId){
+    public int dupleChkUserWithUserId(String userId){
         PgfuMemberUser pgfuMemberUser = memberMapper.getUserId(userId);
         if(pgfuMemberUser == null){
-            return DataResponseDto.of(1);
+            return 1;
         }
-        return DataResponseDto.of(0);
+        return 0;
     }
+
+    /**********************************************************************************************
+     * @Method 설명 : 닉네임 중복체크
+     * @작성일 : 2023-04-05
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    public int dupleChkUserWithUserNick(String userNick){
+        return 0;
+    }
+
 
 }

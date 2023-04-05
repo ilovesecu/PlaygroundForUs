@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +16,9 @@ import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("classpath:/application.properties")
-public class DatabaseInfoMasterConfig {
+public class DatabaseInfoMemberConfig {
+    @Value("${mybatis.mapper-locations}")String mapperLocation = "";
+
     @Bean
     @Primary
     @ConfigurationProperties("spring.datasource")
@@ -32,6 +35,6 @@ public class DatabaseInfoMasterConfig {
     /* MyBatis JAVA CONFIG!! */
     @Bean(name = "pgfuSessionFactory")
     public SqlSessionFactory pgfuSessionFactory(@Qualifier("pgfuDatasource") DataSource dataSource)throws Exception{
-        return new DatabaseSqlSessionFactory().getSqlFactory(dataSource);
+        return new DatabaseSqlSessionFactory().getSqlFactory(dataSource,mapperLocation);
     }
 }

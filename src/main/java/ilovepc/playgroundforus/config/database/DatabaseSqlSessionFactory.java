@@ -11,10 +11,10 @@ public class DatabaseSqlSessionFactory {
 
     //https://minkwon4.tistory.com/166
     //yeo admin
-    public SqlSessionFactory getSqlFactory(DataSource dataSource) throws Exception{
+    public SqlSessionFactory getSqlFactory(DataSource dataSource, String mapperLocation) throws Exception{
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
-        Resource[] mappers = new PathMatchingResourcePatternResolver().getResources("mapper/*.xml");
+        Resource[] mappers = new PathMatchingResourcePatternResolver().getResources(mapperLocation);
         sqlSessionFactoryBean.setMapperLocations(mappers);
         sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
         return sqlSessionFactoryBean.getObject();

@@ -25,7 +25,12 @@ public class MemberRestController {
 
     @GetMapping(value = "/duple/{userId}") //컨트롤 URI
     public DataResponseDto<Integer> dupleChkUserWithUserId(@PathVariable(value = "userId")String userId){
-        return memberService.dupleChkUserWithUserId(userId);
+        int result = memberService.dupleChkUserWithUserId(userId);
+        if(result == 1){
+            return DataResponseDto.of(1);
+        }
+        return DataResponseDto.of(0);
     }
+
 
 }

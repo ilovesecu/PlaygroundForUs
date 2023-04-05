@@ -6,8 +6,18 @@ class RegisterMember{
     constructor() {
         this.doms={
             $idInput : document.querySelector("#idInput"),
+            $nickNameInput : document.querySelector("#nickNameInput"),
+            $emailInput : document.querySelector("#emailInput"),
+            $passwordInput : document.querySelector("#passwordInput"),
+            $passwordConfirmInput: document.querySelector("#passwordConfirmInput"),
+            $aboutMeTextArea:document.querySelector("#aboutMeTextArea"),
         }
-
+        this.validate={
+            id:false,
+            nickname:false,
+            email:false,
+            password:false
+        }
         this.eventBinding();
     }
 
@@ -37,13 +47,24 @@ class RegisterMember{
                 param.domClassName='is-valid',
                 param.validClassName = 'valid-text';
                 param.validText = '사용가능한 아이디입니다.';
+                this.validate.id=true;
             }else{ //중복체크 NO
                 param.domClassName='is-invalid',
                 param.validClassName = 'invalid-text';
                 param.validText = '이미 존재하는 아이디입니다.';
+                this.validate.id=false;
             }
             this.inputValid(param);
         });
+        
+        /********************************************************************************************** 
+         * @Method 설명 : 닉네임 중복체크
+         * @작성일 : 2023-04-05 
+         * @작성자 : 정승주
+         * @변경이력 : 
+         **********************************************************************************************/
+
+
     }
 
     inputValid({$dom, $validDom, domClassName, validClassName, validText}){

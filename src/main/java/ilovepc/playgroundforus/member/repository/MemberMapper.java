@@ -9,4 +9,6 @@ import org.apache.ibatis.annotations.Select;
 public interface MemberMapper {
     @Select("SELECT * FROM pgfu_member.user WHERE user_id = #{userId}")
     PgfuMemberUser getUserId(@Param(value = "userId")String userId);
+
+
 }
