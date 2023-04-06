@@ -1,4 +1,4 @@
-package ilovepc.playgroundforus;
+package ilovepc.playgroundforus.base;
 
 import ilovepc.playgroundforus.base.constant.Code;
 import lombok.Getter;

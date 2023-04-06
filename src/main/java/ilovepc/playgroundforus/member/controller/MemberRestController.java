@@ -23,13 +23,40 @@ public class MemberRestController {
         return memberService.getUserWithId(userId);
     }
 
-    @GetMapping(value = "/duple/{userId}") //컨트롤 URI
+    /**********************************************************************************************
+     * @Method 설명 : userId 중복체크 (1:중복X, 0:중복O)
+     * @작성일 : 2023-04-06
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    @GetMapping(value = "/duple_id/{userId}") //컨트롤 URI
     public DataResponseDto<Integer> dupleChkUserWithUserId(@PathVariable(value = "userId")String userId){
         int result = memberService.dupleChkUserWithUserId(userId);
-        if(result == 1){
-            return DataResponseDto.of(1);
-        }
-        return DataResponseDto.of(0);
+        return DataResponseDto.of(result);
+    }
+
+    /**********************************************************************************************
+     * @Method 설명 : userNickname 중복체크
+     * @작성일 : 2023-04-06
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    @GetMapping(value = "/duple_nick/{userNick}") //컨트롤 URI
+    public DataResponseDto<Integer> dupleChkUserNickname(@PathVariable(value = "userNick")String userNick){
+        int result = memberService.dupleChkUserWithUserNick(userNick);
+        return DataResponseDto.of(result);
+    }
+
+    /**********************************************************************************************
+     * @Method 설명 : userEmail 중복체크
+     * @작성일 : 2023-04-06
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    @GetMapping(value = "/duple_email/${userEmail}")
+    public DataResponseDto<Integer> dupleChkUserEmail(@PathVariable(value = "userEmail")String userEmail){
+        int result = memberService.dupleChkUserWithEmail(userEmail);
+        return DataResponseDto.of(result);
     }
 
 

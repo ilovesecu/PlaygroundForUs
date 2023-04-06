@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class PgfuMemberUser {
-    int userNo;
-    String userId;
-    int loginType;
-    String joinData;
+    private int userNo;
+    private String userId;
+    private int loginType;
+    private String joinDate;
 }

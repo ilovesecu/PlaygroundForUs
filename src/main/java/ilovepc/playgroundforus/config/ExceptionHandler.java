@@ -1,12 +1,11 @@
 package ilovepc.playgroundforus.config;
 
-import ilovepc.playgroundforus.GeneralException;
+import ilovepc.playgroundforus.base.GeneralException;
 import ilovepc.playgroundforus.base.constant.Code;
 import ilovepc.playgroundforus.base.response.ErrorResponseDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;

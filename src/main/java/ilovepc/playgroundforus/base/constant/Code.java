@@ -1,7 +1,6 @@
 package ilovepc.playgroundforus.base.constant;
 
-import ilovepc.playgroundforus.GeneralException;
-import lombok.Data;
+import ilovepc.playgroundforus.base.GeneralException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

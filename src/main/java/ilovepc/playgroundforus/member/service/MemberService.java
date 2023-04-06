@@ -1,13 +1,19 @@
 package ilovepc.playgroundforus.member.service;
 
-import ilovepc.playgroundforus.GeneralException;
+import ilovepc.playgroundforus.base.GeneralException;
 import ilovepc.playgroundforus.base.constant.Code;
 import ilovepc.playgroundforus.base.response.DataResponseDto;
+import ilovepc.playgroundforus.member.repository.AuthenticationMapper;
 import ilovepc.playgroundforus.member.repository.MemberMapper;
+import ilovepc.playgroundforus.member.repository.ProfileMapper;
+import ilovepc.playgroundforus.member.vo.PgfuAuthentication;
 import ilovepc.playgroundforus.member.vo.PgfuMemberUser;
+import ilovepc.playgroundforus.member.vo.PgfuProfile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**********************************************************************************************
  * @FileName : MemberService.java 
@@ -20,6 +26,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberMapper memberMapper;
+    private final ProfileMapper profileMapper;
+    private final AuthenticationMapper authenticationMapper;
 
     /**********************************************************************************************
      * @Method 설명 : 회원가입
@@ -39,7 +47,7 @@ public class MemberService {
      * @변경이력 :
      **********************************************************************************************/
     public DataResponseDto<PgfuMemberUser> getUserWithId(String userId) throws GeneralException {
-        PgfuMemberUser pgfuMemberUser = memberMapper.getUserId(userId);
+        PgfuMemberUser pgfuMemberUser = memberMapper.getUserWithUserId(userId);
         if(pgfuMemberUser==null){
             throw new GeneralException(Code.NOT_FOUND, "pgfuMember Not Found");
         }
@@ -53,10 +61,8 @@ public class MemberService {
      * @변경이력 :
      **********************************************************************************************/
     public int dupleChkUserWithUserId(String userId){
-        PgfuMemberUser pgfuMemberUser = memberMapper.getUserId(userId);
-        if(pgfuMemberUser == null){
-            return 1;
-        }
+        PgfuMemberUser pgfuMemberUser = memberMapper.getUserWithUserId(userId);
+        if(pgfuMemberUser == null){ return 1; }
         return 0;
     }
 
@@ -66,7 +72,21 @@ public class MemberService {
      * @작성자 : 정승주
      * @변경이력 :
      **********************************************************************************************/
-    public int dupleChkUserWithUserNick(String userNick){
+    public int dupleChkUserWithUserNick(String userNick)throws GeneralException{
+        PgfuProfile pgfuProfile = Optional.ofNullable(profileMapper.getProfileWithNickname(userNick)).orElse(null);
+        if(pgfuProfile == null){ return 1; }
+        return 0;
+    }
+    
+    /********************************************************************************************** 
+     * @Method 설명 : 이메일 중복 체크
+     * @작성일 : 2023-04-06 
+     * @작성자 : 정승주
+     * @변경이력 : 
+     **********************************************************************************************/
+    public int dupleChkUserWithEmail(String email){
+        PgfuAuthentication pgfuAuthentication = Optional.ofNullable(authenticationMapper.getUserAuthenticationWithEmail(email)).orElse(null);
+        if(pgfuAuthentication==null){return 1;}
         return 0;
     }
 
