@@ -53,7 +53,7 @@ public class MemberRestController {
      * @작성자 : 정승주
      * @변경이력 :
      **********************************************************************************************/
-    @GetMapping(value = "/duple_email/${userEmail}")
+    @GetMapping(value = "/duple_email/{userEmail}")
     public DataResponseDto<Integer> dupleChkUserEmail(@PathVariable(value = "userEmail")String userEmail){
         int result = memberService.dupleChkUserWithEmail(userEmail);
         return DataResponseDto.of(result);

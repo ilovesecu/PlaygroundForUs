@@ -1,3 +1,5 @@
+import Password from "./password.js";
+
 document.addEventListener('DOMContentLoaded', ()=>{
     new RegisterMember();
 })
@@ -11,6 +13,7 @@ class RegisterMember{
             $passwordInput : document.querySelector("#passwordInput"),
             $passwordConfirmInput: document.querySelector("#passwordConfirmInput"),
             $aboutMeTextArea:document.querySelector("#aboutMeTextArea"),
+            $passwordGuideWrapper:document.querySelector("#passwordGuideWrapper"),
         }
         this.validate={
             id:false,
@@ -18,6 +21,21 @@ class RegisterMember{
             email:false,
             password:false
         }
+        
+        //정규식 모음
+        this.regExp = {
+            email: new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}'), //이메일
+            //최소 8 자, 하나 이상의 문자, 하나의 숫자 및 하나의 특수 문자 정규식
+            blank : new RegExp(/\s/), //공백
+            chars : new RegExp(/[a-zA-Z]/),//a~z, A~Z 사이의 모든 문자)
+            num: new RegExp(/[0-9]/), //숫자
+        }
+
+        const passwordProps = {
+            $passwdInput : this.doms.$passwordInput,
+            $passwdGuideWrapper : this.doms.$passwordGuideWrapper,
+        }
+        this.password = new Password(passwordProps);
         this.eventBinding();
     }
 
@@ -63,6 +81,33 @@ class RegisterMember{
             const param = this.setInputValidParam(result.data, target, $nickNameInputValid, '닉네임', 'nickname');
             this.setInputValidTxt(param);
         });
+        
+        /********************************************************************************************** 
+         * @Method 설명 : 이메일 중복체크
+         * @작성일 : 2023-04-06 
+         * @작성자 : 정승주
+         * @변경이력 : 
+         **********************************************************************************************/
+        this.doms.$emailInput.addEventListener('focusout', async e=>{
+            const $target=e.target;
+            if(!this.emailRegExpValid($target.value)){
+                this.setInputValidDirect($target,false,'올바른 형식의 이메일주소를 입력해주세요');
+                return ;
+            }
+            this.procInputValid($target, '/member/rest/duple_email','$emailInputValid','이메일', 'email');
+        });
+
+        /**********************************************************************************************
+         * @Method 설명 : 패스워드 검증
+         * @작성일 : 2023-04-08
+         * @작성자 : 정승주
+         * @변경이력 :
+         **********************************************************************************************/
+        this.doms.$passwordInput.addEventListener('keyup', e=>{
+            const $target = e.target;
+            this.password.validate($target,null);
+        });
+
     }
     
     /********************************************************************************************** 
@@ -72,8 +117,16 @@ class RegisterMember{
      * @변경이력 : 
      **********************************************************************************************/
     async procInputValid($target, url, $validateDom, validateTxt, validateObj){
-        const val = target.value;
-        const response = await axios.get(`/member/rest/duple_nick/${val}`);
+        const val = $target.value;
+        const response = await axios.get(`${url}/${val}`);
+        const result = response.data;
+        $validateDom = this.doms[$validateDom] ?? null;
+        if(!$validateDom){
+            $validateDom = $target.parentElement.querySelector("div.valid");
+            this.doms[$validateDom] = $validateDom;
+        }
+        const param = this.setInputValidParam(result.data, $target, $validateDom, validateTxt, validateObj);
+        this.setInputValidTxt(param);
     }
 
     /**********************************************************************************************
@@ -115,6 +168,40 @@ class RegisterMember{
             $validDom.classList.add(validClassName);
             $validDom.textContent = validText;
         }
+    }
+
+    /**********************************************************************************************
+     * @Method 설명 : 검증 텍스트 셋팅2 -> 직접적으로 호출할 수 있도록 간소화 버전
+     * @작성일 : 2023-04-06
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    setInputValidDirect($dom, isValid, text){
+        $dom.classList.remove('is-valid','is-invalid');
+        const $validDom = $dom.parentElement.querySelector("div.valid");
+        $validDom.classList.remove('valid-text','invalid-text');
+        if(isValid){
+            $dom.classList.add('is-valid');
+            $validDom.classList.add('valid-text');
+        } else{
+            $dom.classList.add('is-invalid');
+            $validDom.classList.add('invalid-text');
+        }
+        $validDom.textContent = text;
+    }
+
+
+    /**********************************************************************************************
+     * @Method 설명 : 이메일 정규식 검증
+     * @작성일 : 2023-04-06
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    emailRegExpValid(email){
+        if(email){
+            return this.regExp.email.test(email);
+        }
+        return false;
     }
 
 }
