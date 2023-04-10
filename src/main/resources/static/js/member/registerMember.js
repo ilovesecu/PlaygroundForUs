@@ -19,7 +19,8 @@ class RegisterMember{
             id:false,
             nickname:false,
             email:false,
-            password:false
+            password:false,
+            passwordConfirm:false, //비밀번호 확인
         }
         
         //정규식 모음
@@ -91,7 +92,7 @@ class RegisterMember{
         this.doms.$emailInput.addEventListener('focusout', async e=>{
             const $target=e.target;
             if(!this.emailRegExpValid($target.value)){
-                this.setInputValidDirect($target,false,'올바른 형식의 이메일주소를 입력해주세요');
+                this.setInputValidDirect($target,null,false,'올바른 형식의 이메일주소를 입력해주세요');
                 return ;
             }
             this.procInputValid($target, '/member/rest/duple_email','$emailInputValid','이메일', 'email');
@@ -105,9 +106,38 @@ class RegisterMember{
          **********************************************************************************************/
         this.doms.$passwordInput.addEventListener('keyup', e=>{
             const $target = e.target;
-            this.password.validate($target,null);
+            let $passwordInputValid = this.doms.$passwordInputValid ?? null;
+            if(!$passwordInputValid){
+                $passwordInputValid = this.doms.$passwordInput.parentElement.querySelector("div.valid");
+                this.doms.$passwordInputValid = $passwordInputValid;
+            }
+            const validResult = this.password.validate($target,$passwordInputValid,null);
+            this.setInputValidDirect($target, $passwordInputValid,validResult.valid,validResult.validTxt);
+            this.validate.password=validResult;
+            //패스워드 확인 포커스 왔다갔다리
+            this.doms.$passwordConfirmInput.dispatchEvent(new Event('focusout'));
         });
 
+        /**********************************************************************************************
+         * @Method 설명 : 패스워드 확인 (패스워드 == 패스워드확인 인지 검사)
+         * @작성일 : 2023-04-10
+         * @작성자 : 정승주
+         * @변경이력 :
+         **********************************************************************************************/
+        this.doms.$passwordConfirmInput.addEventListener('focusout', e=>{
+            const $target = e.target;
+            const $password = this.doms.$passwordInput;
+            const confirmVal = $target.value;
+            const passwordVal = $password.value;
+
+            if(confirmVal===passwordVal){
+                this.setInputValidDirect($target,null,true,'패스워드가 일치합니다.');
+                this.validate.passwordConfirm = true;
+            }else{
+                this.setInputValidDirect($target,null,false,'패스워드가 일치하지 않습니다.');
+                this.validate.passwordConfirm = false;
+            }
+        });
     }
     
     /********************************************************************************************** 
@@ -176,9 +206,9 @@ class RegisterMember{
      * @작성자 : 정승주
      * @변경이력 :
      **********************************************************************************************/
-    setInputValidDirect($dom, isValid, text){
+    setInputValidDirect($dom, $validDom, isValid, text){
         $dom.classList.remove('is-valid','is-invalid');
-        const $validDom = $dom.parentElement.querySelector("div.valid");
+        if(!$validDom) $validDom = $dom.parentElement.querySelector("div.valid");
         $validDom.classList.remove('valid-text','invalid-text');
         if(isValid){
             $dom.classList.add('is-valid');

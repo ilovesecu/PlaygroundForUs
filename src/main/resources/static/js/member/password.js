@@ -23,46 +23,52 @@ export default class Password{
      * @작성자 : 정승주
      * @변경이력 :
      **********************************************************************************************/
-    validate($target, $$passwdGuideWrapper){
+    validate($target, $passwordInputValid, $$passwdGuideWrapper){
         if(!this.$passwdGuideWrapper){
             this.$passwdGuideWrapper = $$passwdGuideWrapper;
             this.setValidGuideDom();
         }
-        const val = $target.value;
-        const specialRule = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-        let valid=true;
+        const val = $target.value; //사용자가 입력한 패스워드
+        const specialRule = /[`~!@#$%^&*|\\\'\";:\/?]/gi; //특수문자 정규식
+        const resultObj = {};
+        resultObj.valid=true;
+        resultObj.validTxt = '사용가능한 패스워드 입니다.';
         //공백검증
         if(this.regExp.blank.test(val)){ //공백 포함
-            valid = false;
+            resultObj.valid = false;
+            resultObj.validTxt = '패스워드에 공백을 사용할 수 없습니다.';
+            //this.setInputValidDirect($target,$passwordInputValid,false,'');
         }
         if(val.length < 5){ //글자 수 5 미만
             this.$fivePasswd.classList.remove('valid-passwd');
-            valid = false;
+            resultObj.validTxt = '다섯 글자 이상 입력해주세요.';
+            resultObj.valid = false;
         }else{
             this.$fivePasswd.classList.add('valid-passwd');
         }
         if(!specialRule.test(val)){ //특수문자 미포함
             this.$specialPasswd.classList.remove('valid-passwd');
-            valid = false;
+            resultObj.validTxt = '최소 1개의 특수문자가 포함되어야 합니다.';
+            resultObj.valid = false;
         }else{ //특수문자 포함
             this.$specialPasswd.classList.add('valid-passwd');
         }
         if(!this.regExp.num.test(val)){//숫자미포함
             this.$numPasswd.classList.remove('valid-passwd');
-            valid = false;
+            resultObj.validTxt = '최소 1개의 숫자가 포함되어야 합니다.';
+            resultObj.valid = false;
         }else{ //숫자포함
             this.$numPasswd.classList.add('valid-passwd');
         }
         if(!this.regExp.chars.test(val)){ //문자미포함
             this.$charPasswd.classList.remove('valid-passwd');
-            valid = false;
+            resultObj.validTxt = '최소 1개의 문자가 포함되어야 합니다.';
+            resultObj.valid = false;
         }else{ //문자포함
             this.$charPasswd.classList.add('valid-passwd');
         }
 
-        if(valid)this.validate.password = true;
-        else this.validate.password = false;
-        return valid;
+        return resultObj;
     }
 
     /********************************************************************************************** 
@@ -78,6 +84,26 @@ export default class Password{
             this.$numPasswd=this.$passwdGuideWrapper.querySelector(".num-passwd");
             this.$specialPasswd=this.$passwdGuideWrapper.querySelector(".speical-passwd");
         }
+    }
+
+    /**********************************************************************************************
+     * @Method 설명 : 패스워드 검증 Floating input validation
+     * @작성일 : 2023-04-10
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    setInputValidDirect($dom, $validDom, isValid, text){
+        $dom.classList.remove('is-valid','is-invalid');
+        if(!$validDom) $dom.parentElement.querySelector("div.valid");
+        $validDom.classList.remove('valid-text','invalid-text');
+        if(isValid){
+            $dom.classList.add('is-valid');
+            $validDom.classList.add('valid-text');
+        } else{
+            $dom.classList.add('is-invalid');
+            $validDom.classList.add('invalid-text');
+        }
+        $validDom.textContent = text;
     }
 
 }
