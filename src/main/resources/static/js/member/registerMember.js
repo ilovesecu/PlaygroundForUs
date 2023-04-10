@@ -14,6 +14,7 @@ class RegisterMember{
             $passwordConfirmInput: document.querySelector("#passwordConfirmInput"),
             $aboutMeTextArea:document.querySelector("#aboutMeTextArea"),
             $passwordGuideWrapper:document.querySelector("#passwordGuideWrapper"),
+            $submitBtn : document.querySelector("#submitBtn"),
         }
         this.validate={
             id:false,
@@ -137,6 +138,21 @@ class RegisterMember{
                 this.setInputValidDirect($target,null,false,'패스워드가 일치하지 않습니다.');
                 this.validate.passwordConfirm = false;
             }
+        });
+
+
+        /**********************************************************************************************
+         * @Method 설명 : 가입하기 버튼 클릭 (회원가입 실행)
+         * @작성일 : 2023-04-10
+         * @작성자 : 정승주
+         * @변경이력 :
+         **********************************************************************************************/
+        this.doms.$submitBtn.addEventListener('click',e=>{
+            for(let key of Object.keys(this.validate)){
+                const value = this.validate[key];
+
+            }
+
         });
     }
     

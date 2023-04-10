@@ -85,25 +85,4 @@ export default class Password{
             this.$specialPasswd=this.$passwdGuideWrapper.querySelector(".speical-passwd");
         }
     }
-
-    /**********************************************************************************************
-     * @Method 설명 : 패스워드 검증 Floating input validation
-     * @작성일 : 2023-04-10
-     * @작성자 : 정승주
-     * @변경이력 :
-     **********************************************************************************************/
-    setInputValidDirect($dom, $validDom, isValid, text){
-        $dom.classList.remove('is-valid','is-invalid');
-        if(!$validDom) $dom.parentElement.querySelector("div.valid");
-        $validDom.classList.remove('valid-text','invalid-text');
-        if(isValid){
-            $dom.classList.add('is-valid');
-            $validDom.classList.add('valid-text');
-        } else{
-            $dom.classList.add('is-invalid');
-            $validDom.classList.add('invalid-text');
-        }
-        $validDom.textContent = text;
-    }
-
 }
