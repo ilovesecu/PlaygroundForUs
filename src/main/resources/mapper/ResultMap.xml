@@ -26,4 +26,5 @@
 
     <!--    공지사항 -->
     <!--<resultMap id="CommNotiVO" type="com.inforex.yeoboya_admin.web.totalNotice.vo.CommNotiVO"/>-->
+    <resultMap id="pgfuMember" type="ilovepc.playgroundforus.member.vo.PgfuMemberUser"/>
 </mapper>

@@ -69,7 +69,7 @@ public class MemberRestController {
      **********************************************************************************************/
     @PostMapping(value = "")
     public DataResponseDto<PgfuMemberUser> registerMember(PgfuMemberUser pgfuMemberUser){
-        log.error("sdfdsf pgfuMemberUser => {}", pgfuMemberUser);
+        memberService.registerMember(pgfuMemberUser);
         return null;
     }
 

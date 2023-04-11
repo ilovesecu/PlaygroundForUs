@@ -44,8 +44,10 @@ public class SecurityConfig {
         return http.build();
     }
 
+    //▼ public BCryptPasswordEncoder encoderPwd() { return new BCryptPasswordEncoder(); }
+    //https://jhkimmm.tistory.com/m/24 솔트값 관련 좋은정보
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

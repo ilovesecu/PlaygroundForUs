@@ -11,8 +11,12 @@ import ilovepc.playgroundforus.member.vo.PgfuMemberUser;
 import ilovepc.playgroundforus.member.vo.PgfuProfile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Optional;
 
 /**********************************************************************************************
@@ -28,6 +32,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final ProfileMapper profileMapper;
     private final AuthenticationMapper authenticationMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     /**********************************************************************************************
      * @Method 설명 : 회원가입
@@ -35,8 +40,14 @@ public class MemberService {
      * @작성자 : 정승주
      * @변경이력 :
      **********************************************************************************************/
-    public void registerMember(){
+    public void registerMember(PgfuMemberUser pgfuMemberUser){
+        String rawPasswd = pgfuMemberUser.getPgfuAuthPassword().getPassword();
+        String encPasswd = passwordEncoder.encode(rawPasswd);
+        pgfuMemberUser.getPgfuAuthPassword().setPassword(encPasswd);
 
+        List<Object> sqlResult = memberMapper.registerMemberIns(pgfuMemberUser);
+        log.error("{}",sqlResult);
+        log.error("{}--->{}", rawPasswd, encPasswd);
     }
 
 
