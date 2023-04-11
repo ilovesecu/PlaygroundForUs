@@ -147,7 +147,7 @@ class RegisterMember{
          * @작성자 : 정승주
          * @변경이력 :
          **********************************************************************************************/
-        this.doms.$submitBtn.addEventListener('click',e=>{
+        this.doms.$submitBtn.addEventListener('click',async e=>{
             for(let key of Object.keys(this.validate)){
                 const value = this.validate[key];
                 if(!value){
@@ -156,6 +156,16 @@ class RegisterMember{
                     return ;
                 }
             }
+            const URI = `/member/rest`;
+            const params = {
+                userId : this.doms.$idInput?.value,
+                "pgfuProfile.nickname" : this.doms.$nickNameInput?.value,
+                "pgfuAuthentication.email" : this.doms.$emailInput?.value,
+                "pgfuAuthPassword.password" : this.doms.$passwordInput?.value,
+                "pgfuProfile.introduction" : this.doms.$aboutMeTextArea?.value,
+            }
+            const formDatas = Object.entries(params).map(v => v.join('=')).join('&');
+            await axios.post(URI, formDatas);
 
         });
     }

@@ -68,7 +68,7 @@ public class MemberRestController {
      * @변경이력 :
      **********************************************************************************************/
     @PostMapping(value = "")
-    public DataResponseDto<PgfuMemberUser> registerMember(@RequestBody PgfuMemberUser pgfuMemberUser){
+    public DataResponseDto<PgfuMemberUser> registerMember(PgfuMemberUser pgfuMemberUser){
         log.error("sdfdsf pgfuMemberUser => {}", pgfuMemberUser);
         return null;
     }
