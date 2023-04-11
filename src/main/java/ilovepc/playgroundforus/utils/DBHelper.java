@@ -18,12 +18,12 @@ public class DBHelper {
         for(Object data: lists){
             if(data instanceof List){
                 ArrayList _list = (ArrayList)data;
-                if(_list.size() > 0 && !clzz.isAssignableFrom(Collections.class) clzz.isAssignableFrom(_list.get(0).getClass())){
+                if(_list.size() > 0 && !clzz.isAssignableFrom(Collections.class) && clzz.isAssignableFrom(_list.get(0).getClass())){
                     return (T)_list.get(0);
                 }
             }
         }
-        
+
         return null;
     }
 }
