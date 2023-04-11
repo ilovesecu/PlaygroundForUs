@@ -8,4 +8,9 @@ public class PgfuMemberUser {
     private String userId;
     private int loginType;
     private String joinDate;
+
+    //컴포지션
+    private PgfuProfile pgfuProfile;
+    private PgfuAuthentication pgfuAuthentication;
+    private PgfuAuthPassword pgfuAuthPassword;
 }

@@ -4,10 +4,12 @@ import ilovepc.playgroundforus.base.response.DataResponseDto;
 import ilovepc.playgroundforus.member.service.MemberService;
 import ilovepc.playgroundforus.member.vo.PgfuMemberUser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping(value = "/member/rest")
 public class MemberRestController {
     private final MemberService memberService;
@@ -59,5 +61,16 @@ public class MemberRestController {
         return DataResponseDto.of(result);
     }
 
+    /**********************************************************************************************
+     * @Method 설명 : 회원가입 진행
+     * @작성일 : 2023-04-11
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    @PostMapping(value = "")
+    public DataResponseDto<PgfuMemberUser> registerMember(@RequestBody PgfuMemberUser pgfuMemberUser){
+        log.error("sdfdsf pgfuMemberUser => {}", pgfuMemberUser);
+        return null;
+    }
 
 }

@@ -18,13 +18,16 @@ window.alert = function (param) {
     const startCallback = param.startCallback;
     if(startCallback) startCallback();
 
+    //TEMPLATE LOAD
     const loader = new TemplateLoader();
     const commonAlert = loader.commonAlert; //getter
 
+    //TEMPLATE BIND
     const bindTemplate = Handlebars.compile(commonAlert); //bindTempalte는 메서드임!
     const resultHtml = bindTemplate(data);
     $("body").append(resultHtml);
 
+    //TEMPLATE SHOW
     const $modal = document.querySelector(".modal");
     $modal.style.display='block';
     $modal.classList.add('show');

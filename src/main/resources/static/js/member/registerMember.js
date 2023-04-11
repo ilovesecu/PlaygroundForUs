@@ -150,7 +150,11 @@ class RegisterMember{
         this.doms.$submitBtn.addEventListener('click',e=>{
             for(let key of Object.keys(this.validate)){
                 const value = this.validate[key];
-
+                if(!value){
+                    const item = this.validateKeyConvertKorean(key);
+                    alert({title:'경고', content:`${item} 항목을 확인해주세요.`, actionName:'닫기'});
+                    return ;
+                }
             }
 
         });
@@ -248,6 +252,37 @@ class RegisterMember{
             return this.regExp.email.test(email);
         }
         return false;
+    }
+
+    /**********************************************************************************************
+     * @Method 설명 : validate 항목 key -> korean으로 변경
+     * @작성일 : 2023-04-11
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    validateKeyConvertKorean(key){
+        let result = "";
+        switch (key){
+            case "id":
+                result = '아이디';
+                break;
+            case "nickname":
+                result = '닉네임';
+                break;
+            case "email":
+                result = '이메일';
+                break;
+            case "password":
+                result = '패스워드';
+                break;
+            case "passwordConfirm":
+                result = '패스워드 확인';
+                break;
+            default:
+                result = "정의되지 않은 항목";
+                break;
+        }
+        return result;
     }
 
 }
