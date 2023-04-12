@@ -26,11 +26,15 @@ class RegisterMember{
         
         //정규식 모음
         this.regExp = {
-            email: new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}'), //이메일
-            //최소 8 자, 하나 이상의 문자, 하나의 숫자 및 하나의 특수 문자 정규식
+            //email: new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}'), //이메일
+            email: new RegExp("^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$"),
+            //하나 이상의 문자, 하나의 숫자 및 하나의 특수 문자 정규식
             blank : new RegExp(/\s/), //공백
             chars : new RegExp(/[a-zA-Z]/),//a~z, A~Z 사이의 모든 문자)
-            num: new RegExp(/[0-9]/), //숫자
+            num: new RegExp(/[0-9]/), //숫자만
+            eng : new RegExp(/^[a-zA-Z]*$/), //영문만
+            engNum : new RegExp(/^[A-Za-z0-9]+$/), //영문+숫자만
+            engKorNum : new RegExp("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝]*"),
         }
 
         const passwordProps = {
@@ -51,16 +55,13 @@ class RegisterMember{
         this.doms.$idInput.addEventListener('focusout', async e=>{
             const target = e.target;
             const val = target.value;
-            const response = await axios.get(`/member/rest/duple_id/${val}`);
-            const result = response.data;
+            this.validate.id = false;
 
-            let $idInputValid = this.doms.$idInputValid ?? null;
-            if(!$idInputValid){
-                $idInputValid = this.doms.$idInput.parentElement.querySelector("div.valid");
-                this.doms.$idInputValid = $idInputValid;
+            if(!this.regExp.engNum.test(val)){
+                this.setInputValidDirect(target, null, false, '아이디는 영문자와 숫자조합만 가능합니다.');
+                return ;
             }
-            const param = this.setInputValidParam(result.data, target, $idInputValid, '아이디', 'id');
-            this.setInputValidTxt(param);
+            this.procInputValid(target,'/member/rest/duple_id', '$idInputValid', '아이디','id');
         });
         
         /********************************************************************************************** 
@@ -72,16 +73,14 @@ class RegisterMember{
         this.doms.$nickNameInput.addEventListener('focusout',async e=>{
             const target = e.target;
             const val = target.value;
-            const response = await axios.get(`/member/rest/duple_nick/${val}`);
-            const result = response.data;
+            this.validate.nickname = false;
+            const specialRule = /[`~!@#$%^&*|\\\'\";:\/?]/gi; //특수문자 정규식
 
-            let $nickNameInputValid = this.doms.$nickNameInputValid ?? null;
-            if(!$nickNameInputValid){
-                $nickNameInputValid = this.doms.$nickNameInput.parentElement.querySelector("div.valid");
-                this.doms.$nickNameInputValid = $nickNameInputValid;
+            if(specialRule.test(val)){
+                this.setInputValidDirect(target, null, false, '닉네임은 영문자,숫자,한글 조합만 가능합니다.');
+                return ;
             }
-            const param = this.setInputValidParam(result.data, target, $nickNameInputValid, '닉네임', 'nickname');
-            this.setInputValidTxt(param);
+            this.procInputValid(target,'/member/rest/duple_nick','$nickNameInputValid','닉네임', 'nickname');
         });
         
         /********************************************************************************************** 
@@ -92,6 +91,7 @@ class RegisterMember{
          **********************************************************************************************/
         this.doms.$emailInput.addEventListener('focusout', async e=>{
             const $target=e.target;
+            this.validate.email = false;
             if(!this.emailRegExpValid($target.value)){
                 this.setInputValidDirect($target,null,false,'올바른 형식의 이메일주소를 입력해주세요');
                 return ;
@@ -130,14 +130,22 @@ class RegisterMember{
             const $password = this.doms.$passwordInput;
             const confirmVal = $target.value;
             const passwordVal = $password.value;
+            this.validate.passwordConfirm = false;
 
-            if(confirmVal===passwordVal){
-                this.setInputValidDirect($target,null,true,'패스워드가 일치합니다.');
+            let comment = '';
+            let validFlag = false;
+            if(passwordVal===null || passwordVal===undefined || passwordVal===''){
+                comment = '패스워드를 확인해주세요.';
+                validFlag = false;
+            }else if(confirmVal===passwordVal){
+                comment = '패스워드가 일치합니다.';
+                validFlag = true;
                 this.validate.passwordConfirm = true;
             }else{
-                this.setInputValidDirect($target,null,false,'패스워드가 일치하지 않습니다.');
-                this.validate.passwordConfirm = false;
+                comment = '패스워드가 일치하지 않습니다.';
+                validFlag = false;
             }
+            this.setInputValidDirect($target,null,validFlag,comment);
         });
 
 

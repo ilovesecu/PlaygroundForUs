@@ -69,8 +69,7 @@ public class MemberRestController {
      **********************************************************************************************/
     @PostMapping(value = "")
     public DataResponseDto<PgfuMemberUser> registerMember(PgfuMemberUser pgfuMemberUser){
-        memberService.registerMember(pgfuMemberUser);
-        return null;
+        return memberService.registerMember(pgfuMemberUser);
     }
 
 }

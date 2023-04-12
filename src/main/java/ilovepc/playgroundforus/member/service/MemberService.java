@@ -9,15 +9,16 @@ import ilovepc.playgroundforus.member.repository.ProfileMapper;
 import ilovepc.playgroundforus.member.vo.PgfuAuthentication;
 import ilovepc.playgroundforus.member.vo.PgfuMemberUser;
 import ilovepc.playgroundforus.member.vo.PgfuProfile;
+import ilovepc.playgroundforus.utils.DBHelper;
+import ilovepc.playgroundforus.utils.ParamHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**********************************************************************************************
  * @FileName : MemberService.java 
@@ -40,14 +41,30 @@ public class MemberService {
      * @작성자 : 정승주
      * @변경이력 :
      **********************************************************************************************/
-    public void registerMember(PgfuMemberUser pgfuMemberUser){
+    public DataResponseDto<PgfuMemberUser> registerMember(PgfuMemberUser pgfuMemberUser){
+        PgfuMemberUser registeredUser = null;
+        String responseMessage = "fail";
+        if(!this.memberRegisterParamExceptProc(pgfuMemberUser)){
+            String reason = "Essential parameter must be not null";
+            return DataResponseDto.of(registeredUser, responseMessage, reason);
+        }
+        if(!this.memberRegisterParamExceptProcValue(pgfuMemberUser)){
+            String reason = "Parameter value exception check is fail";
+            return DataResponseDto.of(registeredUser, responseMessage, reason);
+        }
+
         String rawPasswd = pgfuMemberUser.getPgfuAuthPassword().getPassword();
         String encPasswd = passwordEncoder.encode(rawPasswd);
         pgfuMemberUser.getPgfuAuthPassword().setPassword(encPasswd);
 
         List<Object> sqlResult = memberMapper.registerMemberIns(pgfuMemberUser);
-        log.error("{}",sqlResult);
-        log.error("{}--->{}", rawPasswd, encPasswd);
+        int pReturn = DBHelper.getData(sqlResult, Integer.class);
+
+        if(pReturn > 0){
+            registeredUser = DBHelper.getData(sqlResult, PgfuMemberUser.class);
+            responseMessage = "success";
+        }
+        return DataResponseDto.of(registeredUser, responseMessage);
     }
 
 
@@ -101,5 +118,66 @@ public class MemberService {
         return 0;
     }
 
+    /********************************************************************************************** 
+     * @Method 설명 : 멤버가입 필수 값 예외처리 - Null check
+     * @작성일 : 2023-04-12 
+     * @작성자 : 정승주
+     * @변경이력 : 
+     **********************************************************************************************/
+    private boolean memberRegisterParamExceptProc(PgfuMemberUser pgfuMemberUser){
+        //null 있는지 확인
+        boolean normalFieldNullChk = ParamHelper.nullExcept(pgfuMemberUser,new String[]{"userId"});
+        Object[] mokObjs = new Object[]{pgfuMemberUser.getPgfuProfile(), pgfuMemberUser.getPgfuAuthentication(), pgfuMemberUser.getPgfuAuthPassword()};
+        String[] fieldNames = new String[]{
+            "pgfuProfile.nickname",
+            "pgfuProfile.introduction",
+            "pgfuAuthentication.email",
+            "pgfuAuthPassword.password"
+        };
+        boolean nestedClassNullChk = ParamHelper.nestedParamExcep(mokObjs,fieldNames);
+        log.error("normalFieldNullChk : {} / nestedClassNullChk : {}",normalFieldNullChk,nestedClassNullChk);
+        return normalFieldNullChk && nestedClassNullChk;
+    }
+    
+    /********************************************************************************************** 
+     * @Method 설명 : 멤버가입 값 예외처리 - Value Check
+     * @작성일 : 2023-04-12 
+     * @작성자 : 정승주
+     * @변경이력 : 
+     **********************************************************************************************/
+    private boolean memberRegisterParamExceptProcValue(PgfuMemberUser pgfuMemberUser){
+        String engNumRegex = "^[a-zA-Z0-9]*$";
+        String emailRegex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+
+        boolean userIdChk = Pattern.matches(engNumRegex,pgfuMemberUser.getUserId());
+        boolean emailChk = Pattern.matches(emailRegex, pgfuMemberUser.getPgfuAuthentication().getEmail());
+        boolean userNicknameChk = Pattern.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝]*", pgfuMemberUser.getPgfuProfile().getNickname());
+        boolean passwdChk = this.passwordsValidate(pgfuMemberUser.getPgfuAuthPassword().getPassword());
+
+        return userIdChk && emailChk && userNicknameChk && passwdChk;
+    }
+
+    public boolean passwordsValidate(String rawPassword){
+        boolean speical = !Pattern.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝]*", rawPassword); //특수문자 포함
+        boolean leastNum = false;//하나 이상의 숫자
+        boolean leastChar = false;//하나 이상의 문자 (알파벳)
+        boolean notBlank = true;//공백미포함
+        boolean length = false; //글자수 5자 이상
+
+        if(rawPassword.length() >= 5){
+            length = true;
+        }
+        for(int i=0; i<rawPassword.length(); i++){
+            char ch = rawPassword.charAt(i);
+            if((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')){
+                leastChar = true;
+            }else if(Character.isDigit(ch)){
+                leastNum = true;
+            }else if(ch == ' '){
+                notBlank = false;
+            }
+        }
+        return speical && leastChar && leastNum && notBlank && length;
+    }
 
 }

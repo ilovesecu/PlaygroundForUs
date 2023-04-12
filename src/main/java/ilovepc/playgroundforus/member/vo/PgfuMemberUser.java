@@ -12,7 +12,7 @@ public class PgfuMemberUser {
     private String joinDate;
 
     //컴포지션
-    private PgfuProfile pgfuProfile;
-    private PgfuAuthentication pgfuAuthentication;
-    private PgfuAuthPassword pgfuAuthPassword;
+    private PgfuProfile pgfuProfile = new PgfuProfile();
+    private PgfuAuthentication pgfuAuthentication = new PgfuAuthentication();
+    private PgfuAuthPassword pgfuAuthPassword = new PgfuAuthPassword();
 }
