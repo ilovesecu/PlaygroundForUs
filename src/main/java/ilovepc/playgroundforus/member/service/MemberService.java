@@ -44,12 +44,26 @@ public class MemberService {
     public DataResponseDto<PgfuMemberUser> registerMember(PgfuMemberUser pgfuMemberUser){
         PgfuMemberUser registeredUser = null;
         String responseMessage = "fail";
-        if(!this.memberRegisterParamExceptProc(pgfuMemberUser)){
+        if(!this.memberRegisterParamExceptProc(pgfuMemberUser)){ //필수값들이 있는지 체크
             String reason = "Essential parameter must be not null";
             return DataResponseDto.of(registeredUser, responseMessage, reason);
         }
-        if(!this.memberRegisterParamExceptProcValue(pgfuMemberUser)){
+        if(!this.memberRegisterParamExceptProcValue(pgfuMemberUser)){ //검증해야할 값들이 제대로 들어가있는지 검증
             String reason = "Parameter value exception check is fail";
+            return DataResponseDto.of(registeredUser, responseMessage, reason);
+        }
+        //중복 예외처리
+        //아이디 중복체크
+        if(dupleChkUserWithUserId(pgfuMemberUser.getUserId())!=1) {
+            String reason = "아이디가 중복되었습니다";
+            return DataResponseDto.of(registeredUser, responseMessage, reason);
+        }
+        if(dupleChkUserWithUserNick(pgfuMemberUser.getPgfuProfile().getNickname())!=1) {
+            String reason = "닉네임이 중복되었습니다";
+            return DataResponseDto.of(registeredUser, responseMessage, reason);
+        }
+        if(dupleChkUserWithEmail(pgfuMemberUser.getPgfuAuthentication().getEmail())!=1) {
+            String reason = "이메일이 중복되었습니다";
             return DataResponseDto.of(registeredUser, responseMessage, reason);
         }
 
@@ -156,7 +170,13 @@ public class MemberService {
 
         return userIdChk && emailChk && userNicknameChk && passwdChk;
     }
-
+    
+    /********************************************************************************************** 
+     * @Method 설명 : 멤버 패스워드 값 검증 
+     * @작성일 : 2023-04-12 
+     * @작성자 : 정승주
+     * @변경이력 : 
+     **********************************************************************************************/
     public boolean passwordsValidate(String rawPassword){
         boolean speical = !Pattern.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝]*", rawPassword); //특수문자 포함
         boolean leastNum = false;//하나 이상의 숫자

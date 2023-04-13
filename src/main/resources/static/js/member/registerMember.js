@@ -160,7 +160,7 @@ class RegisterMember{
                 const value = this.validate[key];
                 if(!value){
                     const item = this.validateKeyConvertKorean(key);
-                    alert({title:'경고', content:`${item} 항목을 확인해주세요.`, actionName:'닫기'});
+                    alert({title:'경고', content:`${item} 항목을 확인해주세요.`,actionName:'닫기', });
                     return ;
                 }
             }
@@ -173,7 +173,24 @@ class RegisterMember{
                 "pgfuProfile.introduction" : this.doms.$aboutMeTextArea?.value,
             }
             const formDatas = Object.entries(params).map(v => v.join('=')).join('&');
-            await axios.post(URI, formDatas);
+            const responseResult = await axios.post(URI, formDatas);
+            const data = responseResult.data;
+            if(data.success === true){
+                if(data.message === "fail"){
+                    alert({title:'실패', content:`회원가입에 실패하였습니다.\n${data.reason}`, actionName:'닫기'});
+                }else if(data.message === "success" && data.data !== null){
+                    window.simpleImageModal({
+                        content : `🎉${data.data.usernamenick}님! 🎊회원가입을 진심으로 축하합니다🎊`,
+                        imgSrc : '/img/welcome.jpg',
+                        actionName : '로그인하러 가기',
+                        html : false,
+                        action: ()=>{
+                            $("#modalLayer").remove();
+                            location.replace('https://developer.mozilla.org/en-US/docs/Web/API/Location/reload');
+                        },
+                    });
+                }
+            }
 
         });
     }
