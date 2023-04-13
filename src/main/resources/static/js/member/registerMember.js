@@ -180,13 +180,13 @@ class RegisterMember{
                     alert({title:'실패', content:`회원가입에 실패하였습니다.\n${data.reason}`, actionName:'닫기'});
                 }else if(data.message === "success" && data.data !== null){
                     window.simpleImageModal({
-                        content : `🎉${data.data.usernamenick}님! 🎊회원가입을 진심으로 축하합니다🎊`,
+                        content : `🎉${data.data.pgfuProfile.nickname}님! 🎊회원가입을 진심으로 축하합니다🎊`,
                         imgSrc : '/img/welcome.jpg',
                         actionName : '로그인하러 가기',
                         html : false,
                         action: ()=>{
                             $("#modalLayer").remove();
-                            location.replace('https://developer.mozilla.org/en-US/docs/Web/API/Location/reload');
+                            location.replace('/member/loginForm');
                         },
                     });
                 }
