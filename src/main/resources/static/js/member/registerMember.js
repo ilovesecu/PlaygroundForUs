@@ -169,7 +169,7 @@ class RegisterMember{
                 userId : this.doms.$idInput?.value,
                 "pgfuProfile.nickname" : this.doms.$nickNameInput?.value,
                 "pgfuAuthentication.email" : this.doms.$emailInput?.value,
-                "pgfuAuthPassword.password" : this.doms.$passwordInput?.value,
+                "pgfuAuthPassword.passwords" : this.doms.$passwordInput?.value,
                 "pgfuProfile.introduction" : this.doms.$aboutMeTextArea?.value,
             }
             const formDatas = Object.entries(params).map(v => v.join('=')).join('&');

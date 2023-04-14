@@ -14,6 +14,8 @@ public interface MemberMapper {
     PgfuMemberUser getUserWithUserId(@Param(value = "userId")String userId);
 
     @ResultMap({"ResultMap.integer","ResultMap.pgfuMember"})
-    @Select("CALL pgfu_member.REGISTER_MEMBER_PROC(#{userId},#{pgfuProfile.nickname},#{pgfuAuthentication.email},#{pgfuAuthPassword.password},#{pgfuProfile.introduction})")
+    @Select("CALL pgfu_member.REGISTER_MEMBER_PROC(#{userId},#{pgfuProfile.nickname},#{pgfuAuthentication.email},#{pgfuAuthPassword.passwords},#{pgfuProfile.introduction})")
     List<Object> registerMemberIns(PgfuMemberUser pgfuMemberUser);
+
+    PgfuMemberUser getFullUserWithUserId(@Param(value = "userId")String userId);
 }

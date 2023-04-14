@@ -16,17 +16,37 @@ class Login{
 
     eventBinding(){
         this.doms.$loginBtn.addEventListener('click',e=>{
-            const $idVal = this.doms.$idInput.value;
-            const $passwdVal = this.doms.$passwdInput.value;
+            const idVal = this.doms.$idInput.value;
+            const passwdVal = this.doms.$passwdInput.value;
             
             //예외처리
-            console.log($idVal, $passwdVal);
+            console.log(idVal, passwdVal);
+
+            this.doLogin(idVal, passwdVal);
         });
     }
 
     async doLogin(id, passwd){
         //로그인 진행
-        const responseData = await axios.post('/');
+        const param = {
+            userId : id
+            ,userPassword: passwd
+        };
+        console.log(Object.entries(param));
+        console.log(Object.entries(param).map(v => v.join('=')).join("&"));
+        const paramFormData = Object.entries(param).map(v => v.join('=')).join("&");
+        /*const formData = new FormData();
+        formData.append("userId",id);
+        formData.append("userPassword",passwd);*/
+        const responseData = await axios({
+            method: "post",
+            url: `/auth/loginProc`,
+            data: paramFormData,
+        });
+        if(responseData.data !== null){
+            location.replace(responseData.data);
+        }
     }
 
 }
+

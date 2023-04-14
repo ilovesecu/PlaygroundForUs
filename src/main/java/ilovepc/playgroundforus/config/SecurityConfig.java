@@ -1,5 +1,7 @@
 package ilovepc.playgroundforus.config;
 
+import ilovepc.playgroundforus.auth.handler.LoginSuccessHandler;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -27,15 +29,18 @@ public class SecurityConfig {
                     try {
                         authz
                             .requestMatchers("/user/**").authenticated()  //인증이 필요해
+                            .requestMatchers("/hub/**").authenticated()  //인증이 필요해
                             .requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN") //인증 뿐 아니라 역할도 맞아야해.
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             .anyRequest().permitAll() //user, manager, admin이 아닌 주소는 모두 허용
-                            .and().formLogin().loginPage("/loginForm")
+                            .and().formLogin().loginPage("/member/loginForm")
                                 .usernameParameter("userId") //유저아이디 파라미터 이름 설정
                                 .passwordParameter("userPassword") //비밀번호 파라미터 이름 설정
                                 .loginProcessingUrl("/auth/loginProc") //스프링 시큐리티가 해당 주소로 오는 로그인을 가로채서 대신 로그인해준다.
-                                .defaultSuccessUrl("/") //로그인 성공일 시 /로 이동
-                                ;//.failureHandler(customAuthenticationFailureHandler); //실패 시 핸들러
+                                .successHandler(new LoginSuccessHandler("/hub/commonboard")) //성공 시 핸들러
+                                //.failureHandler(customAuthenticationFailureHandler); //실패 시 핸들러
+                                //.defaultSuccessUrl("/hub/commonboard") //로그인 성공일 시 /로 이동
+                                ;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

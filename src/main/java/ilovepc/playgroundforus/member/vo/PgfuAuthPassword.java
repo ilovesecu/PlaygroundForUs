@@ -6,6 +6,6 @@ import lombok.Data;
 public class PgfuAuthPassword {
     private int passwordId;
     private int userNo;
-    private String password;
+    private String passwords;
     private String updateDate;
 }

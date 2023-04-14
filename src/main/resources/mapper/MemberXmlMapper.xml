@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ilovepc.playgroundforus.member.repository.MemberMapper" >
+    <select id="getFullUserWithUserId" resultType="ilovepc.playgroundforus.member.vo.PgfuMemberUser" parameterType="java.lang.String">
+        SELECT mUser.user_no, mUser.user_id, mUser.login_type, mUser.join_date
+            ,mProfile.nickname AS 'pgfuProfile.nickname', mProfile.profile_id AS 'pgfuProfile.profileId', mProfile.image_url AS 'pgfuProfile.imageUrl',
+             mProfile.introduction AS 'pgfuProfile.introduction', mProfile.update_date AS 'pgfuProfile.updateDate'
+            ,mAuth.authentication_id AS 'pgfuAuthentication.authenticationId', mAuth.email AS 'pgfuAuthentication.email', mAuth.cell_phone AS 'pgfuAuthentication.cellPhone',
+             mAuth.birthday AS 'pgfuAuthentication.birthday', mAuth.sex AS 'pgfuAuthentication.sex'
+            ,auPasswd.password_id AS 'pgfuAuthPassword.passwordId', auPasswd.passwords AS 'pgfuAuthPassword.passwords'
+        FROM pgfu_member.user mUser
+                 LEFT JOIN pgfu_member.profile mProfile ON mUser.user_no = mProfile.user_no
+                 LEFT JOIN pgfu_member.authentication mAuth ON mUser.user_no = mAUth.user_no
+                 LEFT JOIN pgfu_auth.password auPasswd ON mUser.user_no = auPasswd.user_no
+        WHERE user_id = #{userId};
+    </select>
+</mapper>

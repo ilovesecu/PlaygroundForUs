@@ -67,9 +67,9 @@ public class MemberService {
             return DataResponseDto.of(registeredUser, responseMessage, reason);
         }
 
-        String rawPasswd = pgfuMemberUser.getPgfuAuthPassword().getPassword();
+        String rawPasswd = pgfuMemberUser.getPgfuAuthPassword().getPasswords();
         String encPasswd = passwordEncoder.encode(rawPasswd);
-        pgfuMemberUser.getPgfuAuthPassword().setPassword(encPasswd);
+        pgfuMemberUser.getPgfuAuthPassword().setPasswords(encPasswd);
 
         List<Object> sqlResult = memberMapper.registerMemberIns(pgfuMemberUser);
         int pReturn = DBHelper.getData(sqlResult, Integer.class);
@@ -146,7 +146,7 @@ public class MemberService {
             "pgfuProfile.nickname",
             "pgfuProfile.introduction",
             "pgfuAuthentication.email",
-            "pgfuAuthPassword.password"
+            "pgfuAuthPassword.passwords"
         };
         boolean nestedClassNullChk = ParamHelper.nestedParamExcep(mokObjs,fieldNames);
         log.error("normalFieldNullChk : {} / nestedClassNullChk : {}",normalFieldNullChk,nestedClassNullChk);
@@ -166,7 +166,7 @@ public class MemberService {
         boolean userIdChk = Pattern.matches(engNumRegex,pgfuMemberUser.getUserId());
         boolean emailChk = Pattern.matches(emailRegex, pgfuMemberUser.getPgfuAuthentication().getEmail());
         boolean userNicknameChk = Pattern.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝]*", pgfuMemberUser.getPgfuProfile().getNickname());
-        boolean passwdChk = this.passwordsValidate(pgfuMemberUser.getPgfuAuthPassword().getPassword());
+        boolean passwdChk = this.passwordsValidate(pgfuMemberUser.getPgfuAuthPassword().getPasswords());
 
         return userIdChk && emailChk && userNicknameChk && passwdChk;
     }
