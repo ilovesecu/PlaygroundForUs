@@ -21,6 +21,7 @@ class Login{
             
             //예외처리
             console.log(idVal, passwdVal);
+            if(idVal === null || idVal === undefined || idVal === "")
 
             this.doLogin(idVal, passwdVal);
         });
