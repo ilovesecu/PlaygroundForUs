@@ -51,9 +51,9 @@
               <div class="form-floating">
                   <select class="form-select" id="categorySelector" aria-label="Floating label select example">
                       <option selected>카테고리 선택</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
+                      <th:block th:each="vo : ${pgfuBoardCategory}">
+                          <option th:value="${vo.categoryId}" th:text="${vo.categoryValue}"></option>
+                      </th:block>
                   </select>
                   <label for="categorySelector">카테고리</label>
               </div>

@@ -7,13 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value = "/hub")
 public class HubMainController {
-    @GetMapping(value = "/commonboard")
-    public String index(){
-        return "pages/hub/commonBoard";
-    }
-
-    @GetMapping(value = "/writePage")
-    public String writePage(){
-        return "pages/hub/commonBoardWritePage";
+    @GetMapping("")
+    public String HubMain(){
+        return "/hub/main";
     }
 }

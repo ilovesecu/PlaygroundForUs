@@ -27,6 +27,12 @@ class CommonBoardWriter{
             this.appendTag(value);
             $input.value = '';
         });
+        //Tag 추가할 때 엔터키 사용 가능하게 하기
+        this.doms.$tagInput.addEventListener('keydown', e=>{
+           if(e.keyCode === 13){ //Enter
+                this.doms.$tagInputBtn.dispatchEvent(new Event('click'));
+           }
+        });
     }
     
     /********************************************************************************************** 
