@@ -23,7 +23,7 @@ public class CommonBoardRestController {
      * @변경이력 :
      **********************************************************************************************/
     @PostMapping(value = "/post")
-    public void saveCommonBoardPost(@RequestBody PgfuBoard pgfuBoard, @AuthenticationPrincipal PrincipalDetails principalDetails){
-        commonBoardService.saveCommonBoardPost(pgfuBoard);
+    public void saveCommonBoardPost(@RequestBody PgfuBoard pgfuBoard, @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception {
+        commonBoardService.commonBoardPostIns(pgfuBoard);
     }
 }

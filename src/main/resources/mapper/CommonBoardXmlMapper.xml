@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ilovepc.playgroundforus.hub.web.commonBoard.repository.CommonBoradMapper">
+    <insert id="commonBoardTagMultiIns" useGeneratedKeys="true" keyProperty = "tagId">
+        INSERT IGNORE INTO pgfu_common_board.tag(tag_value) VALUES
+        <foreach collection="pgfuBoardTag" item="item" separator=",">
+            (#{item.tagValue})
+        </foreach>
+    </insert>
+
+    <select id="commonBoardTagMultiSelWithTagVal" resultType="ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoardTag">
+        SELECT * FROM pgfu_common_board.tag WHERE tag_value IN
+        <foreach collection="pgfuBoardTags" item="item" open="(" close=")" separator=",">
+            #{item.tagValue}
+        </foreach>
+    </select>
+
+    <insert id="commonBoardTagMapMultiRowIns">
+        INSERT INTO pgfu_common_board.tag_board_map(board_id,tag_id) VALUES
+        <foreach collection="pgfuBoardTags" item="item" separator=",">
+            (#{boardId},#{item.tagId})
+        </foreach>
+    </insert>
+</mapper>
