@@ -7,6 +7,7 @@ class CommonBoardWriter{
             $tagInput:document.querySelector("#tagInput"),
             $tagInputBtn:document.querySelector("#tagInputBtn"),
             $tagStore:document.querySelector("#tagStore"),
+            $savePostBtn : document.querySelector("#savePostBtn"),
         }
         this.data = {
             tag:[],
@@ -32,6 +33,11 @@ class CommonBoardWriter{
            if(e.keyCode === 13){ //Enter
                 this.doms.$tagInputBtn.dispatchEvent(new Event('click'));
            }
+        });
+
+        //글저장 버튼
+        this.doms.$savePostBtn.addEventListener('click', e=>{
+
         });
     }
     
