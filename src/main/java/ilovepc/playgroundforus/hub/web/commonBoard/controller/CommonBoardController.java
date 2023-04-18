@@ -14,24 +14,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/hub")
+@RequestMapping(value = "/hub/commonboard")
 @RequiredArgsConstructor
 public class CommonBoardController {
     private final CommonBoardService commonBoardService;
 
     /********************************************************************************************** 
-     * @Method 설명 : 글목록
+     * @Method 설명 : 글목록 페이지 반환
      * @작성일 : 2023-04-17 
      * @작성자 : 정승주
      * @변경이력 : 
      **********************************************************************************************/
-    @GetMapping(value = "/commonboard")
+    @GetMapping(value = "")
     public String index(){
         return "pages/hub/commonBoard";
     }
     
     /********************************************************************************************** 
-     * @Method 설명 : 글쓰기 
+     * @Method 설명 : 글쓰기 페이지 반환
      * @작성일 : 2023-04-17 
      * @작성자 : 정승주
      * @변경이력 : 
