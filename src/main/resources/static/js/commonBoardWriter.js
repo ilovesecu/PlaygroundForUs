@@ -78,7 +78,6 @@ class CommonBoardWriter{
                     }
                 }
                 this.delTag($target,index);
-                console.log(this.data.tag);
             }
         });
     }
