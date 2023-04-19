@@ -1,12 +1,14 @@
 package ilovepc.playgroundforus.auth;
 
 import ilovepc.playgroundforus.member.vo.PgfuMemberUser;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Data
 public class PrincipalDetails implements UserDetails {
     private PgfuMemberUser pgfuMemberUser; //컴포지션
 

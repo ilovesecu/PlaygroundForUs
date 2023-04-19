@@ -24,6 +24,12 @@ public class CommonBoardRestController {
      **********************************************************************************************/
     @PostMapping(value = "/post")
     public void saveCommonBoardPost(@RequestBody PgfuBoard pgfuBoard, @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception {
+        if(principalDetails != null){
+            int userNo = principalDetails.getPgfuMemberUser().getUserNo();
+            pgfuBoard.setBoardWriter(userNo);
+        }else{
+            pgfuBoard.setBoardWriter(1);
+        }
         commonBoardService.commonBoardPostIns(pgfuBoard);
     }
 }

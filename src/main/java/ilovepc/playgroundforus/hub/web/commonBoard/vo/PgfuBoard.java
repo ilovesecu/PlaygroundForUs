@@ -9,7 +9,7 @@ public class PgfuBoard {
     private int boardId;
     private int boardGroup;
     private String boardTitle;
-    private String boardWriter;
+    private int boardWriter;
     private String boardContent;
     private String regdate;
     private String updatedate;
