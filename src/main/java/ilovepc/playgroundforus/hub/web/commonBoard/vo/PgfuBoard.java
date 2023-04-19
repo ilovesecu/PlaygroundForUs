@@ -2,6 +2,7 @@ package ilovepc.playgroundforus.hub.web.commonBoard.vo;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,7 +19,7 @@ public class PgfuBoard {
 
     private String pgfuBoardTagValue; // ,로 구분된 tag value
     //컴포지션
-    private PgfuBoardCategory pgfuBoardCategory;
-    private List<PgfuBoardTag> pgfuBoardTags;
+    private PgfuBoardCategory pgfuBoardCategory = new PgfuBoardCategory();
+    private List<PgfuBoardTag> pgfuBoardTags = new ArrayList<>();
 }
 

@@ -43,6 +43,12 @@ public class CommonBoardService {
         //예외처리 - 빈값 처리
         boolean normalFieldNullChk = ParamHelper.nullExcept(pgfuBoard, new String[]{"boardTitle","boardWriter","boardContent"});
         if(!normalFieldNullChk) return;
+        Object[] mokObjs = new Object[]{pgfuBoard.getPgfuBoardTags(), pgfuBoard.getPgfuBoardCategory()};
+        String[] fieldNames = new String[]{"pgfuBoardCategory.categoryId"};
+        boolean nestedClassNullChk = ParamHelper.nestedParamExcep(mokObjs,fieldNames);
+        if(!nestedClassNullChk) return ;
+        boolean listParamExcepChk = ParamHelper.listParamExcep(pgfuBoard.getPgfuBoardTags(),new String[]{"tagValue"}, false);
+        if(!listParamExcepChk) return;
 
         successSave = commonBoradMapper.commomBoardIns(pgfuBoard) >= 1; //게시글 저장
         if(successSave){
