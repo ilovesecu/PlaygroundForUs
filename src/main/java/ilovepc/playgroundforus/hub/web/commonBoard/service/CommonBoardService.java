@@ -4,6 +4,7 @@ import ilovepc.playgroundforus.hub.web.commonBoard.repository.CommonBoradMapper;
 import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoard;
 import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoardCategory;
 import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoardTag;
+import ilovepc.playgroundforus.utils.ParamHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,11 @@ public class CommonBoardService {
     @Transactional(rollbackFor = {Exception.class})
     public void commonBoardPostIns(PgfuBoard pgfuBoard) throws Exception {
         boolean successSave = false;
+
+        //예외처리 - 빈값 처리
+        boolean normalFieldNullChk = ParamHelper.nullExcept(pgfuBoard, new String[]{"boardTitle","boardWriter","boardContent"});
+        if(!normalFieldNullChk) return;
+
         successSave = commonBoradMapper.commomBoardIns(pgfuBoard) >= 1; //게시글 저장
         if(successSave){
             //저장할 태그가 있으면 태그를 저장한다.

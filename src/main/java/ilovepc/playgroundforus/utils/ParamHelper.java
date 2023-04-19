@@ -22,6 +22,14 @@ public class ParamHelper {
                 Method getter = getMethodGet(fieldName, clazz);
                 Object val = getter.invoke(obj);
                 if(val == null) return false;
+                if(val instanceof Number) { //숫자일 때 0값이면 false
+                    int a = (Integer)val;
+                    if(a == 0)return false;
+                }
+                if(val instanceof String){ //문자일 떄 ""면 false
+                    String a = (String)val;
+                    if(a.equals("")) return false;
+                }
             }
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             log.error("[ParamHelper] - blankExcept error occurred! ->",e);
