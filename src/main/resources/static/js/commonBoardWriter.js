@@ -25,6 +25,7 @@ class CommonBoardWriter{
     eventBinding(){
         //Tag 추가
         this.doms.$tagInputBtn.addEventListener('click',e=>{
+            e.stopPropagation();
             const $input = this.doms.$tagInput;
             const value = $input.value;
             if(value === undefined || value === null || value ==="")return ;
@@ -40,10 +41,18 @@ class CommonBoardWriter{
 
         //글저장 버튼
         this.doms.$savePostBtn.addEventListener('click', async e=>{
+            const categoryIndex = this.doms.$categorySelector.selectedIndex; //선택된 카테고리 SELECT INDEX
+            
+            //예외처리 검사
+            if(categoryIndex === 0){
+                window.alert({title:'경고', content:'카테고리를 선택해주세요.', actionName:'확인'});
+                return ;
+            }
+
             const title = this.doms.$boardTitle.value; //title
-            const selctVal = this.doms.$categorySelector.options[this.doms.$categorySelector.selectedIndex].value;//category
+            const selctVal = this.doms.$categorySelector.options[categoryIndex].value;//category
             const content = document.querySelector(".note-editable").innerHTML;//content
-            console.log(this.data.tag);
+
             const param = {
                 boardTitle: title,
                 boardContent: content,
@@ -53,8 +62,24 @@ class CommonBoardWriter{
                 pgfuBoardTags : this.data.tag
             }
             const response = await axios.post('/hub/commonboard/rest/post',param)
+        });
 
-            //files
+        //태그 스토어 이벤트 버블링을 활용
+        this.doms.$tagStore.addEventListener('click',e=>{
+            const $target = e.target;
+            if($target.classList.contains("badge")){ //태그 클릭 시 삭제
+                //해당 태그가 몇 번째 태그인지 판단
+                const $siblings = $target.parentNode.childNodes;
+                let index = -1;
+                for(let i=0; i<$siblings[i].length; i++){
+                    if($siblings[i] === $target){
+                        index = i;
+                        break;
+                    }
+                }
+                this.delTag($target,index);
+                console.log(this.data.tag);
+            }
         });
     }
     
@@ -88,6 +113,33 @@ class CommonBoardWriter{
         }
         return true;
     }
-    
+
+    /**********************************************************************************************
+     * @Method 설명 : 태그 삭제
+     * @작성일 : 2023-04-19
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    delTag($target,index = -1){
+        const tagValue = $target.textContent;
+        const data = this.data.tag[index];
+        if(data !== null && data !== undefined && data.tagValue === tagValue){
+            this.data.tag.splice(index,1);
+            this.doms.$tagStore.removeChild($target);
+            return ;
+        }
+
+        for(let i=0; i<this.data.tag.length; i++){
+            const obj = this.data.tag[i];
+            const objVal = obj?.tagValue ?? null;
+            if(objVal !== null){
+                if(objVal === tagValue){
+                    this.data.tag.splice(i,1);
+                    this.doms.$tagStore.removeChild($target);
+                    break;
+                }
+            }
+        }
+    }
 
 }
