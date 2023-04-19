@@ -8,8 +8,11 @@
     <title>Title</title>
     <!-- include summernote css/js -->
 
-    <link th:inline="css" href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script th:inline="javascript" src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <!--<link th:inline="css" href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script th:inline="javascript" src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>-->
+    <link th:inline="css" href="/js/lib/summernote-0.8.18-dist/summernote-lite.min.css" rel="stylesheet">
+    <script th:inline="javascript" src="/js/lib/summernote-0.8.18-dist/summernote-lite.min.js"></script>
+
     <style th:inline="css">
         .bd-section{
             position: relative;
@@ -43,8 +46,8 @@
       <div class="row g-2 mb-3">
           <div class="col-md">
               <div class="form-floating">
-                  <input type="text" class="form-control" id="floatingInputGrid" placeholder="제목을 입력해주세요">
-                  <label for="floatingInputGrid">제목</label>
+                  <input type="text" class="form-control" id="boardTitle" placeholder="제목을 입력해주세요">
+                  <label for="boardTitle">제목</label>
               </div>
           </div>
           <div class="col-md">

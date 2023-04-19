@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@RestControllerAdvice(annotations = {RestController.class}) // @ControllerAdvice와 @ResponseBody를 합쳐놓은 어노테이션
+//@RestControllerAdvice(annotations = {RestController.class}) // @ControllerAdvice와 @ResponseBody를 합쳐놓은 어노테이션
 public class ExceptionHandler extends ResponseEntityExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler

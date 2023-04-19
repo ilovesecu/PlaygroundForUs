@@ -3,11 +3,16 @@ document.addEventListener('DOMContentLoaded',()=>{
 })
 class CommonBoardWriter{
     constructor() {
+
         this.doms = {
             $tagInput:document.querySelector("#tagInput"),
             $tagInputBtn:document.querySelector("#tagInputBtn"),
             $tagStore:document.querySelector("#tagStore"),
             $savePostBtn : document.querySelector("#savePostBtn"),
+            $boardTitle : document.querySelector("#boardTitle"),
+            $categorySelector : document.querySelector("#categorySelector"),
+            $summernote : document.querySelector("#summernote"),
+            $summernoteContent : document.querySelector(".note-editable"),
         }
         this.data = {
             tag:[],
@@ -37,7 +42,11 @@ class CommonBoardWriter{
 
         //글저장 버튼
         this.doms.$savePostBtn.addEventListener('click', e=>{
-
+            const title = this.doms.$boardTitle.value; //title
+            const selctVal = this.doms.$categorySelector.options[this.doms.$categorySelector.selectedIndex].value;//category
+            const content = this.doms.$summernoteContent.innerHTML;//content
+            debugger;
+            //files
         });
     }
     

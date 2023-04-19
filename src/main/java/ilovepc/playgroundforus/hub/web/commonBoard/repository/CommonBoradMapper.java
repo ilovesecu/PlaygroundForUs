@@ -13,7 +13,7 @@ public interface CommonBoradMapper {
     @Select("SELECT * FROM pgfu_common_board.board_category ORDER BY category_order ASC")
     List<PgfuBoardCategory> getCommonBoardCategoryAll();
 
-    @Insert("INSERT INTO pgfu_common_board.board(board_title,board_writer,board_content)VALUES(#{boardTitle},#{boardWriter},#{boardContent})")
+    @Insert("INSERT INTO pgfu_common_board.board(board_title,category_id,board_writer,board_content)VALUES(#{boardTitle},#{pgfuBoardCategory.categoryId},#{boardWriter},#{boardContent})")
     @Options(useGeneratedKeys = true, keyProperty = "boardId")
     int commomBoardIns(PgfuBoard pgfuBoard);
 

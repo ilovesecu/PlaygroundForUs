@@ -52,7 +52,7 @@ public class CommonBoardService {
             }
             successSave = this.commonBoardTagMapMultiRowIns(pgfuBoardTags, pgfuBoard.getBoardId()) >= 0;
         }
-        if(successSave) throw new RuntimeException("게시글이 잘못 저장되었습니다.");
+        if(!successSave) throw new RuntimeException("게시글이 잘못 저장되었습니다.");
 
     }
 
