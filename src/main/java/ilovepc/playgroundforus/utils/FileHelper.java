@@ -13,16 +13,8 @@ import java.io.InputStream;
 import java.util.Locale;
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class FileHelper {
-    private final Tika tika;
-
-    @Bean
-    public Tika getTika(){
-        Tika tika = new Tika();
-        return tika;
-    }
 
     /********************************************************************************************** 
      * @Method 설명 : 파일 확장자 검사 (true:허용 / false:비허용)
@@ -33,7 +25,8 @@ public class FileHelper {
     public FileExtensionCheckResult fileTypePermitCheck(InputStream inputStream, ServiceType serviceType){
         FileExtensionCheckResult result = new FileExtensionCheckResult();
         try{
-            String mimeType = tika.detect(inputStream);
+            //String mimeType = tika.detect(inputStream);
+            String mimeType = new Tika().detect(inputStream);
             String[] mimeTypeSplited = mimeType.split("/");
             result.setFullType(mimeType);
             result.setFileType(mimeTypeSplited[0]);
