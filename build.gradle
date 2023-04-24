@@ -33,6 +33,7 @@ dependencies {
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
     implementation group: 'org.apache.tika', name: 'tika-core', version: '1.4'
+    implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.8'
 
 }
 

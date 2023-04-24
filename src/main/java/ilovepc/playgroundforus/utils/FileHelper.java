@@ -32,9 +32,9 @@ public class FileHelper {
             result.setFileType(mimeTypeSplited[0]);
             result.setExtType(mimeTypeSplited[1]);
             if(result.getFileType().equals("image")){
-                ImageConfig.isAllowImageExt(serviceType,result.getExtType().toLowerCase(Locale.ROOT));
+                result.setResult(ImageConfig.isAllowImageExt(serviceType,result.getExtType().toLowerCase(Locale.ROOT)));
             }else{
-                ImageConfig.isAllowFileExt(serviceType, result.getExtType().toLowerCase(Locale.ROOT));
+                result.setResult(ImageConfig.isAllowFileExt(serviceType, result.getExtType().toLowerCase(Locale.ROOT)));
             }
         }catch(Exception e){
             log.error("[fileTypePermitCheck] error!! -> e",e);

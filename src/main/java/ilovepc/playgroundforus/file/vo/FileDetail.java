@@ -15,7 +15,8 @@ public class FileDetail {
     private int code = 100101;
     private String msg = "파일업로드를 성공했습니다.";
 
+    private String fileName; //서버 저장파일명
     private String imageFile;
-    private String encImageName;
+    private String encImageName;//암호화된 파일명
 }
 

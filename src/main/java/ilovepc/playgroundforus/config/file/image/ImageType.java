@@ -1,6 +1,7 @@
 package ilovepc.playgroundforus.config.file.image;
 
 import ilovepc.playgroundforus.base.constant.ServiceType;
+import ilovepc.playgroundforus.base.constant.UploadType;
 
 import java.io.File;
 import java.util.Arrays;
@@ -41,9 +42,23 @@ public class ImageType {
         if(key==null)return ServiceType.HUB;
 
         switch (key){
+            case "hubCbSm":
             case "hubCb":
             case "hubProfile":
                 return ServiceType.HUB;
+            default:
+                return null;
+        }
+    }
+
+    public static UploadType getUploadType(String key){
+        if(key == null) return null;
+        switch (key){
+            case "hubCbSm":
+                return UploadType.EDITOR;
+            case "hubCb":
+            case "hubProfile":
+                return UploadType.ATTACHED;
             default:
                 return null;
         }
