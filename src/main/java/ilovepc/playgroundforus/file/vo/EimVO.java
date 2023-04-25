@@ -18,7 +18,7 @@ public class EimVO {
     private String eimFileName;    //이미지 업로드시 서버에 저장된 파일명
     private Long eimFileSize;
     private Integer eimWidth;
-    private Integer eimHeigth;
+    private Integer eimHeight;
     private String eimExtType;     //'파일 확장자'
     private String eimUploadTime;  //파일 업로드 시간
     private String eimIp;          //업로드 아이피

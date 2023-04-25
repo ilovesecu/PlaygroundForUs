@@ -4,6 +4,7 @@ import ilovepc.playgroundforus.base.constant.ServiceType;
 import ilovepc.playgroundforus.base.constant.UploadType;
 import ilovepc.playgroundforus.config.file.image.ImageConfig;
 import ilovepc.playgroundforus.config.file.image.ImageType;
+import ilovepc.playgroundforus.file.repository.FileMapper;
 import ilovepc.playgroundforus.file.vo.*;
 import ilovepc.playgroundforus.utils.EncrypthionHelper;
 import ilovepc.playgroundforus.utils.FileHelper;
@@ -35,6 +36,7 @@ public class FileAndPhotoService {
     protected String ABSOLUT_PATH;
 
     private final FileHelper fileHelper;
+    private final FileMapper fileMapper;
 
     /********************************************************************************************** 
      * @Method 설명 : 이미지 파일 업로드
@@ -161,7 +163,13 @@ public class FileAndPhotoService {
                     eimVO.setEimFileName(fileDetailResult.getFileName()); //서버에 저장된 파일명
                     eimVO.setEimFileSize(multipartFile.getSize());
                     eimVO.setEimWidth(image.getWidth(null));
-                    eimVO.setEimHeigth(image.getHeight(null));
+                    eimVO.setEimHeight(image.getHeight(null));
+                    eimVO.setEimExtType(extensionResult.getExtType());
+                    eimVO.setEimIp(fileUploadObject.getClientIp());
+                    int dbInsResult = fileMapper.editorImageIns(eimVO);
+                    if(dbInsResult <= 0){ //DB 삽입 실패 시 예외발생
+                       throw new Exception("DB Insert Fail");
+                    }
                 }catch(Exception e){
                     log.error("[uploadImage] 파일별 반복 중 에러 발생! e",e);
                     fileDetailResult.setCode(100097);

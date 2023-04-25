@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 @ToString
 public class FileUploadObject {
     private int userNo; //업로드 사용자
-    private String fileExtension; //파일 확장자
+    private String clientIp; //클라이언트 아이피
     private String temp = "0";  //임시 업로드 여부
     private MultipartFile[] files;
 }
