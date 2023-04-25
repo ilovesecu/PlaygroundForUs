@@ -15,7 +15,7 @@ public class FileResult {
      * -3 : 시스템 오류
      * */
     private int code = 100101;
-    private String msg ="";
+    private String msg ="파일 업로드를 성공했습니다.";
     private int errorCount = 0;
     private int totalCount = 0;
 

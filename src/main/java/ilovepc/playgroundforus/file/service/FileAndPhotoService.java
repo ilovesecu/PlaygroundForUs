@@ -16,16 +16,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -103,6 +108,7 @@ public class FileAndPhotoService {
                         fileDetailResult.setMsg("지원하지 않는 파일입니다. : "+fileName);
                         fileDetailResult.setImageFile(fileName);
                         fileResult.addErrorCount();
+                        fileResult.addFileDetail(fileDetailResult);
                         continue;
                     }
                     //업로드 실행
@@ -114,6 +120,7 @@ public class FileAndPhotoService {
                     if(image == null){
                         fileDetailResult.setCode(100096);
                         fileDetailResult.setMsg("이미지 파일이 아닙니다.");
+                        fileResult.addFileDetail(fileDetailResult);
                         fileResult.addErrorCount();
                         continue;
                     }
@@ -139,8 +146,15 @@ public class FileAndPhotoService {
                         String returnImageName = originalFileName+"|"+image.getWidth(null)+"|"+image.getHeight(null);
                         fileDetailResult.setFileName(originalFileName);
                         fileDetailResult.setImageFile(returnImageName);
-                        fileDetailResult.setEncImageName(EncrypthionHelper.encryptAES256(returnImageName));
 
+                        String encImgNm = URLEncoder.encode(EncrypthionHelper.encryptAES256(originalFileName), StandardCharsets.UTF_8.toString());
+                        fileDetailResult.setEncFileName(encImgNm); //URL Encoding 해서 넣어주자.
+                        
+                        //서버에 저장된 파일명에 _blur를 붙여서 암호화
+                        String encBlurImgNm = URLEncoder.encode(EncrypthionHelper.encryptAES256(originalFileName+"_blur"), StandardCharsets.UTF_8.toString());
+                        fileDetailResult.setBlurImgFileName(encBlurImgNm);
+
+                        fileDetailResult.setFullPath(uploadDir.getAbsolutePath()+File.separator+originalFileName);
                         Map<String,Object> temp = new HashMap<>();
                         temp.put("size", multipartFile.getSize());
                         temp.put("width", image.getWidth(null));
@@ -185,8 +199,93 @@ public class FileAndPhotoService {
             fileResult.setMsg("프로세스 오류입니다.");
             fileResult.addErrorCount();
         }
+
+        if(fileResult.getErrorCount() > 0){
+            fileResult.setMsg("파일 업로드에 실패했습니다.");
+        }
+
         return fileResult;
     }
+    
+    /********************************************************************************************** 
+     * @Method 설명 : 이미지 파일 뷰
+     * @작성일 : 2023-04-25 
+     * @작성자 : 정승주
+     * @변경이력 : 
+     **********************************************************************************************/
+    public byte[] getImageToByte(String type, String encImageName, boolean isTempFile){
+        //디스크에 있는 파일을 읽어오기 위한 작업
+        FileInputStream fileInputStream = null;
+        InputStream inputStream = null;
+        byte[] byteArray = null;
+        boolean blurFlag = false;
+        try{
+            String decFileName = Optional.ofNullable(EncrypthionHelper.decryptAES256(encImageName)).orElse("");
+            log.error("decFileName=>{}",decFileName);
+
+            //blur 확인
+            if(!decFileName.equals("") && decFileName.contains("_blur")){
+                blurFlag = true;
+                decFileName = decFileName.replace("_blur","");
+            }
+            String[] dotSplitFileName = decFileName.split("\\."); // [1_2023042516121616784] [png]
+            String fileFolderTime = dotSplitFileName[0].split("\\_")[1]; //[1] [2023042516121616784]
+
+            //임시폴더에 있는지 확인
+            String tempDir = "";
+            if(isTempFile){
+                tempDir = File.separator + ImageType.get("temp"); //임시 저장 폴더명 가져오기
+            }
+
+            // 시간 파일 경로
+            String yyyy = fileFolderTime.substring(0,4);
+            String MM = fileFolderTime.substring(4,6);
+            String dd = fileFolderTime.substring(6,8);
+            String HH = fileFolderTime.substring(8,10);
+            String originalUploadPath = ABSOLUT_PATH
+                    + tempDir
+                    + File.separator + ImageType.get(type)
+                    + File.separator + yyyy
+                    + File.separator + MM
+                    + File.separator + dd
+                    + File.separator + HH;
+            if(blurFlag){
+                String blurUploadPath = ABSOLUT_PATH
+                        + tempDir
+                        + File.separator + ImageType.get("blur")
+                        + File.separator + yyyy
+                        + File.separator + MM
+                        + File.separator + dd
+                        + File.separator + HH;
+                //SIZE별 처리 미구현
+                File originalFile = new File(originalUploadPath,decFileName);
+                File blurFile = new File(blurUploadPath,decFileName);
+                if(!blurFile.isFile()){ //Blur 이미지가 없다면 만들어주자.
+                    Image image = null;
+                    //GIF 미구현
+                    /**if (decFileName.contains("gif")) {
+                        ImageInputStream imageInputStream = new FileImageInputStream(file);
+                        PatchedGIFImageReader reader = new PatchedGIFImageReader(null);
+                        reader.setInput(imageInputStream);
+                        image = reader.read(0);
+                    } else {
+                        image = ImageIO.read(file);
+                    }*/
+                    image = ImageIO.read(originalFile);
+                    BufferedImage bufferedImage = (BufferedImage) image;
+                    int iterations = 65;
+                    float hRadius = 1 / 0.7f;
+
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return byteArray;
+    }
+
+
+
 
     /**********************************************************************************************
      * @Method 설명 : 이미지 비율 처리 및 이미지 업로드 동시 진행

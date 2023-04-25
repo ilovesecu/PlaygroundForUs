@@ -20,7 +20,7 @@ public class ImageType {
         //////////////////////////////////////
         // 공통 타입
         //////////////////////////////////////
-        IMAGE_TYPE.put("temp"      , "yeo_tmp");     // 임시저장용
+        IMAGE_TYPE.put("temp"       ,"yeo_tmp");    // 임시저장용
 
         //////////////////////////////////////
         // HUB
@@ -28,6 +28,7 @@ public class ImageType {
         IMAGE_TYPE.put("hubCbSm"        ,"hub_sm"             + File.separator);  // CommonBaord summernote
         IMAGE_TYPE.put("hubCb"          ,"hub_mate"           + File.separator);  // CommonBaord 글쓰기
         IMAGE_TYPE.put("hubProfile"     ,"hub_profile"        + File.separator);  // 프로필
+        IMAGE_TYPE.put("hubBlur"        ,"hub_blur"           + File.separator);  // blur 이미지
 
         //////////////////////////////////////
         // 파입업로드/다운로드 가능한 타입

@@ -1,5 +1,6 @@
 package ilovepc.playgroundforus.file.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
@@ -15,8 +16,11 @@ public class FileDetail {
     private int code = 100101;
     private String msg = "파일업로드를 성공했습니다.";
 
-    private String fileName; //서버 저장파일명
-    private String imageFile;
-    private String encImageName;//암호화된 파일명
+    private String fileName;        //서버 저장파일명
+    private String imageFile;       //사용자가 업로드한 원본이름 or 서버 저장된 이름 | 이미지W | 이미지H
+    private String encFileName;     //암호화된 파일명
+    private String blurImgFileName; //블러처리된 이미지 파일명
+    @JsonIgnore
+    private String fullPath;        //업로드 파일 Full Path
 }
 
