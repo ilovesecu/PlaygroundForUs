@@ -20,6 +20,7 @@ public class FileDetail {
     private String imageFile;       //사용자가 업로드한 원본이름 or 서버 저장된 이름 | 이미지W | 이미지H
     private String encFileName;     //암호화된 파일명
     private String blurImgFileName; //블러처리된 이미지 파일명
+    private String temp = "0";      //임시파일에 업로드되었는지 여부
     @JsonIgnore
     private String fullPath;        //업로드 파일 Full Path
 }

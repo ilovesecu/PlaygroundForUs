@@ -7,7 +7,8 @@ import ilovepc.playgroundforus.config.file.image.ImageType;
 import ilovepc.playgroundforus.file.repository.FileMapper;
 import ilovepc.playgroundforus.file.vo.*;
 import ilovepc.playgroundforus.utils.EncrypthionHelper;
-import ilovepc.playgroundforus.utils.FileHelper;
+import ilovepc.playgroundforus.utils.file.BoxBlurFilter;
+import ilovepc.playgroundforus.utils.file.FileHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -16,13 +17,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -146,6 +148,7 @@ public class FileAndPhotoService {
                         String returnImageName = originalFileName+"|"+image.getWidth(null)+"|"+image.getHeight(null);
                         fileDetailResult.setFileName(originalFileName);
                         fileDetailResult.setImageFile(returnImageName);
+                        fileDetailResult.setTemp(fileUploadObject.getTemp()); //임시폴더 업로드 여부 → confirm 시 영구폴더로 이동
 
                         String encImgNm = URLEncoder.encode(EncrypthionHelper.encryptAES256(originalFileName), StandardCharsets.UTF_8.toString());
                         fileDetailResult.setEncFileName(encImgNm); //URL Encoding 해서 넣어주자.
@@ -221,6 +224,7 @@ public class FileAndPhotoService {
         boolean blurFlag = false;
         try{
             String decFileName = Optional.ofNullable(EncrypthionHelper.decryptAES256(encImageName)).orElse("");
+            decFileName = URLDecoder.decode(decFileName,StandardCharsets.UTF_8);
             log.error("decFileName=>{}",decFileName);
 
             //blur 확인
@@ -252,11 +256,13 @@ public class FileAndPhotoService {
             if(blurFlag){
                 String blurUploadPath = ABSOLUT_PATH
                         + tempDir
-                        + File.separator + ImageType.get("blur")
+                        + File.separator + ImageType.get("hubBlur")
                         + File.separator + yyyy
                         + File.separator + MM
                         + File.separator + dd
                         + File.separator + HH;
+                File blurDirectory = new File(blurUploadPath);
+                if(!blurDirectory.exists())blurDirectory.mkdirs();
                 //SIZE별 처리 미구현
                 File originalFile = new File(originalUploadPath,decFileName);
                 File blurFile = new File(blurUploadPath,decFileName);
@@ -275,11 +281,30 @@ public class FileAndPhotoService {
                     BufferedImage bufferedImage = (BufferedImage) image;
                     int iterations = 65;
                     float hRadius = 1 / 0.7f;
-
+                    BoxBlurFilter boxBlurFilter = new BoxBlurFilter(hRadius, hRadius, iterations);
+                    BufferedImage blurBufferedImg = boxBlurFilter.filter(bufferedImage,null);
+                    ImageIO.write(blurBufferedImg, dotSplitFileName[1], new File(blurUploadPath, decFileName));
+                }
+                File evidentialFile = new File(blurUploadPath,decFileName);
+                if(evidentialFile.isFile()){
+                    byteArray = new byte[(int)evidentialFile.length()];
+                    fileInputStream = new FileInputStream(evidentialFile);
+                    fileInputStream.read(byteArray);
+                }
+            }else{ //원본
+                File originalFile = new File(originalUploadPath,decFileName);
+                if(originalFile.isFile()){
+                    byteArray = new byte[(int)originalFile.length()];
+                    fileInputStream = new FileInputStream(originalFile);
+                    fileInputStream.read(byteArray);
                 }
             }
         }catch(Exception e){
             e.printStackTrace();
+        }finally {
+            if (fileInputStream != null) {
+                try { fileInputStream.close(); } catch (IOException e) { }
+            }
         }
         return byteArray;
     }

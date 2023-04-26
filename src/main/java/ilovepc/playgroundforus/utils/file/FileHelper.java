@@ -1,4 +1,4 @@
-package ilovepc.playgroundforus.utils;
+package ilovepc.playgroundforus.utils.file;
 
 import ilovepc.playgroundforus.base.constant.ServiceType;
 import ilovepc.playgroundforus.config.file.image.ImageConfig;
