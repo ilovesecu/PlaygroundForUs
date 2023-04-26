@@ -3,6 +3,7 @@ package ilovepc.playgroundforus.hub.web.commonBoard.service;
 import ilovepc.playgroundforus.hub.web.commonBoard.repository.CommonBoradMapper;
 import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoard;
 import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoardCategory;
+import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoardSaveResult;
 import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoardTag;
 import ilovepc.playgroundforus.utils.ParamHelper;
 import lombok.RequiredArgsConstructor;
@@ -37,21 +38,41 @@ public class CommonBoardService {
      * @변경이력 :
      **********************************************************************************************/
     @Transactional(rollbackFor = {Exception.class})
-    public void commonBoardPostIns(PgfuBoard pgfuBoard) throws Exception {
+    public PgfuBoardSaveResult commonBoardPostIns(PgfuBoard pgfuBoard) throws Exception {
         boolean successSave = false;
+        PgfuBoardSaveResult pgfuBoardSaveResult = new PgfuBoardSaveResult();
 
         //예외처리 - 빈값 처리
         boolean normalFieldNullChk = ParamHelper.nullExcept(pgfuBoard, new String[]{"boardTitle","boardWriter","boardContent"});
-        if(!normalFieldNullChk) return;
+        if(!normalFieldNullChk){
+            pgfuBoardSaveResult.setSuccess(false);
+            pgfuBoardSaveResult.setErrorMessage("custom exception occurred");
+            pgfuBoardSaveResult.setErrorCause("normal field null");
+            pgfuBoardSaveResult.setPgfuBoard(pgfuBoard);
+            return pgfuBoardSaveResult;
+        }
         Object[] mokObjs = new Object[]{pgfuBoard.getPgfuBoardTags(), pgfuBoard.getPgfuBoardCategory()};
         String[] fieldNames = new String[]{"pgfuBoardCategory.categoryId"};
         boolean nestedClassNullChk = ParamHelper.nestedParamExcep(mokObjs,fieldNames);
-        if(!nestedClassNullChk) return ;
+        if(!nestedClassNullChk) {
+            pgfuBoardSaveResult.setSuccess(false);
+            pgfuBoardSaveResult.setErrorMessage("custom exception occurred");
+            pgfuBoardSaveResult.setErrorCause("nestedClass field null");
+            pgfuBoardSaveResult.setPgfuBoard(pgfuBoard);
+            return pgfuBoardSaveResult;
+        }
         boolean listParamExcepChk = ParamHelper.listParamExcep(pgfuBoard.getPgfuBoardTags(),new String[]{"tagValue"}, false);
-        if(!listParamExcepChk) return;
+        if(!listParamExcepChk){
+            pgfuBoardSaveResult.setSuccess(false);
+            pgfuBoardSaveResult.setErrorMessage("custom exception occurred");
+            pgfuBoardSaveResult.setErrorCause("listParam field null");
+            pgfuBoardSaveResult.setPgfuBoard(pgfuBoard);
+            return pgfuBoardSaveResult;
+        }
 
         successSave = commonBoradMapper.commomBoardIns(pgfuBoard) >= 1; //게시글 저장
         if(successSave){
+            if(1==1)throw new Exception("Test");
             //저장할 태그가 있으면 태그를 저장한다.
             List<PgfuBoardTag> pgfuBoardTags = pgfuBoard.getPgfuBoardTags();
             if(pgfuBoardTags != null && pgfuBoardTags.size() > 0){
@@ -66,8 +87,12 @@ public class CommonBoardService {
                 successSave = this.commonBoardTagMapMultiRowIns(pgfuBoardTags, pgfuBoard.getBoardId()) >= 0;
             }
         }
-        if(!successSave) throw new RuntimeException("게시글이 잘못 저장되었습니다.");
-
+        if(!successSave){
+            throw new RuntimeException("게시글 저장에 실패하였습니다.");
+        }
+        pgfuBoardSaveResult.setSuccess(true);
+        pgfuBoardSaveResult.setPgfuBoard(pgfuBoard);
+        return pgfuBoardSaveResult;
     }
 
     /**********************************************************************************************

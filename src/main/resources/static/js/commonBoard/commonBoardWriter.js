@@ -46,11 +46,10 @@ class CommonBoardWriter{
         //글저장 버튼
         this.doms.$savePostBtn.addEventListener('click', async e=>{
             const categoryIndex = this.doms.$categorySelector.selectedIndex; //선택된 카테고리 SELECT INDEX
-
             const title = this.doms.$boardTitle.value.trim(); //title
             const selctVal = this.doms.$categorySelector.options[categoryIndex].value;//category
             const content = document.querySelector(".note-editable").innerHTML;//content
-            debugger
+
             //저장 전 예외처리 검사
             if(!this.saveExceptionChk(title, categoryIndex, content))return ;
 
@@ -62,7 +61,15 @@ class CommonBoardWriter{
                 },
                 pgfuBoardTags : this.data.tag
             }
-            const response = await axios.post('/hub/commonboard/rest/post',param)
+            const response = await axios.post('/hub/commonboard/rest/post',param);
+            if(response.status === 200 || response.status === 201){
+                const data = response.data;
+                if(data.success){ //저장 성공
+                    window.alert({title:"게시글 저장 성공", content:"게시글 저장에 성공하였습니다.", closeCallback:()=>{}})
+                }else{ //저장 실패
+
+                }
+            }
         });
 
         //태그 스토어 이벤트 버블링을 활용

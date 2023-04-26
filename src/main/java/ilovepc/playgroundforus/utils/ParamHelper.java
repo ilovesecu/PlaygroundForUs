@@ -62,7 +62,7 @@ public class ParamHelper {
                 }
             }
         }catch(Exception e){
-            log.error("[ParamHelper] - nestedParamExcep error occureed! -> ",e);
+            log.error("[ParamHelper] - nestedParamExcep error occurred! -> ",e);
             return false;
         }
         return true;
@@ -95,7 +95,7 @@ public class ParamHelper {
                 }
             }
         }catch (Exception e){
-            log.error("[ParamHelper] - listParamExcep error occureed! -> ",e);
+            log.error("[ParamHelper] - listParamExcep error occurred! -> ",e);
             return false;
         }
         return true;
