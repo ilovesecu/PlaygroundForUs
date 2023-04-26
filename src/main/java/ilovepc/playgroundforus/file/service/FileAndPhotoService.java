@@ -151,11 +151,11 @@ public class FileAndPhotoService {
                         fileDetailResult.setTemp(fileUploadObject.getTemp()); //임시폴더 업로드 여부 → confirm 시 영구폴더로 이동
 
                         String encImgNm = URLEncoder.encode(EncrypthionHelper.encryptAES256(originalFileName), StandardCharsets.UTF_8.toString());
-                        fileDetailResult.setEncFileName(encImgNm); //URL Encoding 해서 넣어주자.
+                        fileDetailResult.setEncFileName(EncrypthionHelper.encryptAES256(originalFileName)); //URL Encoding 해서 넣어주자.
                         
                         //서버에 저장된 파일명에 _blur를 붙여서 암호화
                         String encBlurImgNm = URLEncoder.encode(EncrypthionHelper.encryptAES256(originalFileName+"_blur"), StandardCharsets.UTF_8.toString());
-                        fileDetailResult.setBlurImgFileName(encBlurImgNm);
+                        fileDetailResult.setBlurImgFileName(EncrypthionHelper.encryptAES256(originalFileName+"_blur"));
 
                         fileDetailResult.setFullPath(uploadDir.getAbsolutePath()+File.separator+originalFileName);
                         Map<String,Object> temp = new HashMap<>();
@@ -190,7 +190,7 @@ public class FileAndPhotoService {
                 }catch(Exception e){
                     log.error("[uploadImage] 파일별 반복 중 에러 발생! e",e);
                     fileDetailResult.setCode(100097);
-                    fileDetailResult.setMsg("파일별 반복 중 에러");
+                    fileDetailResult.setMsg("파일별 반복 중 에러:"+e.getMessage());
                     fileDetailResult.setImageFile(fileName);
                     fileResult.addErrorCount();
                 }

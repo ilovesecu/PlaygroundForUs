@@ -16,6 +16,7 @@ class CommonBoardWriter{
         }
         this.data = {
             tag:[],
+            editorImage:[], //에디터를 통해 업로드된 이미지
         }
         this.CONSTANT = {
             BADGE_COLOR_CLASS:['bg-primary','bg-secondary','bg-success','bg-danger','bg-warning text-dark','bg-info text-dark','bg-light text-dark','bg-dark'],
@@ -220,7 +221,6 @@ class CommonBoardWriter{
         });
 
         const editorImageUpload = async (files, editor, welEditable) => {
-            console.log(files);
             const formData = new FormData();
             for (let i = files.length - 1; i >= 0; i--) {
                 formData.append('files',files[i]);
@@ -230,7 +230,6 @@ class CommonBoardWriter{
 
             const URL = `/storage/${this.CONSTANT.FILE_SERVER_TYPE_EDITOR}/editor`; //DOMAIN 분리때는 이것도 분리되어야할듯.
             const response = await axios.post(URL, formData);
-            console.log(response);
 
             if(response.status === 200 || response.status === 201){
                 const data = response.data;
@@ -243,6 +242,10 @@ class CommonBoardWriter{
                         const temp = fileDetails[i].temp;
                         const filePath = `/storage/${this.CONSTANT.FILE_SERVER_TYPE_EDITOR}/image/${encFileName}?temp=${temp}` //DOMAIN 분리때는 이것도 분리되어야할듯.
                         $('#summernote').summernote('insertImage', filePath);
+                        this.data.editorImage.push(data);
+                    }else{
+                        const alertMsg = `파일 업로드 실패! - ${fileDetails[i].msg}`;
+                        window.alert({title:'에러', content:`${alertMsg}`, actionName:'확인'});
                     }
                 }
             }

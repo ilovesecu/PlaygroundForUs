@@ -5,11 +5,14 @@ import ilovepc.playgroundforus.config.file.image.ImageType;
 import ilovepc.playgroundforus.file.service.FileAndPhotoService;
 import ilovepc.playgroundforus.file.vo.FileResult;
 import ilovepc.playgroundforus.file.vo.FileUploadObject;
+import ilovepc.playgroundforus.utils.EncrypthionHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URLDecoder;
 
 @RestController
 @Slf4j
@@ -66,6 +69,23 @@ public class FileAndPhotoController {
             @RequestParam(value = "temp", required = false) boolean temp
     ){
         return fileAndPhotoService.getImageToByte(type,encImageName,temp);
+    }
+
+    /**********************************************************************************************
+     * @Method 설명 : 암호화된 파일명 평문으로 반환
+     * @작성일 : 2023-04-26
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    @GetMapping(value = "/test/{encImageName}")
+    public void decrpytImageName(@PathVariable(value = "encImageName")String encImageName){
+        try{
+            String a = URLDecoder.decode(EncrypthionHelper.decryptAES256(encImageName),"UTF-8");
+            log.error("a=>{}",a);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
     
 }
