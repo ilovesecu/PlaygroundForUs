@@ -42,16 +42,13 @@ class CommonBoardWriter{
         //글저장 버튼
         this.doms.$savePostBtn.addEventListener('click', async e=>{
             const categoryIndex = this.doms.$categorySelector.selectedIndex; //선택된 카테고리 SELECT INDEX
-            
-            //예외처리 검사
-            if(categoryIndex === 0){
-                window.alert({title:'경고', content:'카테고리를 선택해주세요.', actionName:'확인'});
-                return ;
-            }
 
-            const title = this.doms.$boardTitle.value; //title
+            const title = this.doms.$boardTitle.value.trim(); //title
             const selctVal = this.doms.$categorySelector.options[categoryIndex].value;//category
             const content = document.querySelector(".note-editable").innerHTML;//content
+
+            //저장 전 예외처리 검사
+            if(!this.saveExceptionChk(title, categoryIndex, content))return ;
 
             const param = {
                 boardTitle: title,
@@ -80,6 +77,52 @@ class CommonBoardWriter{
                 this.delTag($target,index);
             }
         });
+    }
+
+    /**********************************************************************************************
+     * @Method 설명 : 저장 전 예외처리
+     * @작성일 : 2023-04-26
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    saveExceptionChk(title, categoryIndex, content){
+        let errorMessage = "";
+        let closeCallback = () => {};
+        let exceptValue = false;
+        const noBlankTitle = title.replaceAll(/\s/g,'');    //공백제거한 제목
+        const noHtmlTagContent = content.replaceAll(/<[^>]*>?/g, ''); //HTML 제거 정규식을 적용한 content
+
+        if(noBlankTitle === null || noBlankTitle === undefined || noBlankTitle === ""){
+            errorMessage = "제목을 입력해주세요.";
+            closeCallback = ()=>{this.doms.$boardTitle.focus();}
+            exceptValue = true;
+        } else if(categoryIndex === 0){ //카테고리 미선택
+            errorMessage = "카테고리를 선택해주세요..";
+            closeCallback = ()=>{this.doms.$categorySelector.focus();}
+            exceptValue = true;
+        } else if(noHtmlTagContent === null || noHtmlTagContent === undefined || noHtmlTagContent === ""){
+            errorMessage = "내용을 입력해주세요..";
+            closeCallback = ()=>{$('.note-editable').trigger('focus');}
+            exceptValue = true;
+        }
+
+        if(exceptValue){ //예외발생 시
+            this.blankExcept(errorMessage, closeCallback);
+            return false;
+        }
+
+
+
+    }
+
+    /**********************************************************************************************
+     * @Method 설명 : blank 예외처리 공통부분 함수
+     * @작성일 : 2023-04-26
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    blankExcept(content="빈 칸을 입력해주세요", closeCallback=()=>{}){
+        window.alert({title:'경고', content:`${content}`, actionName:'확인', closeCallback:closeCallback});
     }
     
     /********************************************************************************************** 
