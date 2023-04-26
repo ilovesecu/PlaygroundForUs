@@ -29,7 +29,7 @@ public class FileAndPhotoController {
         //type : ImageType의 키 / 업로드될 폴더명
         //subType : 사용자가 지정한 파일 타입
         fileUploadObject.setClientIp(req.getRemoteAddr()); //IP 수집
-        if(subType.equals("image")){ //editor를 통해 업로드
+        if(subType.equals("editor")){ //editor를 통해 업로드
             FileResult fileResult = fileAndPhotoService.uploadImage(type, fileUploadObject);
             return fileResult;
         }else if(subType.equals("file")){

@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded',()=>{
     new CommonBoardWriter();
 })
+
 class CommonBoardWriter{
     constructor() {
-
+        this.summernoteInit();
         this.doms = {
             $tagInput:document.querySelector("#tagInput"),
             $tagInputBtn:document.querySelector("#tagInputBtn"),
@@ -18,6 +19,8 @@ class CommonBoardWriter{
         }
         this.CONSTANT = {
             BADGE_COLOR_CLASS:['bg-primary','bg-secondary','bg-success','bg-danger','bg-warning text-dark','bg-info text-dark','bg-light text-dark','bg-dark'],
+            FILE_SERVER_TYPE_EDITOR: 'hubCbSm',
+            FILE_SERVER_TYPE_ATTATCH: 'hubCb',
         }
         this.eventBinding();
     }
@@ -46,7 +49,7 @@ class CommonBoardWriter{
             const title = this.doms.$boardTitle.value.trim(); //title
             const selctVal = this.doms.$categorySelector.options[categoryIndex].value;//category
             const content = document.querySelector(".note-editable").innerHTML;//content
-
+            debugger
             //저장 전 예외처리 검사
             if(!this.saveExceptionChk(title, categoryIndex, content))return ;
 
@@ -110,9 +113,7 @@ class CommonBoardWriter{
             this.blankExcept(errorMessage, closeCallback);
             return false;
         }
-
-
-
+        return true;
     }
 
     /**********************************************************************************************
@@ -184,4 +185,68 @@ class CommonBoardWriter{
         }
     }
 
+
+    /**********************************************************************************************
+     * @Method 설명 : SUMMER NOTE INIT
+     * @작성일 : 2023-04-26
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    summernoteInit(){
+        $('#summernote').summernote({
+            placeholder: '내용을 입력해주세요.',
+            tabsize: 2,
+            minHeight: 100,
+            maxHeight: 500,
+            height: 330,
+            focus:false,
+            callbacks: {
+                onImageUpload: function(files, editor, welEditable) {
+                    for (let i = files.length - 1; i >= 0; i--) {
+                        //editorImageUpload(files[i], editor, welEditable);
+                    }
+                    editorImageUpload(files, this, welEditable);
+                },
+                onPaste: function (e) {
+                    var clipboardData = e.originalEvent.clipboardData;
+                    if (clipboardData && clipboardData.items && clipboardData.items.length) {
+                        var item = clipboardData.items[0];
+                        if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+                            e.preventDefault();
+                        }
+                    }
+                }
+            }
+        });
+
+        const editorImageUpload = async (files, editor, welEditable) => {
+            console.log(files);
+            const formData = new FormData();
+            for (let i = files.length - 1; i >= 0; i--) {
+                formData.append('files',files[i]);
+            }
+            formData.append('userNo',1); //유저번호
+            formData.append('temp',1);  //임시파일로 넘긴다.
+
+            const URL = `/storage/${this.CONSTANT.FILE_SERVER_TYPE_EDITOR}/editor`; //DOMAIN 분리때는 이것도 분리되어야할듯.
+            const response = await axios.post(URL, formData);
+            console.log(response);
+
+            if(response.status === 200 || response.status === 201){
+                const data = response.data;
+                const fileDetails = data.fileDetails;
+                for(let i=0; i<fileDetails.length; i++){
+                    const code = fileDetails[i].code;
+                    if(code === 100101){
+                        const encFileName = fileDetails[i].encFileName;
+                        const fileName = fileDetails[i].fileName;
+                        const temp = fileDetails[i].temp;
+                        const filePath = `/storage/${this.CONSTANT.FILE_SERVER_TYPE_EDITOR}/image/${encFileName}?temp=${temp}` //DOMAIN 분리때는 이것도 분리되어야할듯.
+                        $('#summernote').summernote('insertImage', filePath);
+                    }
+                }
+            }
+
+        }//end of editorImageUpload function
+    }
 }
