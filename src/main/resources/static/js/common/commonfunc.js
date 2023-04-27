@@ -1,0 +1,3 @@
+window.openWindow = function (url) {
+    window.open(url,'_blank');
+}

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/hub/commonBoard")
+@RequestMapping(value = "/hub/commonboard")
 @RequiredArgsConstructor
 public class CommonBoardController {
     private final CommonBoardService commonBoardService;
