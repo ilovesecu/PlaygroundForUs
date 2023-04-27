@@ -66,11 +66,16 @@ class CommonBoardWriter{
             const response = await axios.post('/hub/commonboard/rest/post',param);
             if(response.status === 200 || response.status === 201){
                 const data = response.data;
-                if(data.success){ //저장 성공
-                    window.alert({title:"게시글 저장 성공", content:"게시글 저장에 성공하였습니다.", closeCallback:()=>{ window.close(); }})
-                }else{ //저장 실패
-                    window.alert({title:"게시글 저장 실패", content:"게시글 저장에 실패하였습니다.", closeCallback:()=>{  }})
+                if(data.success){ //요청 성공
+                    const result = data.data;
+                    if(result.success){ //저장 성공
+                        //broadcast 셋팅
+                        const param = {cmd: 'just_refresh', data:{}}
+                        bc.postMessage(JSON.stringify(param));
+                        window.alert({title:"게시글 저장 성공", content:"게시글 저장에 성공하였습니다.", closeCallback:()=>{ window.close();}, })
+                    }
                 }
+                window.alert({title:"게시글 저장 실패", content:"게시글 저장에 실패하였습니다."});
             }
         });
 
@@ -98,8 +103,11 @@ class CommonBoardWriter{
 
         //임시저장 버튼 클릭 시 임시저장
         this.doms.$tempSavePostBtn.addEventListener('click',()=>{
-            bc.postMessage("This is a test message.");
-            console.log(bc);
+            const param = {
+                cmd: 'just_refresh',
+                data:{}
+            }
+            bc.postMessage(JSON.stringify(param));
         });
     }
 

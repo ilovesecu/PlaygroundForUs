@@ -42,6 +42,7 @@ public class CommonBoardRestController {
             pgfuBoardSaveResult.setSuccess(false);
             pgfuBoardSaveResult.setPgfuBoard(pgfuBoard);
             pgfuBoardSaveResult.setErrorMessage(e.getMessage());
+            e.printStackTrace();
         }
         return DataResponseDto.of(pgfuBoardSaveResult);
     }

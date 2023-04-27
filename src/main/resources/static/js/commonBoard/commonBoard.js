@@ -13,6 +13,11 @@ class CommonBoard{
         setTimeout(()=>{
             bc.onmessage = (event) => {
                 console.log(event);
+                const param = JSON.parse(event.data);
+                const {cmd, data} = param;
+                if(cmd==="just_refresh"){
+                  location.reload();
+                }
             };
         },500);
     }

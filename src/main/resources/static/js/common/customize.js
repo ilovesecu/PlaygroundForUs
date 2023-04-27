@@ -11,7 +11,7 @@ window.alert = function (param) {
     const data = {
         title: param.title,
         content : param.content,
-        actionName : param.actionName,
+        actionName : param.actionName ?? '확인',
     }
 
     //스타트 콜백 있으면 실행

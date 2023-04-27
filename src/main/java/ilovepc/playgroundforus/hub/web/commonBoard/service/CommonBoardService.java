@@ -72,7 +72,6 @@ public class CommonBoardService {
 
         successSave = commonBoradMapper.commomBoardIns(pgfuBoard) >= 1; //게시글 저장
         if(successSave){
-            if(1==1)throw new Exception("Test");
             //저장할 태그가 있으면 태그를 저장한다.
             List<PgfuBoardTag> pgfuBoardTags = pgfuBoard.getPgfuBoardTags();
             if(pgfuBoardTags != null && pgfuBoardTags.size() > 0){
