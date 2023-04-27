@@ -14,6 +14,7 @@ class CommonBoardWriter{
             $categorySelector : document.querySelector("#categorySelector"),
             $summernote : document.querySelector("#summernote"),
             $cancelBtn : document.querySelector("#cancelBtn"),
+            $tempSavePostBtn : document.querySelector("#tempSavePostBtn"),
         }
         this.data = {
             tag:[],
@@ -66,9 +67,9 @@ class CommonBoardWriter{
             if(response.status === 200 || response.status === 201){
                 const data = response.data;
                 if(data.success){ //저장 성공
-                    window.alert({title:"게시글 저장 성공", content:"게시글 저장에 성공하였습니다.", closeCallback:()=>{  }})
+                    window.alert({title:"게시글 저장 성공", content:"게시글 저장에 성공하였습니다.", closeCallback:()=>{ window.close(); }})
                 }else{ //저장 실패
-
+                    window.alert({title:"게시글 저장 실패", content:"게시글 저장에 실패하였습니다.", closeCallback:()=>{  }})
                 }
             }
         });
@@ -89,9 +90,16 @@ class CommonBoardWriter{
                 this.delTag($target,index);
             }
         });
-
+        
+        //취소 버튼 클릭 시 새창 닫기
         this.doms.$cancelBtn.addEventListener('click',()=>{
             window.close();
+        });
+
+        //임시저장 버튼 클릭 시 임시저장
+        this.doms.$tempSavePostBtn.addEventListener('click',()=>{
+            bc.postMessage("This is a test message.");
+            console.log(bc);
         });
     }
 
