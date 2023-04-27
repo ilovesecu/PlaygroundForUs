@@ -26,6 +26,7 @@ public class CommonBoardRestController {
      **********************************************************************************************/
     @PostMapping(value = "/post")
     public DataResponseDto<PgfuBoardSaveResult> saveCommonBoardPost(@RequestBody PgfuBoard pgfuBoard, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        if(1==1)return DataResponseDto.empty();
         //TODO 임시로 해놓은 비로그인 로직
         if(principalDetails != null){
             int userNo = principalDetails.getPgfuMemberUser().getUserNo();

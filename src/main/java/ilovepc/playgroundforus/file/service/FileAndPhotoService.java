@@ -145,24 +145,30 @@ public class FileAndPhotoService {
                     //gif 폴더 이동? 로직 미구현
 
                     if(uploadStatus){ //정상 업로드 완료
+                        //파일정보 DB 저장. (Yeo에서는 해당 작업이 모두 끝난 후 따로 반복문 돌려서 저장하는데 여기서는 한 반복문안에서 해보자.)
+                        EimVO eimVO = new EimVO();
+                        eimVO.setBoardId(0);//게시판 종류
+                        eimVO.setUserNo(1); //TODO Test로 1
+                        eimVO.setEimOriginName(fileName); //원래 파일명
+                        eimVO.setEimFileName(fileDetailResult.getFileName()); //서버에 저장된 파일명
+                        eimVO.setEimFileSize(multipartFile.getSize());
+                        eimVO.setEimWidth(image.getWidth(null));
+                        eimVO.setEimHeight(image.getHeight(null));
+                        eimVO.setEimExtType(extensionResult.getExtType());
+                        eimVO.setEimIp(fileUploadObject.getClientIp());
+                        int dbInsResult = fileMapper.editorImageIns(eimVO);
+                        if(dbInsResult <= 0){ //DB 삽입 실패 시 예외발생
+                            throw new Exception("DB Insert Fail");
+                        }
                         String returnImageName = originalFileName+"|"+image.getWidth(null)+"|"+image.getHeight(null);
+                        fileDetailResult.setEimId(eimVO.getEimId());
                         fileDetailResult.setFileName(originalFileName);
                         fileDetailResult.setImageFile(returnImageName);
                         fileDetailResult.setTemp(fileUploadObject.getTemp()); //임시폴더 업로드 여부 → confirm 시 영구폴더로 이동
 
-                        String encImgNm = URLEncoder.encode(EncrypthionHelper.encryptAES256(originalFileName), StandardCharsets.UTF_8.toString());
-                        fileDetailResult.setEncFileName(EncrypthionHelper.encryptAES256(originalFileName)); //URL Encoding 해서 넣어주자.
-                        
-                        //서버에 저장된 파일명에 _blur를 붙여서 암호화
-                        String encBlurImgNm = URLEncoder.encode(EncrypthionHelper.encryptAES256(originalFileName+"_blur"), StandardCharsets.UTF_8.toString());
-                        fileDetailResult.setBlurImgFileName(EncrypthionHelper.encryptAES256(originalFileName+"_blur"));
-
+                        fileDetailResult.setEncFileName(EncrypthionHelper.encryptAES256(originalFileName));
+                        fileDetailResult.setBlurImgFileName(EncrypthionHelper.encryptAES256(originalFileName+"_blur")); //서버에 저장된 파일명에 _blur를 붙여서 암호화
                         fileDetailResult.setFullPath(uploadDir.getAbsolutePath()+File.separator+originalFileName);
-                        Map<String,Object> temp = new HashMap<>();
-                        temp.put("size", multipartFile.getSize());
-                        temp.put("width", image.getWidth(null));
-                        temp.put("height", image.getHeight(null));
-                        detailMap.put(returnImageName, temp);
                     }else{ //에러발생
                         log.warn("uploadStatus is fail! [error]-{}",originalFileName);
                         fileDetailResult.setCode(1000097);
@@ -170,22 +176,6 @@ public class FileAndPhotoService {
                         //오류 상황 이전 업로드 파일 삭제 처리
                         //채팅방용 파일도 삭제 처리해야함
                         fileResult.addErrorCount();
-                    }
-
-                    //파일정보 DB 저장. (Yeo에서는 해당 작업이 모두 끝난 후 따로 반복문 돌려서 저장하는데 여기서는 한 반복문안에서 해보자.)
-                    EimVO eimVO = new EimVO();
-                    eimVO.setBoardId(0);//게시판 종류
-                    eimVO.setUserNo(1); //Test로 1
-                    eimVO.setEimOriginName(fileName); //원래 파일명
-                    eimVO.setEimFileName(fileDetailResult.getFileName()); //서버에 저장된 파일명
-                    eimVO.setEimFileSize(multipartFile.getSize());
-                    eimVO.setEimWidth(image.getWidth(null));
-                    eimVO.setEimHeight(image.getHeight(null));
-                    eimVO.setEimExtType(extensionResult.getExtType());
-                    eimVO.setEimIp(fileUploadObject.getClientIp());
-                    int dbInsResult = fileMapper.editorImageIns(eimVO);
-                    if(dbInsResult <= 0){ //DB 삽입 실패 시 예외발생
-                       throw new Exception("DB Insert Fail");
                     }
                 }catch(Exception e){
                     log.error("[uploadImage] 파일별 반복 중 에러 발생! e",e);

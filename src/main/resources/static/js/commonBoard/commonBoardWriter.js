@@ -19,6 +19,7 @@ class CommonBoardWriter{
         this.data = {
             tag:[],
             editorImage:[], //에디터를 통해 업로드된 이미지
+            editorDelImage:[]
         }
         this.CONSTANT = {
             BADGE_COLOR_CLASS:['bg-primary','bg-secondary','bg-success','bg-danger','bg-warning text-dark','bg-info text-dark','bg-light text-dark','bg-dark'],
@@ -55,14 +56,21 @@ class CommonBoardWriter{
             //저장 전 예외처리 검사
             if(!this.saveExceptionChk(title, categoryIndex, content))return ;
 
+            //에디터 이미지 리스트 검사 (업로드된 후 지워진 이미지가 있는지)
+            this.editorImgChk();
+            console.log(this.data);
+
             const param = {
                 boardTitle: title,
                 boardContent: content,
                 pgfuBoardCategory:{
                     categoryId : selctVal
                 },
-                pgfuBoardTags : this.data.tag
+                pgfuBoardTags : this.data.tag,
+                pgfuBoardEditorImages:[...this.data.editorImage],
+                pgfuBoardEditorDeleteImages:[...this.data.editorDelImage],
             }
+            console.log(param);
             const response = await axios.post('/hub/commonboard/rest/post',param);
             if(response.status === 200 || response.status === 201){
                 const data = response.data;
@@ -109,6 +117,49 @@ class CommonBoardWriter{
             }
             bc.postMessage(JSON.stringify(param));
         });
+    }
+
+    /**********************************************************************************************
+     * @Method 설명 :  에디터 이미지 리스트 검사 (업로드된 후 지워진 이미지가 있는지) -> 지워진 파일이 있는 경우 이미지 업로드 배열에서 빼서 지워진 파일 배열로 넣어주자.
+     * @작성일 : 2023-04-27
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    editorImgChk(){
+        const $imgs = document.querySelector(".note-editable").querySelectorAll('img');
+        const $existsImgList = [...$imgs];
+        let isExists = false; //존재하는지 여부
+        let existsImgListIndex = -1;
+
+        for(let i=0; i<this.data.editorImage.length; i++){
+            const editorImg = this.data.editorImage[i];
+            const encFileName = editorImg?.encFileName ?? undefined;
+            isExists = false; //반복문 돌 때마다 초기화
+            existsImgListIndex = -1; //초기화
+            
+            $existsImgList.forEach((v,j) => {
+                const lastSlashIndex = v.src.lastIndexOf("/");
+                const lastQIndex = v.src.lastIndexOf("?") === -1 ? undefined : v.src.lastIndexOf("?");
+                const existsEncFileName = v.src.substring(lastSlashIndex+1, lastQIndex);
+                console.log(v.src);
+                console.log(existsEncFileName);
+
+                if(existsEncFileName === encFileName){ //현재 존재하는 이미지 이름($exists)과 업로드 되었다고 표시된 이미지 이름(this.data.editorImage)이 같으면 존재함!
+                    isExists = true;
+                    existsImgListIndex = j;
+                    return ;
+                }
+            });
+            
+            if(isExists && existsImgListIndex !== -1){ //이미지가 존재함. -> //다음에 검사할 때 이미 있다고 판별한 이미지는 다시 검사하지 않기 위해서 $existsImgList에서 빼준다.
+                $existsImgList.splice(existsImgListIndex,1);
+            }else{  //이미지가 존재하지 않음. 즉, 삭제됨
+                this.data.editorDelImage.push(editorImg);
+                this.data.editorImage.splice(i,1);
+                i--; //현재 요소가 삭제되므로 이후 인덱스가 현재 인덱스로 당겨지므로 현재 인덱스를 다시 검사해야함.
+            }
+        }
+
     }
 
     /**********************************************************************************************
@@ -231,9 +282,6 @@ class CommonBoardWriter{
             focus:false,
             callbacks: {
                 onImageUpload: function(files, editor, welEditable) {
-                    for (let i = files.length - 1; i >= 0; i--) {
-                        //editorImageUpload(files[i], editor, welEditable);
-                    }
                     editorImageUpload(files, this, welEditable);
                 },
                 onPaste: function (e) {
@@ -270,7 +318,7 @@ class CommonBoardWriter{
                         const temp = fileDetails[i].temp;
                         const filePath = `/storage/${this.CONSTANT.FILE_SERVER_TYPE_EDITOR}/image/${encFileName}?temp=${temp}` //DOMAIN 분리때는 이것도 분리되어야할듯.
                         $('#summernote').summernote('insertImage', filePath);
-                        this.data.editorImage.push(data);
+                        this.data.editorImage.push(fileDetails[i]);
                     }else{
                         const alertMsg = `파일 업로드 실패! - ${fileDetails[i].msg}`;
                         window.alert({title:'에러', content:`${alertMsg}`, actionName:'확인'});
