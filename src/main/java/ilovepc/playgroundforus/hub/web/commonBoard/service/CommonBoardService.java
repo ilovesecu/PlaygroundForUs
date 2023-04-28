@@ -27,6 +27,16 @@ import java.util.stream.Collectors;
 public class CommonBoardService {
     private final CommonBoradMapper commonBoradMapper;
     private final FileAndPhotoService fileAndPhotoService;
+    
+    /********************************************************************************************** 
+     * @Method 설명 : 게시글 조회
+     * @작성일 : 2023-04-28 
+     * @작성자 : 정승주
+     * @변경이력 : 
+     **********************************************************************************************/
+    public void getCommonBoardWithPaging(){
+
+    }
 
     /**********************************************************************************************
      * @Method 설명 : 카테고리 조회
