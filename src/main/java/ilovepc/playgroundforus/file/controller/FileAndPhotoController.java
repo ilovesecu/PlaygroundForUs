@@ -69,8 +69,6 @@ public class FileAndPhotoController {
         return fileAndPhotoService.fileRemove(encFileName,temp, type);
     }
 
-
-
     /********************************************************************************************** 
      * @Method 설명 : 이미지 뷰 
      * @작성일 : 2023-04-25 

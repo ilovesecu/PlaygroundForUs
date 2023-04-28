@@ -76,7 +76,7 @@ class CommonBoardWriter{
                 const data = response.data;
                 if(data.success){ //요청 성공
                     const result = data.data;
-                    if(result.success){ //저장 성공
+                    if(result?.success){ //저장 성공
                         //broadcast 셋팅
                         const param = {cmd: 'just_refresh', data:{}}
                         bc.postMessage(JSON.stringify(param));

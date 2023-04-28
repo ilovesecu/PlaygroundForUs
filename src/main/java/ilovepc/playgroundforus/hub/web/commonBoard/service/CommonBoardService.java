@@ -1,5 +1,7 @@
 package ilovepc.playgroundforus.hub.web.commonBoard.service;
 
+import ilovepc.playgroundforus.file.service.FileAndPhotoService;
+import ilovepc.playgroundforus.file.vo.FileDetail;
 import ilovepc.playgroundforus.hub.web.commonBoard.repository.CommonBoradMapper;
 import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoard;
 import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoardCategory;
@@ -11,7 +13,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CommonBoardService {
     private final CommonBoradMapper commonBoradMapper;
+    private final FileAndPhotoService fileAndPhotoService;
 
     /**********************************************************************************************
      * @Method 설명 : 카테고리 조회
@@ -39,10 +47,23 @@ public class CommonBoardService {
      **********************************************************************************************/
     @Transactional(rollbackFor = {Exception.class})
     public PgfuBoardSaveResult commonBoardPostIns(PgfuBoard pgfuBoard) throws Exception {
+        String type = "hubCbSm";
         //File move(copy)
-        //File move(copy)성공 시, content에서 image태그 찾아서 ?temp=1 지워줘야함! 0으로 바꾸던지 -> 바꾼거 안바꾼거 둘 다 가지고있자.
-        //DB 저장까지 성공 하면 temp에 있던 파일들 지워주자. type = "hubCbSm"
-
+        List<FileDetail> fileDetails = (ArrayList<FileDetail>) Optional.ofNullable(pgfuBoard.getPgfuBoardEditorImages()).orElse(new ArrayList<>());
+        if(fileDetails.size() > 0){
+            //File move(copy)성공 시, content에서 image태그 찾아서 ?temp=1 지워줘야함! 0으로 바꾸던지 -> 바꾼거 안바꾼거 둘 다 가지고있자.
+            Map<String,Object> resultMap = fileAndPhotoService.fileConfirm(pgfuBoard.getPgfuBoardEditorImages(), type);
+            if((int)resultMap.get("failCnt")>0) {
+                throw new RuntimeException("에디터 이미지 임시파일 Confirm 실패!");
+            }
+            String originalContent = pgfuBoard.getBoardContent();
+            String pattern = "\\?temp=1"; //TODO 일반 TEXT중에 ?temp=1이 있으면 어쩌지?
+            String replace = "";
+            Pattern p = Pattern.compile(pattern);
+            Matcher m = p.matcher(originalContent);
+            String newStr = m.replaceAll(replace);
+            pgfuBoard.setBoardContent(newStr);
+        }
         boolean successSave = false;
         PgfuBoardSaveResult pgfuBoardSaveResult = new PgfuBoardSaveResult();
 
@@ -95,6 +116,21 @@ public class CommonBoardService {
         }
         pgfuBoardSaveResult.setSuccess(true);
         pgfuBoardSaveResult.setPgfuBoard(pgfuBoard);
+
+        //fileAndPhotoService.confirmFilePostIdUpdate(fileDetails,0, pgfuBoard.getBoardId());
+        //if(1==1) throw new RuntimeException("게시글 저장에 실패하였습니다2222.");
+
+        //DB 저장까지 성공 하면 temp에 있던 파일들 지워주자. type = "hubCbSm"
+        //삭제 되어야할 파일들 실제로 삭제(고민) and DB에서 삭제
+        pgfuBoard.getPgfuBoardEditorImages().forEach(v -> {
+            int result = fileAndPhotoService.fileRemove(v.getEncFileName(),v.getTemp(),type);
+        });
+        pgfuBoard.getPgfuBoardEditorDeleteImages().forEach(v -> {
+            int result = fileAndPhotoService.fileRemove(v.getEncFileName(),v.getTemp(),type);
+        });
+        //confirm된 친구들 postNo를 file DB에서 update해주기
+        fileAndPhotoService.confirmFilePostIdUpdate(fileDetails,0, pgfuBoard.getBoardId());
+
         return pgfuBoardSaveResult;
     }
 

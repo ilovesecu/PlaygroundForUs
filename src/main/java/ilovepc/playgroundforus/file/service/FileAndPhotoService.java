@@ -33,6 +33,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -400,6 +401,25 @@ public class FileAndPhotoService {
             log.error("[fileRemove] - 파일 삭제 도중 에러 발생! e->",e);
             return -1; //에러일 때 -1
         }
+    }
+
+    /**********************************************************************************************
+     * @Method 설명 : File Confirm 완료된 Editor Image File에 대해 게시글 DB저장이 완료되면 postId 컬럼을 업데이트해준다.
+     * @작성일 : 2023-04-28
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    public boolean confirmFilePostIdUpdate(List<FileDetail>fileDetails, int boardId, int postId){
+        try{
+            //String join = fileDetails.stream().map(v -> v.getEncFileName()).collect(Collectors.joining(",")); //IN ('1vWSOFN5E,1YfcePKrp18,1YfXWEsk')
+            //String join = fileDetails.stream().map(FileDetail::getEncFileName).collect(Collectors.joining(","));
+            String join = fileDetails.stream().map(v -> "'"+v.getFileName()+"'").collect(Collectors.joining(","));
+            fileMapper.editorImagePostIdMultiUpdate(boardId,join,postId);
+        }catch(Exception e){
+            log.error("[confirmFilePostIdUpdate] - postId update 실패! e->",e);
+            return false;
+        }
+        return true;
     }
 
     /**********************************************************************************************
