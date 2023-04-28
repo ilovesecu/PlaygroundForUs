@@ -3,6 +3,7 @@ package ilovepc.playgroundforus.file.controller;
 import ilovepc.playgroundforus.base.constant.ServiceType;
 import ilovepc.playgroundforus.config.file.image.ImageType;
 import ilovepc.playgroundforus.file.service.FileAndPhotoService;
+import ilovepc.playgroundforus.file.vo.FileDetail;
 import ilovepc.playgroundforus.file.vo.FileResult;
 import ilovepc.playgroundforus.file.vo.FileUploadObject;
 import ilovepc.playgroundforus.utils.EncrypthionHelper;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -48,9 +50,26 @@ public class FileAndPhotoController {
      * @작성자 : 정승주
      * @변경이력 : 게시글 저장 서비스에서 FileConfirm 서비스를 불러도 될거같긴 함.
      **********************************************************************************************/
-    public Object uploadConfirm(){
-        return null;
+    @PutMapping("/confirm")
+    public Object uploadConfirm(@RequestBody List<FileDetail> fileDetailList){
+        String type = "hubCbSm";
+        return fileAndPhotoService.fileConfirm(fileDetailList, type);
     }
+
+    /**********************************************************************************************
+     * @Method 설명 : 파일 삭제
+     * @작성일 : 2023-04-28
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    @DeleteMapping("/{type}/{encFileName}")
+    public Object deleteFile(@PathVariable(value = "type")String type,
+                             @PathVariable(value = "encFileName")String encFileName,
+                             @RequestParam(value = "temp",required = false)String temp){
+        return fileAndPhotoService.fileRemove(encFileName,temp, type);
+    }
+
+
 
     /********************************************************************************************** 
      * @Method 설명 : 이미지 뷰 

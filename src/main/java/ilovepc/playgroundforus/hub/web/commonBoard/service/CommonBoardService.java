@@ -32,13 +32,17 @@ public class CommonBoardService {
     }
 
     /**********************************************************************************************
-     * @Method 설명 : 글쓰기 - 저장
+     * @Method 설명 : 썸머노트 글쓰기 - 저장
      * @작성일 : 2023-04-17
      * @작성자 : 정승주
      * @변경이력 :
      **********************************************************************************************/
     @Transactional(rollbackFor = {Exception.class})
     public PgfuBoardSaveResult commonBoardPostIns(PgfuBoard pgfuBoard) throws Exception {
+        //File move(copy)
+        //File move(copy)성공 시, content에서 image태그 찾아서 ?temp=1 지워줘야함! 0으로 바꾸던지 -> 바꾼거 안바꾼거 둘 다 가지고있자.
+        //DB 저장까지 성공 하면 temp에 있던 파일들 지워주자. type = "hubCbSm"
+
         boolean successSave = false;
         PgfuBoardSaveResult pgfuBoardSaveResult = new PgfuBoardSaveResult();
 

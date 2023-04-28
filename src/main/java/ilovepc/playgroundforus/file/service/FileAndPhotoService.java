@@ -16,6 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
@@ -25,14 +29,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -150,7 +150,7 @@ public class FileAndPhotoService {
                         eimVO.setBoardId(0);//게시판 종류
                         eimVO.setUserNo(1); //TODO Test로 1
                         eimVO.setEimOriginName(fileName); //원래 파일명
-                        eimVO.setEimFileName(fileDetailResult.getFileName()); //서버에 저장된 파일명
+                        eimVO.setEimFileName(originalFileName); //서버에 저장된 파일명
                         eimVO.setEimFileSize(multipartFile.getSize());
                         eimVO.setEimWidth(image.getWidth(null));
                         eimVO.setEimHeight(image.getHeight(null));
@@ -231,26 +231,10 @@ public class FileAndPhotoService {
                 tempDir = File.separator + ImageType.get("temp"); //임시 저장 폴더명 가져오기
             }
 
-            // 시간 파일 경로
-            String yyyy = fileFolderTime.substring(0,4);
-            String MM = fileFolderTime.substring(4,6);
-            String dd = fileFolderTime.substring(6,8);
-            String HH = fileFolderTime.substring(8,10);
-            String originalUploadPath = ABSOLUT_PATH
-                    + tempDir
-                    + File.separator + ImageType.get(type)
-                    + File.separator + yyyy
-                    + File.separator + MM
-                    + File.separator + dd
-                    + File.separator + HH;
+            // 시간 파일 경로 가져오기
+            String originalUploadPath = this.getTimeFolderName(decFileName,tempDir,type);
             if(blurFlag){
-                String blurUploadPath = ABSOLUT_PATH
-                        + tempDir
-                        + File.separator + ImageType.get("hubBlur")
-                        + File.separator + yyyy
-                        + File.separator + MM
-                        + File.separator + dd
-                        + File.separator + HH;
+                String blurUploadPath = this.getTimeFolderName(decFileName,tempDir,"hubBlur");
                 File blurDirectory = new File(blurUploadPath);
                 if(!blurDirectory.exists())blurDirectory.mkdirs();
                 //SIZE별 처리 미구현
@@ -298,9 +282,125 @@ public class FileAndPhotoService {
         }
         return byteArray;
     }
+    
+    /********************************************************************************************** 
+     * @Method 설명 : 복호화된 파일 이름을 주면 timeFolder 반환 
+     * @작성일 : 2023-04-28 
+     * @작성자 : 정승주
+     * @변경이력 : 
+     **********************************************************************************************/
+    public String getTimeFolderName(String descFileName, String tempDir, String type){
+        String[] dotSplitFileName = descFileName.split("\\."); // [1_2023042516121616784] [png]
+        String fileFolderTime = dotSplitFileName[0].split("\\_")[1]; //[1] [2023042516121616784]
 
+        String yyyy = fileFolderTime.substring(0,4);
+        String MM = fileFolderTime.substring(4,6);
+        String dd = fileFolderTime.substring(6,8);
+        String HH = fileFolderTime.substring(8,10);
 
+        String path = ABSOLUT_PATH
+                + tempDir
+                + File.separator + ImageType.get(type)
+                + File.separator + yyyy
+                + File.separator + MM
+                + File.separator + dd
+                + File.separator + HH;
+        return path;
+    }
+    
+    /********************************************************************************************** 
+     * @Method 설명 : temp folder → original folder
+     * @작성일 : 2023-04-28 
+     * @작성자 : 정승주
+     * @변경이력 : 
+     **********************************************************************************************/
+    public Map<String,Object> fileConfirm(List<FileDetail> fileDetailList, String type){
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("totalCnt", fileDetailList.size());
+        resultMap.put("failCnt", 0);
+        resultMap.put("success",new ArrayList<FileDetail>());
+        resultMap.put("fail",new ArrayList<FileDetail>());
+        resultMap.put("noTemp",new ArrayList<FileDetail>()); //temp == "1" 이 아닌 파일들
 
+        for(FileDetail detail : fileDetailList){
+            try{
+                if(detail.getTemp().equals("1")){
+                    String tempDir = File.separator + ImageType.get("temp"); //임시 저장 폴더명 가져오기
+                    String decFileName = Optional.ofNullable(EncrypthionHelper.decryptAES256(detail.getEncFileName())).orElse("");
+                    decFileName = URLDecoder.decode(decFileName,StandardCharsets.UTF_8);
+                    //디렉토리가져오기
+                    String tempTimeFolder = this.getTimeFolderName(decFileName,tempDir,type);
+                    String originalFolder = this.getTimeFolderName(decFileName,"",type);
+                    Path fromPath = Paths.get(tempTimeFolder);
+                    Path toPath = Paths.get(originalFolder);
+                    Path tempFile = Paths.get(tempTimeFolder+File.separator+decFileName); //옮겨질 파일
+                    Path toFile = Paths.get(toPath+File.separator+decFileName);
+
+                    if(!Files.exists(fromPath) || !Files.exists(tempFile)){ //임시파일이 있는 폴더가 존재하지 않다면 실패, 파일이 없다면 실패
+                        List<FileDetail>failList = (List<FileDetail>) resultMap.get("fail");
+                        failList.add(detail);
+                        resultMap.put("failCnt",failList.size());
+                        log.error("[fileConfirm] 옮겨질 폴더 또는 파일이 존재하지 않습니다.--> {}", detail);
+                        continue;
+                    }
+                    if(!Files.exists(toPath)){ //도착지 폴더가 없다면 만들어주자.
+                        Files.createDirectories(toPath);
+                    }
+                    if(Files.exists(toFile)){ //복사할 파일이 이미 존재한다면?
+                        List<FileDetail>failList = (List<FileDetail>) resultMap.get("fail");
+                        failList.add(detail);
+                        resultMap.put("failCnt",failList.size());
+                        log.error("[fileConfirm] 옮겨질 파일이 이미 존재 합니다.--> {}", detail);
+                        continue;
+                    }
+                    Path targetFilePath = Files.copy(tempFile, toFile);
+                    if(targetFilePath.getFileName().toString().equals(decFileName)){
+                        List<FileDetail>succList = (List<FileDetail>) resultMap.get("success");
+                        succList.add(detail);
+                    }
+                }else{ //temp == 1이 아닌 파일들 처리
+                    List<FileDetail>noTempList = (List<FileDetail>) resultMap.get("noTemp");
+                    noTempList.add(detail);
+                    log.error("[fileConfirm] 옮길 파일이 temp가 아닙니다.--> {}", detail);
+                }
+            }catch(Exception e){
+                log.error("fileConfirm 중 error 발생! e->",e);
+                List<FileDetail>failList = (List<FileDetail>) resultMap.get("fail");
+                failList.add(detail);
+                resultMap.put("failCnt",failList.size());
+            }
+        }//end of For
+        return resultMap;
+    }
+
+    /**********************************************************************************************
+     * @Method 설명 : File remove
+     * @작성일 : 2023-04-28
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    public int fileRemove(String encFileName, String temp, String type){
+        try{
+            String tempDir = ""; //임시 저장 폴더명 가져오기
+            if("1".equals(temp)) tempDir = File.separator + ImageType.get("temp");
+
+            String decFileName = Optional.ofNullable(EncrypthionHelper.decryptAES256(encFileName)).orElse("");
+            decFileName = URLDecoder.decode(decFileName,StandardCharsets.UTF_8);
+            //디렉토리가져오기
+            String dir = this.getTimeFolderName(decFileName,tempDir,type);
+            Path path = Paths.get(dir+File.separator+decFileName);
+
+            //삭제할 파일이 존재하는지 검사하고 삭제
+            if(Files.exists(path)){
+                Files.delete(path);
+                return 1; //파일을 삭제하였으면 1
+            }
+            return 0; //파일이 없으면 0
+        }catch(Exception e){
+            log.error("[fileRemove] - 파일 삭제 도중 에러 발생! e->",e);
+            return -1; //에러일 때 -1
+        }
+    }
 
     /**********************************************************************************************
      * @Method 설명 : 이미지 비율 처리 및 이미지 업로드 동시 진행
