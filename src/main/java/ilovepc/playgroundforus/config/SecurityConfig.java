@@ -31,6 +31,7 @@ public class SecurityConfig {
                         authz
                             .requestMatchers("/user/**").authenticated()  //인증이 필요해
                             //.requestMatchers("/hub/**").authenticated()  //인증이 필요해
+                            .requestMatchers("/member/profileForm").authenticated() // profileForm은 인증이 필요해
                             .requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN") //인증 뿐 아니라 역할도 맞아야해.
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             .anyRequest().permitAll() //user, manager, admin이 아닌 주소는 모두 허용

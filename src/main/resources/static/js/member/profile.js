@@ -13,14 +13,15 @@ class Profile{
     }
 
     eventBinding(){
+        //프로필 수정 폼 전환 애니메이션
         this.doms.editProfile.addEventListener('click',e=>{
-            this.doms.profileView.classList.add('test_obj');
-            this.doms.profileEditView.style.display='';
-            this.doms.profileEditView.classList.add('test_obj2');
+            this.doms.profileView.classList.add('view');
             setTimeout(()=>{
                 this.doms.profileView.style.display='none';
             },500);
-
+            this.doms.profileEditView.style.display='flex';
+            this.doms.profileEditView.classList.add('editView');
+            
         });
     }
 

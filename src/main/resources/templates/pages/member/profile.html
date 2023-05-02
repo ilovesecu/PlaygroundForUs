@@ -94,7 +94,7 @@
       margin-bottom: 1rem
     }
 
-    @keyframes fadeInUp {
+    @keyframes fadeInUp1 {
       0% {
         opacity: 1;
         transform: translateY(0%);
@@ -105,7 +105,7 @@
         display: none;
       }
     }
-    @keyframes profileEdit {
+    @keyframes fadeInUp2 {
       0% {
         opacity: 0;
         transform: translate3d(0, 100%, 0);
@@ -116,13 +116,13 @@
       }
     }
 
-    .test_obj {
+    .view {
       position: relative;
-      animation: fadeInUp 1s;
+      animation: fadeInUp1 1s;
     }
-    .test_obj2{
+    .editView{
       position: relative;
-      animation: profileEdit 1s;
+      animation: fadeInUp2 1s;
     }
   </style>
 
@@ -158,34 +158,96 @@
 
 
     <div class="row justify-content-center" style="display: none;" id="profileEditView">
-      <div class="col-md-3 border-right">
-        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
-      </div>
-      <div class="col-md-5 border-right">
-        <div class="p-3 py-5">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="text-right">Profile Settings</h4>
+      <div class="col-md-12 border-right">
+        <div class="card"> <img class="card-img-top" src="https://i.imgur.com/K7A78We.jpg" alt="Card image cap">
+          <div class="card-body little-profile text-center">
+            <div class="pro-img"><img src="https://i.imgur.com/8RKXAIV.jpg" alt="user"></div>
+
+            <h3 class="m-b-0" th:text="${member.userId}"></h3>
+            <p th:text="${member.pgfuProfile.nickname}"></p>
+
+            <div class="p-3 py-5">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-right fw-bold h1">Profile Settings</h4>
+              </div>
+
+              <div class="col-md-6">
+                <form class="mx-1 mx-md-4">
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="bi bi-person-vcard" style="font-size: 24px; margin-right: 15px;"></i>
+                    <div class="form-floating form-outline flex-fill mb-0">
+                      <input type="text" id="idInput" class="form-control" placeholder="ID" th:value="${member.userId}" disabled/>
+                      <label class="form-label" for="idInput">ID</label>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="bi bi-people" style="font-size: 24px; margin-right: 15px;"></i>
+                    <div class="form-floating form-outline flex-fill mb-0">
+                      <input type="text" id="nickNameInput" class="form-control" placeholder="Nickname" th:value="${member.userId}" disabled/>
+                      <label class="form-label" for="nickNameInput">Nickname</label>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="bi bi-envelope-at" style="font-size: 24px; margin-right: 15px;"></i>
+                    <div class="form-floating form-outline flex-fill mb-0">
+                      <input type="email" id="emailInput" class="form-control" placeholder="email" th:value="${member.pgfuAuthentication.email}"/>
+                      <label class="form-label" for="emailInput">Email</label>
+                      <div class="valid"></div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-1">
+                    <i class="bi bi-shield-lock" style="font-size: 24px; margin-right: 15px;"></i>
+                    <div class="form-floating form-outline flex-fill mb-0">
+                      <input type="password" id="passwordInput" class="form-control" placeholder="Password"/>
+                      <label class="form-label" for="passwordInput">Password</label>
+                      <div class="valid"></div>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-column mb-3" style="margin-left: 45px;" id="passwordGuideWrapper">
+                    <div class="passwd-valid five-passwd">
+                      <i class="bi bi-check">최소 5글자 이상</i>
+                    </div>
+                    <div class="passwd-valid char-passwd">
+                      <i class="bi bi-check">하나 이상의 문자 포함</i>
+                    </div>
+                    <div class="passwd-valid num-passwd">
+                      <i class="bi bi-check">하나 이상의 숫자 포함</i>
+                    </div>
+                    <div class="passwd-valid speical-passwd">
+                      <i class="bi bi-check">하나 이상의 특수문자 포함</i>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="bi bi-key" style="font-size: 24px; margin-right: 15px;"></i>
+                    <div class="form-floating form-outline flex-fill mb-0">
+                      <input type="password" id="passwordConfirmInput" class="form-control" placeholder="Repeat your password"/>
+                      <label class="form-label" for="passwordConfirmInput">Repeat your password</label>
+                      <div class="valid"></div>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="bi bi-chat-square-quote" style="font-size: 24px; margin-right: 15px;"></i>
+                    <div class="form-floating form-outline flex-fill">
+                      <textarea class="form-control" placeholder="About Me" id="aboutMeTextArea" style="height: 100px" th:text="${member.pgfuProfile.introduction}"></textarea>
+                      <label for="aboutMeTextArea">About Me</label>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-6">
+
+              </div>
+              <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+            </div>
           </div>
-          <div class="row mt-2">
-            <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value=""></div>
-            <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname"></div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
-            <div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
-            <div class="col-md-12"><label class="labels">Address Line 2</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-            <div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-            <div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-            <div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-            <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" value=""></div>
-            <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
-            <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
-          </div>
-          <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
         </div>
+      </div>
+      <div class="col-md-12 border-right">
+
       </div>
     </div>
   </div>

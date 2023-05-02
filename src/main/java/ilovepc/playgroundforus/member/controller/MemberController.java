@@ -1,9 +1,13 @@
 package ilovepc.playgroundforus.member.controller;
 
+import ilovepc.playgroundforus.auth.PrincipalDetails;
 import ilovepc.playgroundforus.member.repository.MemberMapper;
+import ilovepc.playgroundforus.member.vo.PgfuMemberUser;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,9 +29,11 @@ public class MemberController {
         return "pages/member/login";
     }
 
+    //프로필 보기 + 수정 폼
     @GetMapping(value = "/profileForm")
-    public String profileForm(){
-        //프로필 보기 폼
+    public String profileForm(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model){
+        PgfuMemberUser member = principalDetails.getPgfuMemberUser();
+        model.addAttribute("member",member);
         return "pages/member/profile";
     }
 }
