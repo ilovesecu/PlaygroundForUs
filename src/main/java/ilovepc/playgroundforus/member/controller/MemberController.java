@@ -24,4 +24,10 @@ public class MemberController {
         req.getSession().setAttribute("prev",referrer);
         return "pages/member/login";
     }
+
+    @GetMapping(value = "/profileForm")
+    public String profileForm(){
+        //프로필 보기 폼
+        return "pages/member/profile";
+    }
 }
