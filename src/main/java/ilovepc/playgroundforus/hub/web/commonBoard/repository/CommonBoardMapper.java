@@ -5,11 +5,10 @@ import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoardCategory;
 import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoardTag;
 import org.apache.ibatis.annotations.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
-public interface CommonBoradMapper {
+public interface CommonBoardMapper {
     @Select("SELECT * FROM pgfu_common_board.board_category ORDER BY category_order ASC")
     List<PgfuBoardCategory> getCommonBoardCategoryAll();
 
@@ -25,4 +24,7 @@ public interface CommonBoradMapper {
 
     // tag map multi row insert
     int commonBoardTagMapMultiRowIns(@Param(value = "pgfuBoardTags") List<PgfuBoardTag> pgfuBoardTags, @Param(value = "boardId")int boardId);
+
+    // 게시글 조회 - 검색조건에 따라 파라미터 추가
+    List<PgfuBoard> commonBoardMainSel();
 }

@@ -1,8 +1,9 @@
 package ilovepc.playgroundforus.hub.web.commonBoard.service;
 
+import ilovepc.playgroundforus.base.constant.BadgeColor;
 import ilovepc.playgroundforus.file.service.FileAndPhotoService;
 import ilovepc.playgroundforus.file.vo.FileDetail;
-import ilovepc.playgroundforus.hub.web.commonBoard.repository.CommonBoradMapper;
+import ilovepc.playgroundforus.hub.web.commonBoard.repository.CommonBoardMapper;
 import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoard;
 import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoardCategory;
 import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoardSaveResult;
@@ -13,10 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -25,7 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class CommonBoardService {
-    private final CommonBoradMapper commonBoradMapper;
+    private final CommonBoardMapper commonBoardMapper;
     private final FileAndPhotoService fileAndPhotoService;
     
     /********************************************************************************************** 
@@ -34,8 +32,15 @@ public class CommonBoardService {
      * @작성자 : 정승주
      * @변경이력 : 
      **********************************************************************************************/
-    public void getCommonBoardWithPaging(){
-
+    public List<PgfuBoard> getCommonBoardWithPaging(){
+        try{
+            List<PgfuBoard> brdInfos = commonBoardMapper.commonBoardMainSel();
+            this.setCategoryColor(brdInfos);
+            return brdInfos;
+        }catch (Exception e){
+            log.error("[getCommonBoardWithPaging] - exception --->",e);
+        }
+        return new ArrayList<>();
     }
 
     /**********************************************************************************************
@@ -45,7 +50,7 @@ public class CommonBoardService {
      * @변경이력 :
      **********************************************************************************************/
     public List<PgfuBoardCategory> getCommonBoardCategoryAll(){
-        List<PgfuBoardCategory> pgfuBoardCategorys = commonBoradMapper.getCommonBoardCategoryAll();
+        List<PgfuBoardCategory> pgfuBoardCategorys = commonBoardMapper.getCommonBoardCategoryAll();
         return pgfuBoardCategorys;
     }
 
@@ -105,7 +110,7 @@ public class CommonBoardService {
             return pgfuBoardSaveResult;
         }
 
-        successSave = commonBoradMapper.commomBoardIns(pgfuBoard) >= 1; //게시글 저장
+        successSave = commonBoardMapper.commomBoardIns(pgfuBoard) >= 1; //게시글 저장
         if(successSave){
             //저장할 태그가 있으면 태그를 저장한다.
             List<PgfuBoardTag> pgfuBoardTags = pgfuBoard.getPgfuBoardTags();
@@ -151,7 +156,7 @@ public class CommonBoardService {
      * @변경이력 :
      **********************************************************************************************/
     public int commonBoardTagMultiIns(List<PgfuBoardTag> pgfuBoardTags) throws Exception {
-        int tagInsResult = commonBoradMapper.commonBoardTagMultiIns(pgfuBoardTags);
+        int tagInsResult = commonBoardMapper.commonBoardTagMultiIns(pgfuBoardTags);
         return tagInsResult;
     }
 
@@ -162,7 +167,7 @@ public class CommonBoardService {
      * @변경이력 :
      **********************************************************************************************/
     public int commonBoardTagMapMultiRowIns(List<PgfuBoardTag> pgfuBoardTags, int boardId){
-        int mapInsResult = commonBoradMapper.commonBoardTagMapMultiRowIns(pgfuBoardTags, boardId);
+        int mapInsResult = commonBoardMapper.commonBoardTagMapMultiRowIns(pgfuBoardTags, boardId);
         return mapInsResult;
     }
     
@@ -173,8 +178,46 @@ public class CommonBoardService {
      * @변경이력 : 
      **********************************************************************************************/
     public List<PgfuBoardTag> commonBoardTagMultiSelWithTagVal(List<PgfuBoardTag> pgfuBoardTags){
-        List<PgfuBoardTag> list = commonBoradMapper.commonBoardTagMultiSelWithTagVal(pgfuBoardTags);
+        List<PgfuBoardTag> list = commonBoardMapper.commonBoardTagMultiSelWithTagVal(pgfuBoardTags);
         return list;
+    }
+
+    /**********************************************************************************************
+     * @Method 설명 : 카테고리 컬러 설정
+     * @작성일 : 2023-05-02
+     * @작성자 : 정승주
+     * @변경이력 :
+     **********************************************************************************************/
+    private void setCategoryColor(List<PgfuBoard> brdInfos){
+        brdInfos.forEach(v -> {
+            int caId = v.getPgfuBoardCategory().getCategoryId();
+            switch (caId){
+                case 1:
+                    v.getPgfuBoardCategory().setCategoryColor("bg-primary");
+                    break;
+                case 2:
+                    v.getPgfuBoardCategory().setCategoryColor("bg-secondary");
+                    break;
+                case 3:
+                    v.getPgfuBoardCategory().setCategoryColor("bg-success");
+                    break;
+                case 4:
+                    v.getPgfuBoardCategory().setCategoryColor("bg-danger");
+                    break;
+                case 5:
+                    v.getPgfuBoardCategory().setCategoryColor("bg-warning text-dark");
+                    break;
+                case 6:
+                    v.getPgfuBoardCategory().setCategoryColor("bg-info text-dark");
+                    break;
+                case 7:
+                    v.getPgfuBoardCategory().setCategoryColor("bg-light text-dark");
+                    break;
+                case 8:
+                    v.getPgfuBoardCategory().setCategoryColor("bg-dark");
+                    break;
+            }
+        });
     }
 
 }

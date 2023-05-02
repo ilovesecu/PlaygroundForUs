@@ -2,6 +2,7 @@ package ilovepc.playgroundforus.hub.web.commonBoard.vo;
 
 import ilovepc.playgroundforus.file.vo.FileDetail;
 import ilovepc.playgroundforus.file.vo.FileResult;
+import ilovepc.playgroundforus.member.vo.PgfuMemberUser;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -25,5 +26,6 @@ public class PgfuBoard {
     private List<PgfuBoardTag> pgfuBoardTags = new ArrayList<>();
     private List<FileDetail> pgfuBoardEditorImages = new ArrayList<>();       //업르도된 에디터 에미지
     private List<FileDetail> pgfuBoardEditorDeleteImages = new ArrayList<>(); //지워진 에디터 이미지
+    private PgfuMemberUser user;    //메인 리스트 뿌릴 떄 필요한 글쓴이
 }
 

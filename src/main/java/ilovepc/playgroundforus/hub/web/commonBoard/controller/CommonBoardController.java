@@ -2,6 +2,7 @@ package ilovepc.playgroundforus.hub.web.commonBoard.controller;
 
 import ilovepc.playgroundforus.auth.PrincipalDetails;
 import ilovepc.playgroundforus.hub.web.commonBoard.service.CommonBoardService;
+import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoard;
 import ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoardCategory;
 import ilovepc.playgroundforus.member.vo.PgfuMemberUser;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,9 @@ public class CommonBoardController {
      * @변경이력 : 
      **********************************************************************************************/
     @GetMapping(value = "")
-    public String index(){
+    public String index(Model model){
+        List<PgfuBoard> pgfuBoards = commonBoardService.getCommonBoardWithPaging();
+        model.addAttribute("pgfuBoards",pgfuBoards);
         return "pages/hub/commonBoard";
     }
     

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ilovepc.playgroundforus.hub.web.commonBoard.repository.CommonBoradMapper">
+<mapper namespace="ilovepc.playgroundforus.hub.web.commonBoard.repository.CommonBoardMapper">
     <insert id="commonBoardTagMultiIns" useGeneratedKeys="true" keyProperty = "tagId">
         INSERT IGNORE INTO pgfu_common_board.tag(tag_value) VALUES
         <foreach collection="pgfuBoardTag" item="item" separator=",">
@@ -21,4 +21,23 @@
             (#{boardId},#{item.tagId})
         </foreach>
     </insert>
+
+    <select id="commonBoardMainSel" resultType="ilovepc.playgroundforus.hub.web.commonBoard.vo.PgfuBoard">
+        <![CDATA[
+        SELECT board_id,board_title,
+               brd.category_id AS 'pgfuBoardCategory.categoryId',
+               ca.category_value AS 'pgfuBoardCategory.categoryValue',
+               user.user_no AS 'user.userNo',
+               REGEXP_REPLACE(board_content, '<[^>]+>','') AS boardContent,
+               user.user_id AS 'user.userId',
+               prf.nickname AS 'user.pgfuProfile.nickname',
+               brd.regdate
+        FROM pgfu_common_board.board brd
+                 INNER JOIN pgfu_member.user `user` ON brd.board_writer = user.user_no
+                 LEFT JOIN pgfu_member.profile prf ON user.user_no=prf.user_no
+                 LEFT JOIN pgfu_common_board.board_category ca ON brd.category_id = ca.category_id
+        ORDER BY board_id DESC;
+        ]]>
+    </select>
+
 </mapper>

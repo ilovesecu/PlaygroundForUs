@@ -9,4 +9,5 @@ public class PgfuBoardCategory {
     private int categoryParent;
     private String categoryValue;
     private int categoryOrder;
+    private String categoryColor;
 }

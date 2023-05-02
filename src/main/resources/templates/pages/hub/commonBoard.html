@@ -55,6 +55,29 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <th:block th:each="brd : ${pgfuBoards}">
+                        <tr>
+                            <td><span th:text="${brd.boardTitle}"></span></td>
+                            <td><span class="badge rounded-pill d-inline" th:classappend="${brd.pgfuBoardCategory.categoryColor}"  th:text="${brd.pgfuBoardCategory.categoryValue}"></span></td>
+                            <td>
+                                <p class="fw-normal mb-1" th:text="${brd.boardContent}"></p>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                                         alt="" style="width: 45px; height: 45px" class="rounded-circle"/>
+                                    <div class="ms-3">
+                                        <p class="fw-bold mb-1" th:text="${brd.user.pgfuProfile.nickname}"></p>
+                                        <p class="text-muted mb-0" th:text="${brd.user.userId}"></p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td th:text="${brd.regdate}"></td>
+                            <td>
+                                <button type="button" class="btn btn-link btn-sm btn-rounded">Edit</button>
+                            </td>
+                        </tr>
+                    </th:block>
                     <tr>
                         <td>
                             <span>Title1</span>
