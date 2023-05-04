@@ -171,84 +171,90 @@
                 <h4 class="text-right fw-bold h1">Profile Settings</h4>
               </div>
 
-              <div class="col-md-6">
-                <form class="mx-1 mx-md-4">
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="bi bi-person-vcard" style="font-size: 24px; margin-right: 15px;"></i>
-                    <div class="form-floating form-outline flex-fill mb-0">
-                      <input type="text" id="idInput" class="form-control" placeholder="ID" th:value="${member.userId}" disabled/>
-                      <label class="form-label" for="idInput">ID</label>
-                    </div>
-                  </div>
+                <div class="d-flex">
+                  <div class="col-md-6">
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="bi bi-person-vcard" style="font-size: 24px; margin-right: 15px;"></i>
+                        <div class="form-floating form-outline flex-fill mb-0">
+                          <input type="text" id="idInput" class="form-control" placeholder="ID" th:value="${member.userId}" disabled/>
+                          <label class="form-label" for="idInput">ID</label>
+                        </div>
+                      </div>
 
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="bi bi-people" style="font-size: 24px; margin-right: 15px;"></i>
-                    <div class="form-floating form-outline flex-fill mb-0">
-                      <input type="text" id="nickNameInput" class="form-control" placeholder="Nickname" th:value="${member.userId}" disabled/>
-                      <label class="form-label" for="nickNameInput">Nickname</label>
-                    </div>
-                  </div>
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="bi bi-people" style="font-size: 24px; margin-right: 15px;"></i>
+                        <div class="form-floating form-outline flex-fill mb-0">
+                          <input type="text" id="nickNameInput" class="form-control" placeholder="Nickname" th:value="${member.userId}" disabled/>
+                          <label class="form-label" for="nickNameInput">Nickname</label>
+                        </div>
+                      </div>
 
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="bi bi-envelope-at" style="font-size: 24px; margin-right: 15px;"></i>
-                    <div class="form-floating form-outline flex-fill mb-0">
-                      <input type="email" id="emailInput" class="form-control" placeholder="email" th:value="${member.pgfuAuthentication.email}"/>
-                      <label class="form-label" for="emailInput">Email</label>
-                      <div class="valid"></div>
-                    </div>
-                  </div>
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="bi bi-envelope-at" style="font-size: 24px; margin-right: 15px;"></i>
+                        <div class="form-floating form-outline flex-fill mb-0">
+                          <input type="email" id="emailInput" class="form-control" placeholder="email" th:value="${member.pgfuAuthentication.email}"/>
+                          <label class="form-label" for="emailInput">Email</label>
+                          <div class="valid"></div>
+                        </div>
+                      </div>
 
-                  <div class="d-flex flex-row align-items-center mb-1">
-                    <i class="bi bi-shield-lock" style="font-size: 24px; margin-right: 15px;"></i>
-                    <div class="form-floating form-outline flex-fill mb-0">
-                      <input type="password" id="passwordInput" class="form-control" placeholder="Password"/>
-                      <label class="form-label" for="passwordInput">Password</label>
-                      <div class="valid"></div>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-column mb-3" style="margin-left: 45px;" id="passwordGuideWrapper">
-                    <div class="passwd-valid five-passwd">
-                      <i class="bi bi-check">최소 5글자 이상</i>
-                    </div>
-                    <div class="passwd-valid char-passwd">
-                      <i class="bi bi-check">하나 이상의 문자 포함</i>
-                    </div>
-                    <div class="passwd-valid num-passwd">
-                      <i class="bi bi-check">하나 이상의 숫자 포함</i>
-                    </div>
-                    <div class="passwd-valid speical-passwd">
-                      <i class="bi bi-check">하나 이상의 특수문자 포함</i>
-                    </div>
-                  </div>
+                      <div class="d-flex flex-row align-items-center mb-1">
+                        <i class="bi bi-shield-lock" style="font-size: 24px; margin-right: 15px;"></i>
+                        <div class="form-floating form-outline flex-fill mb-0">
+                          <input type="password" id="passwordInput" class="form-control" placeholder="Password"/>
+                          <label class="form-label" for="passwordInput">Password</label>
+                          <div class="valid"></div>
+                        </div>
+                      </div>
+                      <div class="d-flex flex-column mb-3" style="margin-left: 45px;" id="passwordGuideWrapper">
+                        <div class="passwd-valid five-passwd">
+                          <i class="bi bi-check">최소 5글자 이상</i>
+                        </div>
+                        <div class="passwd-valid char-passwd">
+                          <i class="bi bi-check">하나 이상의 문자 포함</i>
+                        </div>
+                        <div class="passwd-valid num-passwd">
+                          <i class="bi bi-check">하나 이상의 숫자 포함</i>
+                        </div>
+                        <div class="passwd-valid speical-passwd">
+                          <i class="bi bi-check">하나 이상의 특수문자 포함</i>
+                        </div>
+                      </div>
 
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="bi bi-key" style="font-size: 24px; margin-right: 15px;"></i>
-                    <div class="form-floating form-outline flex-fill mb-0">
-                      <input type="password" id="passwordConfirmInput" class="form-control" placeholder="Repeat your password"/>
-                      <label class="form-label" for="passwordConfirmInput">Repeat your password</label>
-                      <div class="valid"></div>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="bi bi-chat-square-quote" style="font-size: 24px; margin-right: 15px;"></i>
-                    <div class="form-floating form-outline flex-fill">
-                      <textarea class="form-control" placeholder="About Me" id="aboutMeTextArea" style="height: 100px" th:text="${member.pgfuProfile.introduction}"></textarea>
-                      <label for="aboutMeTextArea">About Me</label>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div class="col-md-6">
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="bi bi-key" style="font-size: 24px; margin-right: 15px;"></i>
+                        <div class="form-floating form-outline flex-fill mb-0">
+                          <input type="password" id="passwordConfirmInput" class="form-control" placeholder="Repeat your password"/>
+                          <label class="form-label" for="passwordConfirmInput">Repeat your password</label>
+                          <div class="valid"></div>
+                        </div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="bi bi-chat-square-quote" style="font-size: 24px; margin-right: 15px;"></i>
+                        <div class="form-floating form-outline flex-fill">
+                          <textarea class="form-control" placeholder="About Me" id="aboutMeTextArea" style="height: 100px" th:text="${member.pgfuProfile.introduction}"></textarea>
+                          <label for="aboutMeTextArea">About Me</label>
+                        </div>
+                      </div>
 
-              </div>
+                  </div>
+                  <div class="col-md-6" style="margin-left: 20px;">
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="bi bi-telephone" style="font-size: 24px; margin-right: 15px;"></i>
+                      <div class="form-floating form-outline flex-fill mb-0">
+                        <input type="email" id="cellPhone" class="form-control" placeholder="cellPhone" />
+                        <label class="form-label" for="cellPhone">cellPhone</label>
+                        <div class="valid"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-md-12 border-right">
 
-      </div>
     </div>
   </div>
   <script type="module" src="/js/member/profile.js"></script>
