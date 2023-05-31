@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/free_board")
 public class BoardController {
     /**********************************************************************************************
      * @Method 설명 : 자유게시판 리스트 가져오기
@@ -13,7 +13,7 @@ public class BoardController {
      * @작성자 : 정승주
      * @변경이력 :
      **********************************************************************************************/
-    @GetMapping("/free_board")
+    @GetMapping("/posts")
     public void getFreeBoardList(){
 
     }
