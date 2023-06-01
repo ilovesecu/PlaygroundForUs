@@ -21,7 +21,9 @@ public class PlaygroundForUsApplication {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 //React용 API에 localhost:3000에 대한 CrossOrigin 해제 (no cors)
-                registry.addMapping("/api/**").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/api/**")
+                        .allowedOrigins("http://localhost:3000")
+                        .allowCredentials(true);
             }
         };
     }
